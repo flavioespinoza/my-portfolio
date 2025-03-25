@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local files and directories
+/temp
+/temp-*
+temp-*
+*.local
+*.local.*
+notes.md
+todo.md
+*.log
+*.log.*
+*.txt.*
