@@ -59,6 +59,7 @@ vercel --prod
 
 ## 🔧 TODO (Next Priorities)
 
+- [ ] Add next-theme to app/layout.tsx
 - [ ] Polish the `/about` page layout and spacing
 - [ ] Add global navigation bar (Home, Projects, Commits, About)
 - [ ] Deploy the site to Vercel or Netlify
