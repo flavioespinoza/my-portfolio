@@ -161,8 +161,9 @@ onChange={(e) => {
 }}
   className="border border-muted p-2 rounded w-full mb-4 text-sm"
 />`,
-      <table className="w-full table-auto border-collapse text-sm">
+<table className="w-full table-auto border text-sm border-border rounded-lg overflow-hidden shadow-sm">
         <thead>
+<tr className="bg-muted text-muted-foreground font-semibold text-xs uppercase tracking-wide">
           <tr className="border-b">
             <th className="text-left py-2 px-3">Date</th>
             <th className="text-left py-2 px-3">Project</th>
@@ -170,14 +171,16 @@ onChange={(e) => {
             <th className="text-left py-2 px-3">Author</th>
             <th className="text-left py-2 px-3">Message</th>
           </tr>
+</tr>
         </thead>
+<tbody className="divide-y divide-border">
         <tbody>
           {filtered.map((commit, i) => (
             <tr key={i} className="border-b">
-              <td className="py-1 px-3">{commit.date}</td>
-              <td className="py-1 px-3">{commit.project}</td>
-              <td className="py-1 px-3">{commit.branch}</td>
-              <td className="py-1 px-3">{commit.author}</td>
+              <td className="py-2 px-3">{commit.date}</td>
+              <td className="py-2 px-3">{commit.project}</td>
+              <td className="py-2 px-3">{commit.branch}</td>
+              <td className="py-2 px-3">{commit.author}</td>
 <td className="py-1 px-3 whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: highlight(commit.message, search) }} />
             </tr>
           ))}
