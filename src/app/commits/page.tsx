@@ -76,6 +76,11 @@ import weekOfYear from "dayjs/plugin/weekOfYear"
 dayjs.extend(weekOfYear)
 
   useEffect(() => {
+  const params = new URLSearchParams(window.location.search)
+  const initialProject = params.get("project")
+  const initialGroupBy = params.get("groupBy")
+  if (initialProject) setProjectFilter(initialProject)
+  if (initialGroupBy) setGroupBy(initialGroupBy as any)
 import React from "react"
 import Papa from "papaparse"
     fetch('/commits/all-commits.json')
@@ -89,14 +94,26 @@ import Papa from "papaparse"
       <h1 className="text-3xl font-bold">GitHub Contributions</h1>
 <div className="text-sm mb-2 text-right">
 <label className="mr-2">Project</label>
-<select value={projectFilter} onChange={(e) => setProjectFilter(e.target.value)} className="border rounded p-1 text-sm mr-4">
+onChange={(e) => {
+  const val = e.target.value;
+  setProjectFilter(val);
+  const url = new URL(window.location.href);
+  url.searchParams.set("project", val);
+  window.history.replaceState(null, "", url.toString())
+}}
   <option value="all">All</option>
   {[...new Set(commits.map((c) => c.project))].sort().map((p) => (
     <option key={p} value={p}>{p}</option>
   ))}
 </select>
   <label className="mr-2">Group by</label>
-  <select value={groupBy} onChange={(e) => setGroupBy(e.target.value as any)} className="border rounded p-1 text-sm">
+onChange={(e) => {
+  const val = e.target.value;
+  setGroupBy(val as any);
+  const url = new URL(window.location.href);
+  url.searchParams.set("groupBy", val);
+  window.history.replaceState(null, "", url.toString())
+}}
     <option value="day">Day</option>
     <option value="month">Month</option>
     <option value="week">Week</option>
