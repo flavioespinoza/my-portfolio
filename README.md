@@ -45,3 +45,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - [ ] Add favicon, metadata, and Open Graph preview image
 - [ ] Create `/api/commits` or link to download all-commits.json
 - [ ] Add a basic `/contact` page or contact section
+- [ ] Hook up the contact form to Formspree, Resend, or custom API route
+- [ ] Add spam protection (honeypot or ReCAPTCHA)
+- [ ] Show success/failure toast when submitting the form
