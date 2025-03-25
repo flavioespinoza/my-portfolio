@@ -76,6 +76,8 @@ import weekOfYear from "dayjs/plugin/weekOfYear"
 dayjs.extend(weekOfYear)
 
   useEffect(() => {
+  const searchParam = new URLSearchParams(window.location.search).get("search")
+  if (searchParam) setSearch(searchParam)
   const params = new URLSearchParams(window.location.search)
   const initialProject = params.get("project")
   const initialGroupBy = params.get("groupBy")
@@ -150,7 +152,13 @@ onChange={(e) => {
   type="text"
   placeholder="Search commits..."
   value={search}
-  onChange={(e) => setSearch(e.target.value)}
+onChange={(e) => {
+  const val = e.target.value;
+  setSearch(val);
+  const url = new URL(window.location.href);
+  url.searchParams.set("search", val);
+  window.history.replaceState(null, "", url.toString())
+}}
   className="border border-muted p-2 rounded w-full mb-4 text-sm"
 />`,
       <table className="w-full table-auto border-collapse text-sm">
