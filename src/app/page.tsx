@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@flavioespinoza/salsa-ui'
 import { Moon, Sun } from 'lucide-react'
 
 export default function HomePage() {
@@ -12,10 +12,10 @@ export default function HomePage() {
 				Front-End Developer & AI Builder · React · Next.js · Tailwind · LLMs
 			</p>
 			<div className="space-x-4">
-				<Button>
+				<Button variant="outline">
 					<a href="/projects">View Projects</a>
 				</Button>
-				<Button variant="secondary">
+				<Button variant="outline">
 					<a href="/about">About Me</a>
 				</Button>
 			</div>
