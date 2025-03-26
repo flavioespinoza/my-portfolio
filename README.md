@@ -60,9 +60,9 @@ vercel --prod
 ## 🔧 TODO (Next Priorities)
 
 - [x] Add next-theme to app/layout.tsx
-- [ ] Polish the `/about` page layout and spacing
-- [ ] Add global navigation bar (Home, Projects, Commits, About)
-- [ ] Deploy the site to Vercel or Netlify
+- [x] Polish the `/about` page layout and spacing
+- [x] Add global navigation bar (Home, Projects, Commits, About)
+- [ ] Auto Deploy the site to Vercel when main changes
 - [ ] Add favicon, metadata, and Open Graph image
 - [ ] Make `all-commits.json` downloadable or viewable via route
 - [ ] Add a simple `/contact` page with email or social links
