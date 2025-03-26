@@ -1,38 +1,23 @@
 'use client'
 
 export default function ProjectsPage() {
-	return (
-		<main className="mx-auto max-w-4xl space-y-12 p-6">
-			<h1 className="text-center text-3xl font-bold">Projects</h1>
+  return (
+    <main className="max-w-6xl mx-auto px-6 py-12 space-y-10">
+      <h1 className="text-4xl font-bold tracking-tight">Projects</h1>
 
-			<section className="space-y-3 rounded-lg border p-6 shadow-sm">
-				<h2 className="text-2xl font-semibold text-primary">AI Chat Assistant</h2>
-				<p className="text-muted-foreground">
-					A GPT-4o powered chatbot with theme toggle, Zustand chat state, and real-time streaming.
-				</p>
-				<iframe
-					loading="lazy"
-					src="https://yourdomain.com/embed?prompt=Hello&type=bar"
-					width="100%"
-					height="400"
-					className="w-full rounded-md border shadow-sm"
-				/>
-			</section>
-
-			<section className="space-y-3 rounded-lg border p-6 shadow-sm">
-				<h2 className="text-2xl font-semibold text-primary">LLM Data Visualizer</h2>
-				<p className="text-muted-foreground">
-					Transforms user prompts into JSON and visualizes with D3.js — supports bar, line, and pie
-					charts.
-				</p>
-				<iframe
-					loading="lazy"
-					src="https://yourdomain.com/embed?prompt=Show+sales+for+A%2C+B%2C+C&type=bar"
-					width="100%"
-					height="400"
-					className="w-full rounded-md border shadow-sm"
-				/>
-			</section>
-		</main>
-	)
+      <section className="space-y-4">
+        <h2 className="text-2xl font-semibold">AI Chat Assistant</h2>
+        <p className="text-muted-foreground text-base leading-relaxed">
+          A lightweight chat UI using GPT-4o, Zustand for state management, and next-themes for theme switching.
+        </p>
+        <iframe
+          loading="lazy"
+          src="https://ai-chat-assistant-git-main-flavio-espinozas-projects.vercel.app"
+          width="100%"
+          height="500"
+          className="w-full border rounded-md shadow-sm"
+        />
+      </section>
+    </main>
+  )
 }
