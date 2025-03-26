@@ -66,7 +66,7 @@ vercel --prod
 - [x] Auto Deploy the site to Vercel when `main` changes
 - [x] Add favicon, metadata, and Open Graph image
 - [x] Make `all-commits.json` downloadable or viewable via route
-- [ ] Add a simple `/contact` page with email or social links
-- [ ] Hook up the contact form to Formspree, Resend, or custom API route
+- [x] Add a simple `/contact` page with email or social links
+- [ ] Hook up the contact form to custom API route
 - [ ] Add spam protection (honeypot or ReCAPTCHA)
 - [ ] Show success/failure toast when submitting the form
