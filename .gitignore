@@ -49,5 +49,4 @@ temp-*
 notes.md
 todo.md
 *.log
-*.log.*
-*.txt.*
+*.txt
