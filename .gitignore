@@ -51,3 +51,5 @@ todo.md
 *.log
 *.log.*
 *.txt.*
+.txt
+.json
