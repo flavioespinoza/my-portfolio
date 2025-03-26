@@ -11,7 +11,8 @@ const links = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
   { href: '/commits', label: 'Commits' },
-  { href: '/about', label: 'About' }
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' }
 ]
 
 export function Navbar() {
