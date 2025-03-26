@@ -64,7 +64,7 @@ vercel --prod
 - [x] Add global navigation bar (Home, Projects, Commits, About)
 - [x] Verify Auto Deploy the site to Vercel when `main` changes
 - [x] Auto Deploy the site to Vercel when `main` changes
-- [ ] Add favicon, metadata, and Open Graph image
+- [x] Add favicon, metadata, and Open Graph image
 - [ ] Make `all-commits.json` downloadable or viewable via route
 - [ ] Add a simple `/contact` page with email or social links
 - [ ] Hook up the contact form to Formspree, Resend, or custom API route
