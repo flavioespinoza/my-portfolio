@@ -42,6 +42,48 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
+			<head>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "Person",
+							"name": "Flavio Espinoza",
+							"email": "mailto:flavio.espinoza@gmail.com",
+							"url": "https://my-portfolio.vercel.app",
+							"sameAs": [
+								"https://github.com/flavioespinoza",
+								"https://linkedin.com/in/flavioespinoza"
+							],
+							"jobTitle": "Senior Frontend Developer",
+							"address": {
+								"@type": "PostalAddress",
+								"addressLocality": "Salt Lake City",
+								"addressRegion": "UT",
+								"addressCountry": "US"
+							},
+							"alumniOf": {
+								"@type": "EducationalOrganization",
+								"name": "University of Utah"
+							},
+							"worksFor": {
+								"@type": "Organization",
+								"name": "Bless Network"
+							},
+							"hasOccupation": {
+								"@type": "Occupation",
+								"name": "Frontend Engineer",
+								"skills": [
+									"React", "Next.js", "TypeScript", "Tailwind CSS",
+									"D3.js", "OpenAI API", "Zustand", "Zod", "Vercel"
+								]
+							},
+							"description": "Senior frontend engineer with 11+ years of experience delivering responsive, performant, and accessible UI with React, TypeScript, and modern frameworks. Recent focus on LLM-powered applications using GPT-4o and D3.js for real-time visualization."
+						})
+					}}
+				/>
+			</head>
 			<body className="flex min-h-screen flex-col bg-background antialiased">
 				<AppThemeProvider>
 					<Navbar />
