@@ -25,7 +25,7 @@ export function Alert({
 	const Icon = iconMap[type]
 	return (
 		<div className={cn('flex items-start gap-3 rounded-md border px-4 py-3 text-sm', className)}>
-			<Icon className="text-muted-foreground mt-0.5 h-5 w-5" />
+			<Icon className="mt-0.5 h-5 w-5 text-muted-foreground" />
 			<div>
 				{title && <div className="font-medium">{title}</div>}
 				<div>{message}</div>

@@ -6,7 +6,7 @@ export default function ProjectsPage() {
 			<h1 className="text-center text-3xl font-bold">Projects</h1>
 
 			<section className="space-y-3 rounded-lg border p-6 shadow-sm">
-				<h2 className="text-primary text-2xl font-semibold">AI Chat Assistant</h2>
+				<h2 className="text-2xl font-semibold text-primary">AI Chat Assistant</h2>
 				<p className="text-muted-foreground">
 					A GPT-4o powered chatbot with theme toggle, Zustand chat state, and real-time streaming.
 				</p>
@@ -20,7 +20,7 @@ export default function ProjectsPage() {
 			</section>
 
 			<section className="space-y-3 rounded-lg border p-6 shadow-sm">
-				<h2 className="text-primary text-2xl font-semibold">LLM Data Visualizer</h2>
+				<h2 className="text-2xl font-semibold text-primary">LLM Data Visualizer</h2>
 				<p className="text-muted-foreground">
 					Transforms user prompts into JSON and visualizes with D3.js — supports bar, line, and pie
 					charts.
