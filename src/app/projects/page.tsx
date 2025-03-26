@@ -18,6 +18,20 @@ export default function ProjectsPage() {
           className="w-full border rounded-md shadow-sm"
         />
       </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-semibold">LLM Data Visualizer</h2>
+        <p className="text-muted-foreground text-base leading-relaxed">
+          Converts natural language into interactive D3.js charts using OpenAI and Tailwind CSS.
+        </p>
+        <iframe
+          loading="lazy"
+          src="https://ai-llm-data-visualizer-git-main-flavio-espinozas-projects.vercel.app"
+          width="100%"
+          height="500"
+          className="w-full border rounded-md shadow-sm"
+        />
+      </section>
     </main>
   )
 }
