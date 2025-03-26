@@ -8,14 +8,13 @@
 
 ### 0. Need to Verify
 
-- [ ] Resume/README clarity
+- [ ] Resume/README updates and clarity
 - [ ] Deployment-ready codebase
 - [ ] Markdown documentation
 
 ### 1. Portfolio Enhancements
 - [ ] Add visitor analytics to portfolio site
 - [ ] Create case study for each major project
-- [ ] Implement dark/light mode toggle
 
 ### 2. Job Search Strategy
 - [ ] Research top 20 target companies
