@@ -18,6 +18,11 @@ const links = [
 export function Navbar() {
   const { theme, setTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 10)
@@ -45,14 +50,16 @@ export function Navbar() {
           ))}
         </div>
 
-        <Button
-          variant="outline"
-          size="icon"
-          className="cursor-pointer"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-        >
-          {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-        </Button>
+        {mounted && (
+          <Button
+            variant="outline"
+            size="icon"
+            className="cursor-pointer"
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          >
+            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </Button>
+        )}
       </div>
     </header>
   )
