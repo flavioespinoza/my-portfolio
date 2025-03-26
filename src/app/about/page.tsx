@@ -1,29 +1,31 @@
 export default function AboutPage() {
-	return (
-		<main className="mx-auto max-w-3xl space-y-8 p-6">
-			<h1 className="text-3xl font-bold">About Me</h1>
+  return (
+    <main className="max-w-3xl mx-auto px-6 py-12 space-y-8">
+      <h1 className="text-4xl font-bold tracking-tight text-foreground">About Me</h1>
 
-			<section className="space-y-3">
-				<p>
-					I'm Flavio Espinoza — a senior front-end engineer with 11+ years of experience crafting
-					user-facing applications with React, TypeScript, and modern UI tooling.
-				</p>
-				<p>
-					I specialize in building responsive, accessible, and theme-aware interfaces with
-					frameworks like Next.js, Tailwind CSS, and Zustand. Lately, I've been exploring AI tools
-					and LLMs to build intelligent user interfaces — such as GPT-powered chat systems and data
-					visualization engines.
-				</p>
-				<p>
-					I also have a background in architecture, having earned a master's degree and multiple
-					design awards. This informs my approach to visual hierarchy, layout, and interaction
-					patterns.
-				</p>
-				<p>
-					I'm currently open to remote roles or opportunities in Salt Lake City, Utah (or nearby).
-					Let’s connect and create something meaningful.
-				</p>
-			</section>
-		</main>
-	)
+      <section className="space-y-4 text-muted-foreground text-base leading-relaxed">
+        <p>
+          I'm Flavio Espinoza — a senior front-end engineer with over 11 years of experience building
+          fast, accessible, and elegant interfaces using React, TypeScript, and Next.js.
+        </p>
+
+        <p>
+          My work blends engineering precision with design sensibility. I have a master’s degree in
+          architecture and have received multiple design awards, including first place in a global
+          competition. I apply that same eye for structure, layout, and hierarchy in the interfaces I build.
+        </p>
+
+        <p>
+          I specialize in responsive UI development, design systems, data visualization (D3.js),
+          and integrating with AI/LLM APIs like OpenAI. I'm currently focused on building performant
+          front-end apps with Tailwind CSS, Zustand, and React Server Components.
+        </p>
+
+        <p>
+          I'm open to full-time or contract opportunities — remote preferred, or on-site in the Salt Lake
+          City area. Let’s work together.
+        </p>
+      </section>
+    </main>
+  )
 }
