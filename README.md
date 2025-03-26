@@ -67,6 +67,6 @@ vercel --prod
 - [x] Add favicon, metadata, and Open Graph image
 - [x] Make `all-commits.json` downloadable or viewable via route
 - [x] Add a simple `/contact` page with email or social links
-- [ ] Hook up the contact form to custom API route
+- [ ] Hook up contact form to Formspree endpoint
 - [ ] Add spam protection (honeypot or ReCAPTCHA)
 - [ ] Show success/failure toast when submitting the form
