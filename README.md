@@ -64,6 +64,7 @@ vercel --prod
 - [x] Fix `/projects` page — `ai-chat-assistant` not displaying
 - [x] Fix `/projects` page — `ai-llm-data-visualizer` not displaying
 
+- [ ] Make sticky header background opaque
 - [ ] Migrate bless-ui to salsa-ui
 - [ ] Ensure all buttons have cursor-pointer and default to variant="outline"
 
