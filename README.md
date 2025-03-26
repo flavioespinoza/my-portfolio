@@ -62,7 +62,8 @@ vercel --prod
 - [x] Add next-theme to app/layout.tsx
 - [x] Polish the `/about` page layout and spacing
 - [x] Add global navigation bar (Home, Projects, Commits, About)
-- [ ] Auto Deploy the site to Vercel when main changes
+- [x] Verify Auto Deploy the site to Vercel when `main` changes
+- [ ] Auto Deploy the site to Vercel when `main` changes
 - [ ] Add favicon, metadata, and Open Graph image
 - [ ] Make `all-commits.json` downloadable or viewable via route
 - [ ] Add a simple `/contact` page with email or social links
