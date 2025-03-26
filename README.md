@@ -61,11 +61,33 @@ vercel --prod
 
 ### 🧠 Portfolio and Projects Focus
 
-- [ ] Fix `/projects` page — `ai-chat-assistant` not displaying
-- [ ] Fix `/projects` page — `ai-llm-data-visualizer` not displaying
+- [x] Fix `/projects` page — `ai-chat-assistant` not displaying
+- [x] Fix `/projects` page — `ai-llm-data-visualizer` not displaying
+
+- [ ] Migrate bless-ui to salsa-ui
+- [ ] Ensure all buttons have cursor-pointer and default to variant="outline"
+
 - [ ] Hook up contact form to Formspree endpoint
 - [ ] Add spam protection (honeypot or ReCAPTCHA)
 - [ ] Show success/failure toast when submitting the form
+
+### 🤖 AI Chat Assistant: Project Improvements Checklist
+
+- [x] ✅ Deployed live to Vercel
+- [x] ✅ Theme toggle (light/dark) using `next-themes`
+- [x] ✅ Zustand store for chat message history
+- [x] ✅ Input + button UI using `shadcn/ui`
+- [x] ✅ Graceful API error handling
+- [x] ✅ API call to OpenAI Chat API (`gpt-4o`)
+- [x] ✅ Messages persist visually in session
+- [x] ✅ Assistant replies formatted clearly
+- [x] ✅ Loading indicator while awaiting response
+- [x] ✅ Mobile responsive layout
+- [x] ✅ Embedded in `/projects` page via `<iframe>`
+- [x] ✅ Default light theme
+- [ ] ⏳ Add usage logging or metrics
+- [ ] ⏳ Improve formatting for long replies (Markdown, code blocks)
+- [ ] ⏳ Optional: Save chat state in localStorage/Zustand persist
 
 ### 🧠 Job Search Focus
 
