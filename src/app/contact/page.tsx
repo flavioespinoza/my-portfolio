@@ -1,31 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import dayjs from 'dayjs'
 
 export default function ContactPage() {
-	const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+	const [email, setEmail] = useState('')
+	const [message, setMessage] = useState('')
 	const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-	const devOnly = process.env.NEXT_PUBLIC_DEV_ONLY === 'true'
+	const [calendlyUrl] = useState(
+		'https://calendly.com/flavio-espinoza/chat-with-flavio?preview_source=et_card'
+	)
 
-	useEffect(() => {
-		if (devOnly) {
-			setFormData({
-				name: `Flavio Espinoza ${dayjs().format('ddd MMM D hh:mma').toUpperCase()}`,
-				email: 'flavio.espinoza@gmail.com',
-				message: 'Hello from Flavio Espinoza!'
-			})
-		}
-	}, [])
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value })
-	}
-
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setStatus('loading')
 
@@ -33,12 +21,13 @@ export default function ContactPage() {
 			const res = await fetch('https://formspree.io/f/mldjwpen', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(formData)
+				body: JSON.stringify({ email, message })
 			})
 
 			if (res.ok) {
 				setStatus('success')
-				setFormData({ name: '', email: '', message: '' })
+				setEmail('')
+				setMessage('')
 			} else {
 				setStatus('error')
 			}
@@ -48,41 +37,45 @@ export default function ContactPage() {
 	}
 
 	return (
-		<div className="mx-auto max-w-xl space-y-6 p-6">
-			<h1 className="text-2xl font-bold">Contact Me</h1>
-			<form onSubmit={handleSubmit} className="space-y-4">
-				<Input
-					required
-					name="name"
-					placeholder="Your name"
-					value={formData.name}
-					onChange={handleChange}
-				/>
-				<Input
-					required
-					name="email"
-					type="email"
-					placeholder="Your email"
-					value={formData.email}
-					onChange={handleChange}
-				/>
-				<Textarea
-					required
-					name="message"
-					placeholder="Your message"
-					value={formData.message}
-					onChange={handleChange}
-				/>
-				<Button variant="outline" type="submit" disabled={status === 'loading'}>
-					{status === 'loading' ? 'Sending...' : 'Send Message'}
-				</Button>
-				{status === 'success' && (
-					<p className="text-sm text-green-600">Your message has been sent!</p>
-				)}
-				{status === 'error' && (
-					<p className="text-sm text-red-600">Something went wrong. Try again.</p>
-				)}
-			</form>
-		</div>
+		<main className="mx-auto max-w-2xl space-y-8 p-6">
+			<h1 className="text-3xl font-bold">Get in Touch</h1>
+
+			<div className="space-y-2">
+				<h2 className="text-xl font-semibold">📅 Book a Time</h2>
+				<iframe
+					src={calendlyUrl}
+					height="900"
+					className="w-full max-w-full rounded border"
+				></iframe>
+			</div>
+
+			<div className="space-y-2">
+				<h2 className="text-xl font-semibold">📧 Send an Email</h2>
+				<form onSubmit={handleSubmit} className="space-y-4">
+					<Input
+						type="email"
+						placeholder="Your email"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						required
+					/>
+					<Textarea
+						placeholder="Your message"
+						value={message}
+						onChange={(e) => setMessage(e.target.value)}
+						required
+					/>
+					<Button type="submit" disabled={status === 'loading'}>
+						{status === 'loading' ? 'Sending...' : 'Send Message'}
+					</Button>
+					{status === 'success' && (
+						<p className="text-sm text-green-600">Message sent successfully!</p>
+					)}
+					{status === 'error' && (
+						<p className="text-sm text-red-600">Failed to send. Please try again.</p>
+					)}
+				</form>
+			</div>
+		</main>
 	)
 }
