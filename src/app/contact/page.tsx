@@ -1,13 +1,25 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import dayjs from 'dayjs'
 
 export default function ContactPage() {
 	const [formData, setFormData] = useState({ name: '', email: '', message: '' })
 	const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+	const devOnly = process.env.NEXT_PUBLIC_DEV_ONLY === 'true'
+
+	useEffect(() => {
+		if (devOnly) {
+			setFormData({
+				name: `Flavio Espinoza ${dayjs().format('ddd MMM D hh:mma').toUpperCase()}`,
+				email: 'flavio.espinoza@gmail.com',
+				message: 'Hello from Flavio Espinoza!'
+			})
+		}
+	}, [])
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -36,7 +48,7 @@ export default function ContactPage() {
 	}
 
 	return (
-		<main className="max-w-xl mx-auto p-6 space-y-6">
+		<div className="mx-auto max-w-xl space-y-6 p-6">
 			<h1 className="text-2xl font-bold">Contact Me</h1>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				<Input
@@ -61,7 +73,7 @@ export default function ContactPage() {
 					value={formData.message}
 					onChange={handleChange}
 				/>
-				<Button type="submit" disabled={status === 'loading'}>
+				<Button variant="outline" type="submit" disabled={status === 'loading'}>
 					{status === 'loading' ? 'Sending...' : 'Send Message'}
 				</Button>
 				{status === 'success' && (
@@ -71,6 +83,6 @@ export default function ContactPage() {
 					<p className="text-sm text-red-600">Something went wrong. Try again.</p>
 				)}
 			</form>
-		</main>
+		</div>
 	)
 }
