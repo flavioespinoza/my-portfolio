@@ -18,6 +18,12 @@ const config: Config = {
 				sans: ['var(--font-inter)', ...fontFamily.sans]
 			},
 			colors: {
+				main: 'hsl(0, 0%, 98%)', // #FAFAFA
+				green: 'hsl(107, 88%, 87%)', // #C9FCC0
+				gray: 'hsl(0, 0%, 95%)', // #F2F2F2
+				slate: 'hsl(0, 0%, 96%)', // #F5F5F5
+				cement: 'hsl(203, 8%, 67%)', // #AEB3B7
+				charcoal: 'hsl(150, 5%, 17%)', // #292D2A
 				black: 'hsl(0, 0%, 0%)',
 				white: 'hsl(0, 0%, 100%)',
 				background: 'hsl(var(--background))',
@@ -68,16 +74,6 @@ const config: Config = {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			}
-		},
-		colors: {
-			main: '#FAFAFA',
-			green: '#C9FCC0',
-			'light-gray': '#CCCAC0',
-			gray: '#F2F2F2',
-			slate: '#F5F5F5',
-			cement: '#AEB3B7',
-			charcoal: '#292D2A',
-			black: '#000000'
 		}
 	},
 	plugins: [
