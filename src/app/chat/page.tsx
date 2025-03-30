@@ -6,7 +6,6 @@ import { Button, Textarea, useToast } from '@flavioespinoza/salsa-ui'
 import { ChatSuggestions } from './components/chat-suggestions'
 import { ChatCopyButton } from './components/chat-copy-button'
 import { ChatFeedback } from './components/chat-feedback'
-import { marked } from 'marked'
 
 export default function ChatPage() {
 	const [input, setInput] = useState('')
@@ -106,34 +105,34 @@ export default function ChatPage() {
 				{messages.map((msg, idx) => (
 					<div
 						key={idx}
-						className={`relative rounded px-3 py-2 pr-10 text-sm whitespace-pre-wrap transition-all duration-200 ease-in-out animate-fade-in ${
-							msg.role === 'user'
-								? 'bg-blue-100 dark:bg-blue-900'
-								: 'bg-zinc-200 dark:bg-zinc-800'
+						className={`flex ${
+							msg.role === 'user' ? 'justify-end' : 'justify-start'
 						}`}
 					>
-						<p className="text-muted-foreground mb-1 text-xs">
-							{msg.role === 'user' ? 'You' : 'AI'} ·{' '}
-							{new Date(msg.createdAt).toLocaleTimeString()}
-						</p>
+						<div
+							className={`relative rounded-xl px-4 py-2 text-sm whitespace-pre-wrap max-w-[80%] transition-all duration-200 ease-in-out animate-fade-in ${
+								msg.role === 'user'
+									? 'bg-blue-100 text-black dark:bg-blue-900'
+									: 'bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white'
+							}`}
+						>
+							<p className="text-muted-foreground mb-1 text-xs">
+								{msg.role === 'user' ? 'You' : 'AI'} ·{' '}
+								{new Date(msg.createdAt).toLocaleTimeString()}
+							</p>
 
-						{msg.role === 'assistant' ? (
-							<div
-								className="markdown"
-								dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) }}
-							/>
-						) : (
-							msg.text
-						)}
+							{msg.text}
 
-						{msg.role === 'assistant' && (
-							<div className="mt-3 flex items-center space-x-2">
-								<ChatCopyButton text={msg.text} />
-								<ChatFeedback index={idx} />
-							</div>
-						)}
+							{msg.role === 'assistant' && (
+								<div className="mt-3 flex items-center space-x-2">
+									<ChatCopyButton text={msg.text} />
+									<ChatFeedback index={idx} />
+								</div>
+							)}
+						</div>
 					</div>
 				))}
+
 				{isTyping && (
 					<div className="italic text-sm text-muted-foreground">Flavio is typing…</div>
 				)}

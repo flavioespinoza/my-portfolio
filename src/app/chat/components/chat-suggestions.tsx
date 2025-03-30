@@ -8,11 +8,11 @@ interface ChatSuggestionsProps {
 }
 
 const suggestions = [
-	'What are the main differences between Server Components and Client Components in Next.js?',
-	'Can you explain how Tailwind CSS handles responsive design?',
-	'How does Zustand compare to Redux for managing state?',
-	'Give me tips for optimizing performance in a React app.',
-	'What is Suspense in React and how can I use it effectively?'
+	'Compare the strengths and weaknesses of React, Svelte, and Vue for building a design system.',
+	'Explain why some tailwind classes conflict with component libraries and how to resolve it.',
+	'I need a debounce function in TypeScript that’s cancelable and typesafe — can you write one?',
+	'Refactor this component for performance and accessibility. (paste your own JSX)',
+	'What’s the difference between useMemo and useCallback and when should each be used?'
 ]
 
 export function ChatSuggestions({ onSelect }: ChatSuggestionsProps) {
