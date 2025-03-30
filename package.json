@@ -34,7 +34,9 @@
 		"zustand": "^4.4.0"
 	},
 	"devDependencies": {
+		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/postcss": "^4.0.15",
+		"@tailwindcss/typography": "^0.5.16",
 		"@trivago/prettier-plugin-sort-imports": "4.3.0",
 		"@types/node": "20.11.24",
 		"@types/papaparse": "^5.3.15",
@@ -47,7 +49,8 @@
 		"prettier": "3.2.5",
 		"prettier-plugin-tailwindcss": "0.5.10",
 		"tailwind-merge": "^3.0.2",
-		"tailwindcss": "v3",
+		"tailwindcss": "^3.4.1",
+		"tailwindcss-animate": "^1.0.7",
 		"typescript": "5.4.2"
 	}
 }

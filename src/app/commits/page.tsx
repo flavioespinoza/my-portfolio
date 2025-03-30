@@ -190,7 +190,7 @@ export default function CommitsPage() {
 				<a
 					href={csvUrl}
 					download="filtered-commits.csv"
-					className="mt-2 block text-sm text-blue-500 underline"
+					className="text-blue-500 mt-2 block text-sm underline"
 				>
 					Export Filtered Results as CSV
 				</a>
@@ -200,7 +200,7 @@ export default function CommitsPage() {
 				href="/api/commits"
 				target="_blank"
 				rel="noopener noreferrer"
-				className="mt-4 block text-sm text-blue-500 underline"
+				className="text-blue-500 mt-4 block text-sm underline"
 			>
 				View or download all-commits.json
 			</a>
