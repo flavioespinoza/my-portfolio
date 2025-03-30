@@ -98,3 +98,48 @@ textarea {
 a {
 	text-decoration: none;
 }
+
+
+/* Marked for Chat bubbles */
+.markdown {
+	@apply text-sm leading-relaxed;
+}
+
+.markdown p,
+.markdown li {
+	margin: 2px 0;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+	margin: 2px 0;
+	font-weight: 600;
+	background-color: pink;
+}
+
+.markdown ul,
+.markdown ol {
+	padding-left: 1.25rem;
+	list-style: initial;
+	background-color: limegreen;
+}
+
+.markdown li {
+	background-color: cornflowerblue;
+}
+
+.markdown pre {
+	background-color: orange;
+	padding: 0.75rem;
+	border-radius: 6px;
+	overflow-x: auto;
+	margin: 4px 0;
+}
+
+.markdown code {
+	background-color: rgba(0, 0, 0, 0.05);
+	padding: 0 2px;
+	border-radius: 4px;
+	font-size: 13px;
+}
