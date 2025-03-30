@@ -22,13 +22,14 @@ yarn dev
 
 ## 🧰 Tech Stack
 
-- **Next.js 15 (App Router)**
-- **React 19**
-- **Tailwind CSS 4**
-- **Zustand**
-- **Chart.js + react-chartjs-2**
-- **Day.js** for date logic
-- **PapaParse** for CSV exports
+- **[Next.js 15 (App Router)](https://nextjs.org/docs/app)**
+- **[React 19](https://react.dev)**
+- **[Tailwind CSS 3](https://tailwindcss.com)**
+- **[Fluid Tailwind](https://fluid.tw/#basic-usage)**
+- **[Zustand](https://zustand-demo.pmnd.rs)**
+- **[Chart.js](https://www.chartjs.org)**
+- **[Day.js](https://day.js.org)** for date logic
+- **[PapaParse](https://www.papaparse.com)** for CSV exports
 
 ---
 

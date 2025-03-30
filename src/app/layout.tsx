@@ -2,7 +2,14 @@ import type { Metadata } from 'next'
 import { Footer } from '@/components/layout/footer'
 import { Navbar } from '@/components/layout/navbar'
 import { AppThemeProvider } from '@/components/providers/theme-provider'
+import { Inter } from 'next/font/google'
 import '@/styles/globals.css'
+
+const inter = Inter({
+	subsets: ['latin'],
+	weight: ['300', '400', '500', '700'], // Light (300), Regular (400), Medium (500), Bold (700)
+	variable: '--font-inter'
+})
 
 export const metadata: Metadata = {
 	title: 'Flavio Espinoza | Portfolio',
@@ -41,7 +48,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="en" className={inter.className} suppressHydrationWarning>
 			<head>
 				<script
 					type="application/ld+json"
@@ -92,7 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					}}
 				/>
 			</head>
-			<body className="flex min-h-screen flex-col bg-background antialiased">
+			<body className={`${inter.variable} flex min-h-screen flex-col bg-background antialiased`}>
 				<AppThemeProvider>
 					<Navbar />
 					<main className="flex-1">{children}</main>
