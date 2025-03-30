@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { Menu, Moon, Sun } from 'lucide-react'
+import { Button } from '@flavioespinoza/salsa-ui'
+import { Moon, Sun } from 'lucide-react'
 
 const links = [
 	{ href: '/', label: 'Home' },
