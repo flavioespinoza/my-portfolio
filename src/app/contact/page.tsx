@@ -15,6 +15,18 @@ export default function ContactPage() {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+		
+		// Get form data including hidden honeypot field
+		const formData = new FormData(e.currentTarget)
+		const honeypotValue = formData.get('website')
+		
+		// Check honeypot field
+		if (honeypotValue) {
+			console.log('Bot submission detected')
+			setStatus('error')
+			return
+		}
+		
 		setStatus('loading')
 
 		try {
@@ -36,6 +48,35 @@ export default function ContactPage() {
 		}
 	}
 
+	const testBotSubmission = () => {
+		const form = document.querySelector('form');
+		if (!form) {
+			console.error('❌ Form not found');
+			return;
+		}
+
+		console.log('🛠️ Starting bot simulation...');
+		
+		// Fill all inputs including honeypot
+		const inputs = form.querySelectorAll('input, textarea');
+		inputs.forEach(input => {
+			(input as HTMLInputElement).value = 'bot test value';
+			console.log(`✏️ Filled ${input.getAttribute('name') || 'unnamed field'} with test value`);
+		});
+
+		// Submit the form
+		console.log('🤖 Submitting form...');
+		const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+		form.dispatchEvent(submitEvent);
+
+		console.log('✅ Bot simulation complete. Form should show error state.');
+	};
+
+	// Expose to window for testing in development only
+	if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+		(window as any).testBotSubmission = testBotSubmission;
+	}
+
 	return (
 		<main className="mx-auto max-w-2xl space-y-8 p-6">
 			<h1 className="text-3xl font-bold">Get in Touch</h1>
@@ -54,17 +95,28 @@ export default function ContactPage() {
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<Input
 						type="email"
+						name="email"
 						placeholder="Your email"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
 					<Textarea
+						name="message"
 						placeholder="Your message"
 						value={message}
 						onChange={(e) => setMessage(e.target.value)}
 						required
 					/>
+					{/* Honeypot field - hidden from users but visible to bots */}
+					<div className="absolute left-[-9999px]" aria-hidden="true">
+						<Input
+							type="text"
+							name="website"
+							tabIndex={-1}
+							autoComplete="off"
+						/>
+					</div>
 					<Button type="submit" disabled={status === 'loading'}>
 						{status === 'loading' ? 'Sending...' : 'Send Message'}
 					</Button>
@@ -73,6 +125,22 @@ export default function ContactPage() {
 					)}
 					{status === 'error' && (
 						<p className="text-red-600 text-sm">Failed to send. Please try again.</p>
+					)}
+					{process.env.NEXT_PUBLIC_DEV_ONLY && (
+						<div className="mt-6 p-4 border rounded-lg bg-yellow-50">
+							<h3 className="font-medium text-yellow-800 mb-2">Developer Tools</h3>
+							<Button
+								type="button"
+								variant="outline"
+								onClick={testBotSubmission}
+								className="bg-yellow-100 hover:bg-yellow-200 text-yellow-800"
+							>
+								Test Bot Submission
+							</Button>
+							<p className="mt-2 text-sm text-yellow-700">
+								Click to simulate a bot filling all fields (including honeypot)
+							</p>
+						</div>
 					)}
 				</form>
 			</div>
