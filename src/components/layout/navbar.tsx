@@ -9,6 +9,7 @@ import { Moon, Sun } from 'lucide-react'
 
 const links = [
 	{ href: '/', label: 'Home' },
+	{ href: '/chat', label: 'Chat' },
 	{ href: '/projects', label: 'Projects' },
 	{ href: '/commits', label: 'Commits' },
 	{ href: '/about', label: 'About' },
