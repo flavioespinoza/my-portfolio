@@ -80,16 +80,7 @@ export default function ContactPage() {
 			<h1 className="text-3xl font-bold">Get in Touch</h1>
 
 			<div className="space-y-2">
-				<h2 className="text-xl font-semibold">📅 Book a Time</h2>
-				<iframe
-					src={calendlyUrl}
-					height="900"
-					className="w-full max-w-full rounded border"
-				></iframe>
-			</div>
-
-			<div className="space-y-2">
-				<h2 className="text-xl font-semibold">📧 Send an Email</h2>
+				<h2 className="text-xl font-semibold">📧 Send Me an Email</h2>
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<Input
 						type="email"
@@ -119,7 +110,7 @@ export default function ContactPage() {
 					{status === 'error' && (
 						<p className="text-red-600 text-sm">Failed to send. Please try again.</p>
 					)}
-					{process.env.NEXT_PUBLIC_DEV_ONLY && (
+					{process.env.NEXT_PUBLIC_DEV_ONLY === 'true' && (
 						<div className="bg-yellow-50 mt-6 rounded-lg border p-4">
 							<h3 className="text-yellow-800 mb-2 font-medium">Developer Tools</h3>
 							<Button
@@ -136,6 +127,21 @@ export default function ContactPage() {
 						</div>
 					)}
 				</form>
+			</div>
+
+			<div className="relative flex items-center py-4">
+				<div className="border-cement flex-grow border-t"></div>
+				<span className="text-charcoal mx-4 text-xl font-semibold">or</span>
+				<div className="border-cement flex-grow border-t"></div>
+			</div>
+
+			<div className="space-y-2">
+				<h2 className="text-xl font-semibold">📅 Let’s Chat – Pick a Time</h2>
+				<iframe
+					src={calendlyUrl}
+					height="900"
+					className="w-full max-w-full rounded border"
+				></iframe>
 			</div>
 		</main>
 	)
