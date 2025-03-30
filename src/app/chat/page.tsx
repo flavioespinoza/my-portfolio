@@ -1,23 +1,26 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useChatStore } from '@/store/chat-store'
-import { Button, Input, useToast } from '@flavioespinoza/salsa-ui'
+import { Button, Textarea, useToast } from '@flavioespinoza/salsa-ui'
+import { ChatSuggestions } from './components/chat-suggestions'
+import { ChatCopyButton } from './components/chat-copy-button'
+import { ChatFeedback } from './components/chat-feedback'
 
 export default function ChatPage() {
 	const [input, setInput] = useState('')
 	const [isTyping, setIsTyping] = useState(false)
 	const { messages, addMessage, clearMessages } = useChatStore()
 	const { toast } = useToast()
+	const inputRef = useRef<HTMLTextAreaElement>(null)
+	const bottomRef = useRef<HTMLDivElement>(null)
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault()
-		const text = input.trim()
-		if (!text) return
+	const sendMessage = async (text: string) => {
+		if (!text.trim()) return
 
 		const userMsg = {
 			role: 'user',
-			text,
+			text: text.trim(),
 			createdAt: new Date().toISOString()
 		} as const
 
@@ -62,16 +65,38 @@ export default function ChatPage() {
 		}
 	}
 
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault()
+		sendMessage(input)
+	}
+
+	const handleSuggestionSelect = (text: string) => {
+		setInput(text)
+		inputRef.current?.focus()
+		sendMessage(text)
+		setTimeout(() => {
+			bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+		}, 10)
+	}
+
 	return (
 		<main className="mx-auto max-w-xl p-4 space-y-6">
-			<h1 className="text-2xl font-bold">💬 Chat</h1>
-			<form onSubmit={handleSubmit} className="flex items-center gap-2">
-				<Input
+			<div className="flex items-center justify-between">
+				<h1 className="text-2xl font-bold">💬 Chat</h1>
+				<ChatSuggestions onSelect={handleSuggestionSelect} />
+			</div>
+
+			<form onSubmit={handleSubmit} className="flex flex-col gap-2">
+				<Textarea
+					ref={inputRef}
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
 					placeholder="Say something..."
+					rows={2}
+					className="resize-y"
+					disabled={isTyping}
 				/>
-				<Button type="submit" disabled={isTyping}>
+				<Button type="submit" disabled={isTyping || !input.trim()}>
 					Send
 				</Button>
 			</form>
@@ -80,22 +105,38 @@ export default function ChatPage() {
 				{messages.map((msg, idx) => (
 					<div
 						key={idx}
-						className={`whitespace-pre-wrap rounded px-3 py-2 text-sm ${
-							msg.role === 'user'
-								? 'bg-blue-100 dark:bg-blue-900'
-								: 'bg-zinc-200 dark:bg-zinc-800'
+						className={`flex ${
+							msg.role === 'user' ? 'justify-end' : 'justify-start'
 						}`}
 					>
-						<p className="text-muted-foreground mb-1 text-xs">
-							{msg.role === 'user' ? 'You' : 'AI'} ·{' '}
-							{new Date(msg.createdAt).toLocaleTimeString()}
-						</p>
-						{msg.text}
+						<div
+							className={`relative rounded-xl px-4 py-2 text-sm whitespace-pre-wrap max-w-[80%] transition-all duration-200 ease-in-out animate-fade-in ${
+								msg.role === 'user'
+									? 'bg-blue-100 text-black dark:bg-blue-900'
+									: 'bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white'
+							}`}
+						>
+							<p className="text-muted-foreground mb-1 text-xs">
+								{msg.role === 'user' ? 'You' : 'AI'} ·{' '}
+								{new Date(msg.createdAt).toLocaleTimeString()}
+							</p>
+
+							{msg.text}
+
+							{msg.role === 'assistant' && (
+								<div className="mt-3 flex items-center space-x-2">
+									<ChatCopyButton text={msg.text} />
+									<ChatFeedback index={idx} />
+								</div>
+							)}
+						</div>
 					</div>
 				))}
+
 				{isTyping && (
 					<div className="italic text-sm text-muted-foreground">Flavio is typing…</div>
 				)}
+				<div ref={bottomRef} />
 			</div>
 
 			{messages.length > 0 && (
