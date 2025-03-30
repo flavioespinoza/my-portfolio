@@ -65,13 +65,13 @@ vercel --prod
 - [x] Fix `/projects` page — `ai-chat-assistant` not displaying
 - [x] Fix `/projects` page — `ai-llm-data-visualizer` not displaying
 
-- [ ] Make sticky header background opaque
-- [ ] Migrate bless-ui to salsa-ui
-- [ ] Ensure all buttons have cursor-pointer and default to variant="outline"
+- [x] Make sticky header background opaque
+- [x] Migrate bless-ui to salsa-ui
+- [x] Ensure all buttons have cursor-pointer and default to variant="outline"
 
-- [ ] Hook up contact form to Formspree endpoint
-- [ ] Add spam protection (honeypot or ReCAPTCHA)
-- [ ] Show success/failure toast when submitting the form
+- [x] Hook up contact form to Formspree endpoint
+- [x] Add spam protection (honeypot)
+- [x] Show success/failure message when submitting the form
 
 ### 🤖 AI Chat Assistant: Project Improvements Checklist
 
