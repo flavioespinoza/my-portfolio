@@ -89,7 +89,7 @@ vercel --prod
 - [x] ✅ Default light theme
 - [ ] ⏳ Add usage logging or metrics
 - [ ] ⏳ Improve formatting for long replies (Markdown, code blocks)
-- [ ] ⏳ Optional: Save chat state in localStorage/Zustand persist
+- [ ] ⏳ Optional: Save chat state in Zustand persist
 
 ### 🧠 Job Search Focus
 
