@@ -117,8 +117,17 @@ a {
 #chat_bubbles h4,
 #chat_bubbles h5,
 #chat_bubbles h6 {
-	margin-top: 24px;
-	margin-bottom: 24px;
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+
+#chat_bubbles h1,
+#chat_bubbles h2,
+#chat_bubbles h3,
+#chat_bubbles h4,
+#chat_bubbles h5,
+#chat_bubbles h6 {
+	font-weight: bold;
 }
 
 #chat_bubbles ul,
@@ -126,6 +135,7 @@ a {
 	padding-left: 1.25rem;
 	list-style: initial;
 }
+
 
 #chat_bubbles code {
 	padding: 0 2px;
