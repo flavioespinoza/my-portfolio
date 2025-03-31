@@ -6,6 +6,7 @@ import { Button, Textarea, useToast } from '@flavioespinoza/salsa-ui'
 import { ChatSuggestions } from './components/chat-suggestions'
 import { ChatCopyButton } from './components/chat-copy-button'
 import { ChatFeedback } from './components/chat-feedback'
+import ReactMarkdown from 'react-markdown'
 
 export default function ChatPage() {
 	const [input, setInput] = useState('')
@@ -101,7 +102,7 @@ export default function ChatPage() {
 				</Button>
 			</form>
 
-			<div className="space-y-3">
+			<div id="chat_bubbles" className="space-y-3">
 				{messages.map((msg, idx) => (
 					<div
 						key={idx}
@@ -110,7 +111,7 @@ export default function ChatPage() {
 						}`}
 					>
 						<div
-							className={`relative rounded-xl px-4 py-2 text-sm whitespace-pre-wrap max-w-[80%] transition-all duration-200 ease-in-out animate-fade-in ${
+							className={`relative rounded-xl px-4 py-2 text-sm max-w-[80%] transition-all duration-200 ease-in-out animate-fade-in ${
 								msg.role === 'user'
 									? 'bg-blue-100 text-black dark:bg-blue-900'
 									: 'bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white'
@@ -121,7 +122,9 @@ export default function ChatPage() {
 								{new Date(msg.createdAt).toLocaleTimeString()}
 							</p>
 
-							{msg.text}
+							<div className="whitespace-normal [&>*]:mt-1 [&>*]:mb-1">
+								<ReactMarkdown>{msg.text}</ReactMarkdown>
+							</div>
 
 							{msg.role === 'assistant' && (
 								<div className="mt-3 flex items-center space-x-2">
