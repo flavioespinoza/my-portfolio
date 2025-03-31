@@ -98,3 +98,54 @@ textarea {
 a {
 	text-decoration: none;
 }
+
+/* React-Markdown overrides */
+
+#chat_bubbles {
+	@apply text-sm leading-relaxed whitespace-normal;
+}
+
+#chat_bubbles p,
+#chat_bubbles li,
+#chat_bubbles ul,
+#chat_bubbles ol,
+#chat_bubbles pre,
+#chat_bubbles blockquote,
+#chat_bubbles h1,
+#chat_bubbles h2,
+#chat_bubbles h3,
+#chat_bubbles h4,
+#chat_bubbles h5,
+#chat_bubbles h6 {
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+
+#chat_bubbles h1,
+#chat_bubbles h2,
+#chat_bubbles h3,
+#chat_bubbles h4,
+#chat_bubbles h5,
+#chat_bubbles h6 {
+	font-weight: bold;
+}
+
+#chat_bubbles ul,
+#chat_bubbles ol {
+	padding-left: 1.25rem;
+	list-style: initial;
+}
+
+
+#chat_bubbles code {
+	padding: 0 2px;
+	border-radius: 4px;
+	font-size: 13px;
+}
+
+#chat_bubbles pre {
+	padding: 2px;
+	border-radius: 6px;
+	overflow-x: auto;
+	margin: 2px 0;
+}
