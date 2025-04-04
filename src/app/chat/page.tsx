@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useChatStore } from '@/store/chat-store'
 import { Button, Textarea, useToast } from '@flavioespinoza/salsa-ui'
 import { ChatSuggestions } from './components/chat-suggestions'
 import { ChatCopyButton } from './components/chat-copy-button'
 import { ChatFeedback } from './components/chat-feedback'
-import ReactMarkdown from 'react-markdown'
+import MarkdownWithCode from '@/components/markdown-with-code'
 
 export default function ChatPage() {
 	const [input, setInput] = useState('')
@@ -123,7 +123,7 @@ export default function ChatPage() {
 							</p>
 
 							<div className="whitespace-normal [&>*]:mt-1 [&>*]:mb-1">
-								<ReactMarkdown>{msg.text}</ReactMarkdown>
+								<MarkdownWithCode markdown={msg.text} />
 							</div>
 
 							{msg.role === 'assistant' && (
