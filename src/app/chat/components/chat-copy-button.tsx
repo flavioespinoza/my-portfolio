@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Copy } from 'lucide-react'
-import { Button } from '@flavioespinoza/salsa-ui'
+import { Button, Tooltip } from '@flavioespinoza/salsa-ui'
+import { Check, Copy } from 'lucide-react'
 
 interface ChatCopyButtonProps {
 	text: string
@@ -22,10 +22,15 @@ export function ChatCopyButton({ text }: ChatCopyButtonProps) {
 			type="button"
 			variant="ghost"
 			onClick={handleCopy}
-			className="p-1 h-auto w-auto flex items-center text-xs text-muted-foreground"
+			className="flex h-auto w-auto items-center p-1 text-xs text-muted-foreground"
 		>
-			<Copy className="h-4 w-4 mr-1" />
-			{copied ? 'Copied' : 'Copy'}
+			{copied ? (
+				<Check className="h-4 w-4" />
+			) : (
+				<Tooltip content="Copy">
+					<Copy className="h-4 w-4" />
+				</Tooltip>
+			)}
 		</Button>
 	)
 }

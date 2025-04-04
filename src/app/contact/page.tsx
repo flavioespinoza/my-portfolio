@@ -108,20 +108,20 @@ export default function ContactPage() {
 						<p className="text-green-600 text-sm">Message sent successfully!</p>
 					)}
 					{status === 'error' && (
-						<p className="text-red-600 text-sm">Failed to send. Please try again.</p>
+						<p className="text-sm text-red-600">Failed to send. Please try again.</p>
 					)}
 					{process.env.NEXT_PUBLIC_DEV_ONLY === 'true' && (
-						<div className="bg-yellow-50 mt-6 rounded-lg border p-4">
-							<h3 className="text-yellow-800 mb-2 font-medium">Developer Tools</h3>
+						<div className="mt-6 rounded-lg border bg-yellow-50 p-4">
+							<h3 className="mb-2 font-medium text-yellow-800">Developer Tools</h3>
 							<Button
 								type="button"
 								variant="outline"
 								onClick={testBotSubmission}
-								className="bg-yellow-100 hover:bg-yellow-200 text-yellow-800"
+								className="bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
 							>
 								Test Bot Submission
 							</Button>
-							<p className="text-yellow-700 mt-2 text-sm">
+							<p className="mt-2 text-sm text-yellow-700">
 								Click to simulate a bot filling all fields (including honeypot)
 							</p>
 						</div>
@@ -130,9 +130,9 @@ export default function ContactPage() {
 			</div>
 
 			<div className="relative flex items-center py-4">
-				<div className="border-cement flex-grow border-t"></div>
-				<span className="text-charcoal mx-4 text-xl font-semibold">or</span>
-				<div className="border-cement flex-grow border-t"></div>
+				<div className="flex-grow border-t border-cement"></div>
+				<span className="mx-4 text-xl font-semibold text-charcoal">or</span>
+				<div className="flex-grow border-t border-cement"></div>
 			</div>
 
 			<div className="space-y-2">

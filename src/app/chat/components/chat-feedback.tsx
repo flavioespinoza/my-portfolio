@@ -1,8 +1,8 @@
 'use client'
 
 import { useChatStore } from '@/store/chat-store'
-import { ThumbsUp, ThumbsDown } from 'lucide-react'
 import { Button } from '@flavioespinoza/salsa-ui'
+import { ThumbsDown, ThumbsUp } from 'lucide-react'
 
 interface ChatFeedbackProps {
 	index: number
@@ -22,9 +22,7 @@ export function ChatFeedback({ index }: ChatFeedbackProps) {
 				className="h-6 w-6 p-1"
 			>
 				<ThumbsUp
-					className={`h-4 w-4 ${
-						feedback === 'up' ? 'fill-black text-black' : 'text-black'
-					}`}
+					className={`h-4 w-4 ${feedback === 'up' ? 'fill-black text-black' : 'text-black'}`}
 				/>
 			</Button>
 			<Button
@@ -35,9 +33,7 @@ export function ChatFeedback({ index }: ChatFeedbackProps) {
 				className="h-6 w-6 p-1"
 			>
 				<ThumbsDown
-					className={`h-4 w-4 ${
-						feedback === 'down' ? 'fill-black text-black' : 'text-black'
-					}`}
+					className={`h-4 w-4 ${feedback === 'down' ? 'fill-black text-black' : 'text-black'}`}
 				/>
 			</Button>
 		</div>
