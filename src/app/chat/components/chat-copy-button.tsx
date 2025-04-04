@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { Button, Tooltip } from '@flavioespinoza/salsa-ui'
 import { Check, Copy } from 'lucide-react'
-// import { Tooltip } from '@/components/ui/tooltip'
 
 interface ChatCopyButtonProps {
 	text: string

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
 interface ChatSuggestionsProps {
@@ -42,8 +42,8 @@ export function ChatSuggestions({ onSelect }: ChatSuggestionsProps) {
 			</button>
 
 			{isOpen && (
-				<div className="absolute right-0 mt-2 w-[360px] rounded-md border bg-white shadow-lg dark:bg-zinc-900 z-50">
-					<ul className="p-2 space-y-1 text-sm">
+				<div className="absolute right-0 z-50 mt-2 w-[360px] rounded-md border bg-white shadow-lg dark:bg-zinc-900">
+					<ul className="space-y-1 p-2 text-sm">
 						{suggestions.map((text, index) => (
 							<li
 								key={index}
