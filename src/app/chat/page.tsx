@@ -1,12 +1,12 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import MarkdownWithCode from '@/components/markdown-with-code'
 import { useChatStore } from '@/store/chat-store'
 import { Button, Textarea, useToast } from '@flavioespinoza/salsa-ui'
-import { ChatSuggestions } from './components/chat-suggestions'
 import { ChatCopyButton } from './components/chat-copy-button'
 import { ChatFeedback } from './components/chat-feedback'
-import MarkdownWithCode from '@/components/markdown-with-code'
+import { ChatSuggestions } from './components/chat-suggestions'
 
 export default function ChatPage() {
 	const [input, setInput] = useState('')
@@ -89,13 +89,11 @@ export default function ChatPage() {
 	}, [messages])
 
 	return (
-		<main className="mx-auto max-w-xl p-4 pb-[180px] relative">
+		<main className="relative mx-auto max-w-xl p-4 pb-[180px]">
 			{isEmpty ? (
-				<div className="h-[80vh] flex flex-col justify-center items-center space-y-6">
-					<div className="text-center text-zinc-500 text-lg">
-						How can I help you today?
-					</div>
-					<form onSubmit={handleSubmit} className="flex flex-col gap-2 w-full">
+				<div className="flex h-[80vh] flex-col items-center justify-center space-y-6">
+					<div className="text-center text-lg text-zinc-500">How can I help you today?</div>
+					<form onSubmit={handleSubmit} className="flex w-full flex-col gap-2">
 						<Textarea
 							ref={inputRef}
 							value={input}
@@ -117,7 +115,7 @@ export default function ChatPage() {
 				</div>
 			) : (
 				<>
-					<div className="flex items-center justify-between mb-4">
+					<div className="mb-4 flex items-center justify-between">
 						<h1 className="text-2xl font-bold">💬 Chat</h1>
 						<ChatSuggestions onSelect={handleSuggestionSelect} />
 					</div>
@@ -129,18 +127,18 @@ export default function ChatPage() {
 								className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
 							>
 								<div
-									className={`relative rounded-xl px-4 py-2 text-sm max-w-[80%] transition-all duration-200 ease-in-out animate-fade-in ${
+									className={`animate-fade-in relative max-w-[80%] rounded-xl px-4 py-2 text-sm transition-all duration-200 ease-in-out ${
 										msg.role === 'user'
 											? 'bg-blue-100 text-black dark:bg-blue-900'
 											: 'bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white'
 									}`}
 								>
-									<p className="text-muted-foreground mb-1 text-xs">
+									<p className="mb-1 text-xs text-muted-foreground">
 										{msg.role === 'user' ? 'You' : 'AI'} ·{' '}
 										{new Date(msg.createdAt).toLocaleTimeString()}
 									</p>
 
-									<div className="whitespace-normal [&>*]:mt-1 [&>*]:mb-1">
+									<div className="whitespace-normal [&>*]:mb-1 [&>*]:mt-1">
 										<MarkdownWithCode markdown={msg.text} />
 									</div>
 
@@ -154,17 +152,15 @@ export default function ChatPage() {
 							</div>
 						))}
 
-						{isTyping && (
-							<div className="italic text-sm text-muted-foreground">AI is typing…</div>
-						)}
+						{isTyping && <div className="text-sm italic text-muted-foreground">AI is typing…</div>}
 						<div ref={bottomRef} />
 					</div>
 
 					<form
 						onSubmit={handleSubmit}
-						className="fixed bottom-16 left-1/2 -translate-x-1/2 w-[calc(80%+80px)] max-w-[calc(640px+80px)] px-4"
+						className="fixed bottom-16 left-1/2 w-[calc(80%+80px)] max-w-[calc(640px+80px)] -translate-x-1/2 px-4"
 					>
-						<div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl p-4 shadow-xl space-y-3">
+						<div className="space-y-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-xl dark:border-zinc-700 dark:bg-zinc-900">
 							<Textarea
 								ref={inputRef}
 								value={input}
