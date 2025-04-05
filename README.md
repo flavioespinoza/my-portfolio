@@ -71,6 +71,9 @@ vercel --prod
 - [x] ✅ Add spam protection (honeypot)
 - [x] ✅ Show success/failure message when submitting the form
 
+- [ ] ⏳ Fix light/dark theme (needs to work with salsa-ui) and make button square
+
+
 ### 🤖 AI Chat Assistant: Project Improvements Checklist
 
 - [x] ✅ Deployed live to Vercel
@@ -86,8 +89,7 @@ vercel --prod
 - [x] ✅ Embedded in `/projects` page via `<iframe>`
 - [x] ✅ Default light theme
 - [x] ✅ Optional: Save chat state in Zustand persist
-- [ ] ⏳ Add usage logging or metrics
-- [ ] ⏳ Improve formatting for long replies (Markdown, code blocks)
+- [x] ✅ Improve formatting for long replies (Markdown, code blocks)
 
 ### 🧠 Job Search Focus
 
@@ -126,3 +128,7 @@ vercel --prod
 - [x] ✅ Add favicon, metadata, and Open Graph image
 - [x] ✅ Make `all-commits.json` downloadable or viewable via route
 - [x] ✅ Add a simple `/contact` page with email or social links
+
+### 6. Not sure if needed
+
+- [ ] ⏳ Add usage logging or metrics
