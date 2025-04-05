@@ -73,7 +73,6 @@ vercel --prod
 
 - [ ] ⏳ Fix light/dark theme (needs to work with salsa-ui) and make button square
 
-
 ### 🤖 AI Chat Assistant: Project Improvements Checklist
 
 - [x] ✅ Deployed live to Vercel
