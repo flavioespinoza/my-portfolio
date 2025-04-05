@@ -19,7 +19,7 @@ export function ChatFeedback({ index }: ChatFeedbackProps) {
 				variant="ghost"
 				size="icon"
 				onClick={() => updateMessageFeedback(index, 'up')}
-				className="h-6 w-6 p-1"
+				className="h-6 w-6 p-1 hover:bg-hotpink-300"
 			>
 				<ThumbsUp
 					className={`h-4 w-4 ${feedback === 'up' ? 'fill-black text-black' : 'text-black'}`}
@@ -30,7 +30,7 @@ export function ChatFeedback({ index }: ChatFeedbackProps) {
 				variant="ghost"
 				size="icon"
 				onClick={() => updateMessageFeedback(index, 'down')}
-				className="h-6 w-6 p-1"
+				className="h-6 w-6 p-1 hover:bg-hotpink-300"
 			>
 				<ThumbsDown
 					className={`h-4 w-4 ${feedback === 'down' ? 'fill-black text-black' : 'text-black'}`}

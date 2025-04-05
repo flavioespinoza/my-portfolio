@@ -22,7 +22,7 @@ export function ChatCopyButton({ text }: ChatCopyButtonProps) {
 			type="button"
 			variant="ghost"
 			onClick={handleCopy}
-			className="flex h-auto w-auto items-center p-1 text-xs text-muted-foreground"
+			className="flex h-auto w-auto items-center p-1 text-xs text-black hover:bg-hotpink-300"
 		>
 			{copied ? (
 				<Check className="h-4 w-4" />

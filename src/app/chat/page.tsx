@@ -77,15 +77,6 @@ export default function ChatPage() {
 		}
 	}
 
-	const handleSuggestionSelect = (text: string) => {
-		setInput(text)
-		inputRef.current?.focus()
-		sendMessage(text)
-		setTimeout(() => {
-			bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-		}, 10)
-	}
-
 	const isEmpty = messages.length === 0
 
 	useEffect(() => {
@@ -171,7 +162,7 @@ export default function ChatPage() {
 
 					<form
 						onSubmit={handleSubmit}
-						className="fixed bottom-20 left-1/2 w-[calc(80%+80px)] max-w-[calc(640px+80px)] -translate-x-1/2 px-4"
+						className="fixed bottom-16 left-1/2 w-[calc(80%+80px)] max-w-[calc(640px+80px)] -translate-x-1/2 px-4"
 					>
 						<div className="space-y-3 rounded-xl border border-zinc-100 bg-white p-4 shadow-xl">
 							<Textarea
