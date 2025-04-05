@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { Button } from '@flavioespinoza/salsa-ui'
-import { Moon, Sun } from 'lucide-react'
 
 const links = [
 	{ href: '/', label: 'Home' },
@@ -47,17 +45,6 @@ export function Navbar() {
 						</Link>
 					))}
 				</div>
-
-				{mounted && (
-					<Button
-						variant="outline"
-						size="icon"
-						className="cursor-pointer"
-						onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-					>
-						{theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-					</Button>
-				)}
 			</div>
 		</header>
 	)
