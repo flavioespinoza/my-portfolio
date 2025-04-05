@@ -73,7 +73,7 @@ vercel --prod
 - [x] ✅ Fix light/dark th eme (needs to work with salsa-ui) and make button square
 - [x] ✅ Apply sage and hotpink to all @flavioespinoza/salsa-ui Button with variant default
 
-- [ ] ⏳ Apply sage and hotpink to all @flavioespinoza/salsa-ui components (checkbox)
+- [ ] ⏳ Apply sage and hotpink to all @flavioespinoza/salsa-ui components (checkbox, buttonVariants, etc.)
 - [ ] ⏳ Redesign @flavioespinoza/salsa-ui input
 - [ ] ⏳ 
 - [ ] ⏳ 
