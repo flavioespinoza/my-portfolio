@@ -1,10 +1,12 @@
 ### Project Requirements: "Responsive Side Nav"
 
 #### Project Setup
+
 - Create a Next.js 14 project using TypeScript and Tailwind CSS.
 - All icons are to be lucide-react icons from https://lucide.dev/icons/ (example: import { House } from 'lucide-react')
 
 #### Layout Structure
+
 - Design a layout with two main sections:
   - A collapsible side navigation bar (side nav) on the left.
   - A main content area on the right.
@@ -16,6 +18,7 @@
 - Add an `<h1>` element in the main content area with the text "Dashboard".
 
 #### Side Nav Content
+
 - **Top Links**: Position the following links at the top of the side nav:
   - Home
   - My Nodes
@@ -33,6 +36,7 @@
   - Each link must include an icon to the left of the label. Use lucide-react icons (e.g., `<li><House /><Link href="/home">Home</Link></li>`).
 
 #### Side Nav Behavior and Styling
+
 - Add a hamburger menu icon button in the side nav header to toggle its collapsed/expanded state.
 - **Collapsed State**:
   - Width: 40px.
@@ -44,6 +48,7 @@
 #### Responsive Design
 
 ##### Mobile (e.g., iPhone Pro Max)
+
 - When the screen width matches a mobile device:
   - The side nav is hidden by default (width: 0px).
   - Display a `mobile-header.tsx` component at the top of the screen with:
@@ -58,6 +63,7 @@
     - Allow the user to collapse the side nav by clicking outside the menu.
 
 ##### Tablet (e.g., iPad Pro)
+
 - Default state:
   - Side nav is collapsed to a width of 72px, with the `MenuIcon` visible.
 - `MenuIcon` Behavior:
@@ -65,6 +71,7 @@
 - No other changes to the current toggle behavior, only the default collapsed state differs.
 
 ##### Desktop/Laptop and Above (e.g., MacBook Pro)
+
 - Default state:
   - Side nav is expanded to a width of 260px.
 - `MenuIcon` Behavior:

@@ -92,8 +92,8 @@ vercel --prod
 - [x] ✅ Improve formatting for long replies (Markdown, code blocks)
 - [x] ✅ Provide option to use key + enter to send chat or enter key only - if enter key only you will need to provide a shift + enter for new line
 - [x] ✅ Add checkbox to salsa-ui
-- [ ] ⏳ 
-- [ ] ⏳ 
+- [ ] ⏳
+- [ ] ⏳
 
 ### 🧠 Job Search Focus
 
