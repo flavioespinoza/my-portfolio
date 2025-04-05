@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
@@ -16,13 +15,7 @@ const links = [
 ]
 
 export function Navbar() {
-	const { theme, setTheme } = useTheme()
 	const [isScrolled, setIsScrolled] = useState(false)
-	const [mounted, setMounted] = useState(false)
-
-	useEffect(() => {
-		setMounted(true)
-	}, [])
 
 	useEffect(() => {
 		const onScroll = () => setIsScrolled(window.scrollY > 10)
