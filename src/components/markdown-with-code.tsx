@@ -29,18 +29,18 @@ const MarkdownWithCode: React.FC<MarkdownWithCodeProps> = ({ markdown }) => {
 		if (!inline && language) {
 			return (
 				<div className="overflow-hidden rounded-md border border-zinc-200">
-					<div className="flex items-center justify-between bg-[#888888] px-3 py-2 font-mono text-xs text-white">
+					<div className="flex items-center justify-between bg-sage-600 px-3 font-mono text-[10px] text-white">
 						<span>{language}</span>
 						<Button variant="static" size="sm" className="p-0" onClick={handleCopy}>
 							{copied ? (
 								<div className="flex">
-									<Check className="h-3.5 w-3.5 text-white" />
-									<div className="ml-2">Copied</div>
+									<Check className="h-3.5 w-3 text-white" />
+									<div className="ml-1 text-[10px] text-white">Copied</div>
 								</div>
 							) : (
 								<div className="flex">
-									<Copy className="h-3.5 w-3.5 text-white" />
-									<div className="ml-2">Copy</div>
+									<Copy className="h-3.5 w-3 text-white" />
+									<div className="ml-1 text-[10px] text-white">Copy</div>
 								</div>
 							)}
 						</Button>
