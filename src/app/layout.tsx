@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Footer } from '@/components/layout/footer'
 import { Navbar } from '@/components/layout/navbar'
-import { AppThemeProvider } from '@/components/providers/theme-provider'
 import '@/styles/globals.css'
+import '@flavioespinoza/salsa-ui/dist/index.css'
 
 const inter = Inter({
 	subsets: ['latin'],
