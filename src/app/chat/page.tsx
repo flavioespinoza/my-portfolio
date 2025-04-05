@@ -11,6 +11,7 @@ import { ChatSuggestions } from './components/chat-suggestions'
 export default function ChatPage() {
 	const [input, setInput] = useState('')
 	const [isTyping, setIsTyping] = useState(false)
+	const [sendOnEnterOnly, setSendOnEnterOnly] = useState(true)
 	const { messages, addMessage, clearMessages } = useChatStore()
 	const { toast } = useToast()
 	const inputRef = useRef<HTMLTextAreaElement>(null)
@@ -71,6 +72,20 @@ export default function ChatPage() {
 		sendMessage(input)
 	}
 
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+		if (sendOnEnterOnly) {
+			if (e.key === 'Enter' && !e.shiftKey) {
+				e.preventDefault()
+				handleSubmit(e as unknown as React.FormEvent)
+			}
+		} else {
+			if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+				e.preventDefault()
+				handleSubmit(e as unknown as React.FormEvent)
+			}
+		}
+	}
+
 	const handleSuggestionSelect = (text: string) => {
 		setInput(text)
 		inputRef.current?.focus()
@@ -98,16 +113,28 @@ export default function ChatPage() {
 							ref={inputRef}
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
+							onKeyDown={handleKeyDown}
 							placeholder="Say something..."
 							rows={2}
 							className="resize-y"
 							disabled={isTyping}
 						/>
-						<div className="flex justify-between">
-							<Button variant="outline" type="button" onClick={clearMessages}>
-								New Chat
-							</Button>
-							<Button type="submit" disabled={isTyping || !input.trim()}>
+						<div className="flex justify-end gap-2">
+							<label className="mr-2">
+								<input
+									type="checkbox"
+									checked={sendOnEnterOnly}
+									onChange={() => setSendOnEnterOnly(!sendOnEnterOnly)}
+									className="mr-2 mt-3"
+								/>
+								Send with Enter
+							</label>
+							<Button
+								variant="default"
+								className="bg-primary text-white"
+								onClick={handleSubmit}
+								disabled={isTyping || !input.trim()}
+							>
 								Send
 							</Button>
 						</div>
@@ -128,9 +155,7 @@ export default function ChatPage() {
 							>
 								<div
 									className={`animate-fade-in relative max-w-[80%] rounded-xl px-4 py-2 text-sm transition-all duration-200 ease-in-out ${
-										msg.role === 'user'
-											? 'bg-blue-100 text-black dark:bg-blue-900'
-											: 'bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white'
+										msg.role === 'user' ? 'bg-light-blue text-black' : 'bg-light-gray text-black'
 									}`}
 								>
 									<p className="mb-1 text-xs text-muted-foreground">
@@ -151,32 +176,52 @@ export default function ChatPage() {
 								</div>
 							</div>
 						))}
-
-						{isTyping && <div className="text-sm italic text-muted-foreground">AI is typing…</div>}
+						{isTyping && (
+							<div className="text-sm italic text-muted-foreground">Flavio is typing…</div>
+						)}
 						<div ref={bottomRef} />
 					</div>
 
 					<form
 						onSubmit={handleSubmit}
-						className="fixed bottom-16 left-1/2 w-[calc(80%+80px)] max-w-[calc(640px+80px)] -translate-x-1/2 px-4"
+						className="fixed bottom-4 left-1/2 w-[calc(80%+80px)] max-w-[calc(640px+80px)] -translate-x-1/2 px-4"
 					>
-						<div className="space-y-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-xl dark:border-zinc-700 dark:bg-zinc-900">
+						<div className="space-y-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-xl">
 							<Textarea
 								ref={inputRef}
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
-								placeholder="Ask anything"
+								onKeyDown={handleKeyDown}
+								placeholder="Say something..."
 								rows={2}
 								className="resize-y"
 								disabled={isTyping}
 							/>
 							<div className="flex justify-between">
-								<Button variant="outline" type="button" onClick={clearMessages}>
-									New Chat
-								</Button>
-								<Button type="submit" disabled={isTyping || !input.trim()}>
-									Send
-								</Button>
+								<div className="flex items-center gap-2 text-xs text-zinc-500">
+									<Button variant="outline" type="button" onClick={clearMessages}>
+										New Chat
+									</Button>
+								</div>
+								<div className="flex gap-2">
+									<label className="mr-2">
+										<input
+											type="checkbox"
+											checked={sendOnEnterOnly}
+											onChange={() => setSendOnEnterOnly(!sendOnEnterOnly)}
+											className="mr-2 mt-3"
+										/>
+										Send with Enter
+									</label>
+									<Button
+										variant="default"
+										className="bg-primary text-white"
+										onClick={handleSubmit}
+										disabled={isTyping || !input.trim()}
+									>
+										Send
+									</Button>
+								</div>
 							</div>
 						</div>
 					</form>
