@@ -155,7 +155,7 @@ export default function ChatPage() {
 							>
 								<div
 									className={`animate-fade-in relative max-w-[80%] rounded-xl px-4 py-2 text-sm transition-all duration-200 ease-in-out ${
-										msg.role === 'user' ? 'bg-blue-100 text-black' : 'bg-zinc-200 text-black'
+										msg.role === 'user' ? 'bg-light-blue text-black' : 'bg-light-gray text-black'
 									}`}
 								>
 									<p className="mb-1 text-xs text-muted-foreground">
