@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import MarkdownWithCode from '@/components/markdown-with-code'
 import { useChatStore } from '@/store/chat-store'
-import { Button, Textarea, useToast } from '@flavioespinoza/salsa-ui'
+import { Button, Checkbox, Textarea, useToast } from '@flavioespinoza/salsa-ui'
 import { ChatCopyButton } from './components/chat-copy-button'
 import { ChatFeedback } from './components/chat-feedback'
 import { ChatSuggestions } from './components/chat-suggestions'
@@ -103,6 +103,30 @@ export default function ChatPage() {
 		}
 	}, [messages])
 
+	const ButtonSend = () => {
+		return (
+			<>
+				<Checkbox
+					id="sendOnEnter"
+					className="mr-1 mt-3 bg-blue-400 text-white"
+					checked={sendOnEnterOnly}
+					onCheckedChange={() => setSendOnEnterOnly(!sendOnEnterOnly)}
+				/>
+				<label className="mr-2 mt-2" htmlFor="sendOnEnter">
+					Send with Enter
+				</label>
+				<Button
+					variant="default"
+					className="bg-primary text-white"
+					onClick={handleSubmit}
+					disabled={isTyping || !input.trim()}
+				>
+					Send
+				</Button>
+			</>
+		)
+	}
+
 	return (
 		<main className="relative mx-auto max-w-xl p-4 pb-[180px]">
 			{isEmpty ? (
@@ -114,29 +138,13 @@ export default function ChatPage() {
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
 							onKeyDown={handleKeyDown}
-							placeholder="Say something..."
+							placeholder="Ask anything"
 							rows={2}
 							className="resize-y"
 							disabled={isTyping}
 						/>
 						<div className="flex justify-end gap-2">
-							<label className="mr-2">
-								<input
-									type="checkbox"
-									checked={sendOnEnterOnly}
-									onChange={() => setSendOnEnterOnly(!sendOnEnterOnly)}
-									className="mr-2 mt-3"
-								/>
-								Send with Enter
-							</label>
-							<Button
-								variant="default"
-								className="bg-primary text-white"
-								onClick={handleSubmit}
-								disabled={isTyping || !input.trim()}
-							>
-								Send
-							</Button>
+							<ButtonSend />
 						</div>
 					</form>
 				</div>
@@ -177,7 +185,7 @@ export default function ChatPage() {
 							</div>
 						))}
 						{isTyping && (
-							<div className="text-sm italic text-muted-foreground">Flavio is typing…</div>
+							<div className="text-sm italic text-muted-foreground">AI is typing…</div>
 						)}
 						<div ref={bottomRef} />
 					</div>
@@ -186,7 +194,7 @@ export default function ChatPage() {
 						onSubmit={handleSubmit}
 						className="fixed bottom-20 left-1/2 w-[calc(80%+80px)] max-w-[calc(640px+80px)] -translate-x-1/2 px-4"
 					>
-						<div className="space-y-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-xl">
+						<div className="space-y-3 rounded-xl border border-zinc-100 bg-white p-4 shadow-xl">
 							<Textarea
 								ref={inputRef}
 								value={input}
@@ -195,7 +203,6 @@ export default function ChatPage() {
 								placeholder="Ask anything"
 								rows={2}
 								className="resize-y"
-								disabled={isTyping}
 							/>
 							<div className="flex justify-between">
 								<div className="flex items-center gap-2 text-xs text-zinc-500">
@@ -204,23 +211,7 @@ export default function ChatPage() {
 									</Button>
 								</div>
 								<div className="flex gap-2">
-									<label className="mr-2">
-										<input
-											type="checkbox"
-											checked={sendOnEnterOnly}
-											onChange={() => setSendOnEnterOnly(!sendOnEnterOnly)}
-											className="mr-2 mt-3"
-										/>
-										Send with Enter
-									</label>
-									<Button
-										variant="default"
-										className="bg-primary text-white"
-										onClick={handleSubmit}
-										disabled={isTyping || !input.trim()}
-									>
-										Send
-									</Button>
+									<ButtonSend />
 								</div>
 							</div>
 						</div>

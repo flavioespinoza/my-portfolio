@@ -159,13 +159,14 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.8.1.tgz#182b5a4704ef8ad91bde93f7a860a88fd92c79a3"
   integrity sha512-KOEGMu6dmJZtpadb476IsZBclKvILjopjUii3V+7MnXIQCYh8W3NgNcgwo21n9LXZX6EDIKvqfjYxXebDwxKmQ==
 
-"@flavioespinoza/salsa-ui@^1.0.32":
-  version "1.0.32"
-  resolved "https://registry.yarnpkg.com/@flavioespinoza/salsa-ui/-/salsa-ui-1.0.32.tgz#dc1c62748a3c63ecd0131865318429f18cb46c46"
-  integrity sha512-M7jlCsXTLwbz7z+dRfSAG8J91AQl2cVXW0L+Qa6V0t9kl1zey4dA+fGDK0hlKkRPQOa1dFb++lmgG5wLU5zp2g==
+"@flavioespinoza/salsa-ui@^1.0.35":
+  version "1.0.35"
+  resolved "https://registry.yarnpkg.com/@flavioespinoza/salsa-ui/-/salsa-ui-1.0.35.tgz#2f9a68bfe93bb99e68ca086de1cf15de62422269"
+  integrity sha512-ocPAeNhvgkIhjsH7w9hW0xy8wCuRhGYQy2YIQNzlIMA6XIBToU3E5/Dz50/+qkAXwAgsGEB2xHHyODRH5TJL5w==
   dependencies:
     "@gem-mine/docsify-react-live" "^1.7.1"
     "@highlightjs/cdn-assets" "^11.10.0"
+    "@radix-ui/react-checkbox" "^1.1.4"
     "@radix-ui/react-tooltip" "^1.1.8"
     "@stackblitz/sdk" "^1.11.0"
     "@types/styled-components" "^5.1.34"
@@ -580,7 +581,7 @@
     "@radix-ui/react-use-callback-ref" "1.1.0"
     "@radix-ui/react-use-layout-effect" "1.1.0"
 
-"@radix-ui/react-checkbox@1.1.4":
+"@radix-ui/react-checkbox@1.1.4", "@radix-ui/react-checkbox@^1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-checkbox/-/react-checkbox-1.1.4.tgz#d7f5cb0a82ca6bb4eb717b74e9b2b0cc73ecf7a0"
   integrity sha512-wP0CPAHq+P5I4INKe3hJrIa1WoNqqrejzW+zoU0rOvo1b9gDEJJFl2rYfO1PYJUQCc2H1WZxIJmyv9BS8i5fLw==
