@@ -42,5 +42,4 @@
 - [ ] Comment on 3 AI/React blogs weekly
 - [ ] Schedule 3 informational interviews
 
-
 yarn add @flavioespinoza/salsa-ui@latest
