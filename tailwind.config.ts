@@ -22,6 +22,16 @@ const config: Config = {
       },
       colors: {
         white: 'hsl(0, 0%, 100%)',
+				main: '#FAFAFA',
+				green: '#34da60',
+				'light-gray': '#e9e8eb',
+				gray: '#F2F2F2',
+				slate: '#F5F5F5',
+				cement: '#AEB3B7',
+				charcoal: '#292D2A',
+				black: '#000000',
+				'light-blue': '#bfdbff',
+				'light-green': '#E8F5E9',
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         'background-sidenav': 'var(--background-sidenav)',
@@ -70,16 +80,6 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)'
       }
-    },
-    colors: {
-      main: '#FAFAFA',
-      green: '#C9FCC0',
-      'light-gray': '#CCCAC0',
-      gray: '#F2F2F2',
-      slate: '#F5F5F5',
-      cement: '#AEB3B7',
-      charcoal: '#292D2A',
-      black: '#000000'
     }
   },
   plugins: [
