@@ -108,7 +108,7 @@ export default function ChatPage() {
 			<>
 				<Checkbox
 					id="sendOnEnter"
-					className="mr-1 mt-3 bg-blue-400 text-white"
+					className={`mr-1 mt-3 ${sendOnEnterOnly ? 'bg-hotpink-400' : 'bg-sage-200'} text-white`}
 					checked={sendOnEnterOnly}
 					onCheckedChange={() => setSendOnEnterOnly(!sendOnEnterOnly)}
 				/>
@@ -117,7 +117,7 @@ export default function ChatPage() {
 				</label>
 				<Button
 					variant="default"
-					className="bg-primary text-white"
+					className="hover:bg-hotpink-500/60 bg-primary text-white"
 					onClick={handleSubmit}
 					disabled={isTyping || !input.trim()}
 				>
@@ -163,7 +163,7 @@ export default function ChatPage() {
 							>
 								<div
 									className={`animate-fade-in relative max-w-[80%] rounded-xl px-4 py-2 text-sm transition-all duration-200 ease-in-out ${
-										msg.role === 'user' ? 'bg-blue-200 text-black' : 'bg-zinc-200 text-black'
+										msg.role === 'user' ? 'bg-cblue-200 text-black' : 'bg-sage-200 text-black'
 									}`}
 								>
 									<p className="mb-1 text-xs text-muted-foreground">
@@ -184,9 +184,7 @@ export default function ChatPage() {
 								</div>
 							</div>
 						))}
-						{isTyping && (
-							<div className="text-sm italic text-muted-foreground">AI is typing…</div>
-						)}
+						{isTyping && <div className="text-sm italic text-muted-foreground">AI is typing…</div>}
 						<div ref={bottomRef} />
 					</div>
 
