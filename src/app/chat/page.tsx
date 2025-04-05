@@ -119,11 +119,22 @@ export default function ChatPage() {
 							className="resize-y"
 							disabled={isTyping}
 						/>
-						<div className="flex justify-between">
-							<Button variant="outline" type="button" onClick={clearMessages}>
-								New Chat
-							</Button>
-							<Button type="submit" variant="secondary" disabled={isTyping || !input.trim()}>
+						<div className="flex justify-end gap-2">
+							<label className="mr-2">
+								<input
+									type="checkbox"
+									checked={sendOnEnterOnly}
+									onChange={() => setSendOnEnterOnly(!sendOnEnterOnly)}
+									className="mr-2 mt-3"
+								/>
+								Send with Enter
+							</label>
+							<Button
+								variant="default"
+								className="bg-primary text-white"
+								onClick={handleSubmit}
+								disabled={isTyping || !input.trim()}
+							>
 								Send
 							</Button>
 						</div>
@@ -193,16 +204,21 @@ export default function ChatPage() {
 									</Button>
 								</div>
 								<div className="flex gap-2">
-									<label>
+									<label className="mr-2">
 										<input
 											type="checkbox"
 											checked={sendOnEnterOnly}
 											onChange={() => setSendOnEnterOnly(!sendOnEnterOnly)}
-											className="mr-1"
+											className="mr-2 mt-3"
 										/>
 										Send with Enter
 									</label>
-									<Button className='bg-primary text-white' onClick={handleSubmit} disabled={isTyping || !input.trim()}>
+									<Button
+										variant="default"
+										className="bg-primary text-white"
+										onClick={handleSubmit}
+										disabled={isTyping || !input.trim()}
+									>
 										Send
 									</Button>
 								</div>
