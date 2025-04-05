@@ -60,7 +60,6 @@ const config: Config = {
 					'900': 'hsl(213, 71%, 42%)',
 					'950': 'hsl(213, 63%, 30%)'
 				},
-
 				white: 'hsl(0, 0%, 100%)',
 				main: '#FAFAFA',
 				green: '#34da60',

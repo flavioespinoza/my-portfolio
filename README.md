@@ -70,7 +70,9 @@ vercel --prod
 - [x] ✅ Hook up contact form to Formspree endpoint
 - [x] ✅ Add spam protection (honeypot)
 - [x] ✅ Show success/failure message when submitting the form
-- [x] ⏳ Fix light/dark theme (needs to work with salsa-ui) and make button square
+- [x] ✅ Fix light/dark theme (needs to work with salsa-ui) and make button square
+
+- [ ] ⏳ Apply sage and hotpink to all @flavioespinoza/salsa-ui Button components with the variant="default" as is done in src/app/chat/page.tsx
 
 ### 🤖 AI Chat Assistant: Project Improvements Checklist
 
@@ -89,7 +91,9 @@ vercel --prod
 - [x] ✅ Optional: Save chat state in Zustand persist
 - [x] ✅ Improve formatting for long replies (Markdown, code blocks)
 - [x] ✅ Provide option to use key + enter to send chat or enter key only - if enter key only you will need to provide a shift + enter for new line
-- [ ] ⏳ Add checkbox to salsa-ui
+- [x] ✅ Add checkbox to salsa-ui
+- [ ] ⏳ 
+- [ ] ⏳ 
 
 ### 🧠 Job Search Focus
 
