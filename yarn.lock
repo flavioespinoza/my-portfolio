@@ -159,10 +159,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.8.1.tgz#182b5a4704ef8ad91bde93f7a860a88fd92c79a3"
   integrity sha512-KOEGMu6dmJZtpadb476IsZBclKvILjopjUii3V+7MnXIQCYh8W3NgNcgwo21n9LXZX6EDIKvqfjYxXebDwxKmQ==
 
-"@flavioespinoza/salsa-ui@^1.0.35":
-  version "1.0.35"
-  resolved "https://registry.yarnpkg.com/@flavioespinoza/salsa-ui/-/salsa-ui-1.0.35.tgz#2f9a68bfe93bb99e68ca086de1cf15de62422269"
-  integrity sha512-ocPAeNhvgkIhjsH7w9hW0xy8wCuRhGYQy2YIQNzlIMA6XIBToU3E5/Dz50/+qkAXwAgsGEB2xHHyODRH5TJL5w==
+"@flavioespinoza/salsa-ui@^1.0.41":
+  version "1.0.41"
+  resolved "https://registry.yarnpkg.com/@flavioespinoza/salsa-ui/-/salsa-ui-1.0.41.tgz#230c7f8ce965017252ce7c776d8e15e1d555cbcd"
+  integrity sha512-TAkHP68F6fgCDDvDwLNirjeFwS2N0TAur2EIX0ucqHzx6mUoFU7aq7ZCRCgaH62cvS7xWa/mUBjm92aZZ3b3sw==
   dependencies:
     "@gem-mine/docsify-react-live" "^1.7.1"
     "@highlightjs/cdn-assets" "^11.10.0"

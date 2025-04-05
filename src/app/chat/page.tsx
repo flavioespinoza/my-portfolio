@@ -3,32 +3,23 @@
 import { useEffect, useRef, useState } from 'react'
 import MarkdownWithCode from '@/components/markdown-with-code'
 import { useChatStore } from '@/store/chat-store'
-import { Button, Checkbox, Textarea, useToast } from '@flavioespinoza/salsa-ui'
+import { Button, Checkbox, Textarea, toast } from '@flavioespinoza/salsa-ui'
 import { ChatCopyButton } from './components/chat-copy-button'
 import { ChatFeedback } from './components/chat-feedback'
-import { ChatSuggestions } from './components/chat-suggestions'
 
 export default function ChatPage() {
+	const { messages, addMessage, clearMessages } = useChatStore()
 	const [input, setInput] = useState('')
 	const [isTyping, setIsTyping] = useState(false)
 	const [sendOnEnterOnly, setSendOnEnterOnly] = useState(true)
-	const { messages, addMessage, clearMessages } = useChatStore()
-	const { toast } = useToast()
 	const inputRef = useRef<HTMLTextAreaElement>(null)
 	const bottomRef = useRef<HTMLDivElement>(null)
 
 	const sendMessage = async (text: string) => {
-		if (!text.trim()) return
-
-		const userMsg = {
-			role: 'user',
-			text: text.trim(),
-			createdAt: new Date().toISOString()
-		} as const
-
-		addMessage(userMsg)
-		setInput('')
+		if (!text.trim() || isTyping) return
 		setIsTyping(true)
+		setInput('')
+		addMessage({ role: 'user', text, createdAt: new Date().toISOString() })
 
 		try {
 			const res = await fetch('/api/chat', {
@@ -108,19 +99,14 @@ export default function ChatPage() {
 			<>
 				<Checkbox
 					id="sendOnEnter"
-					className="mr-1 mt-3 bg-blue-400 text-white"
+					className={`mr-1 mt-3 bg-hotpink-200 ${sendOnEnterOnly ? 'bg-hotpink-400' : 'bg-sage-200'} text-white`}
 					checked={sendOnEnterOnly}
 					onCheckedChange={() => setSendOnEnterOnly(!sendOnEnterOnly)}
 				/>
 				<label className="mr-2 mt-2" htmlFor="sendOnEnter">
 					Send with Enter
 				</label>
-				<Button
-					variant="default"
-					className="bg-primary text-white"
-					onClick={handleSubmit}
-					disabled={isTyping || !input.trim()}
-				>
+				<Button variant="default" onClick={handleSubmit} disabled={isTyping || !input.trim()}>
 					Send
 				</Button>
 			</>
@@ -150,11 +136,6 @@ export default function ChatPage() {
 				</div>
 			) : (
 				<>
-					<div className="mb-4 flex items-center justify-between">
-						<h1 className="text-2xl font-bold">💬 Chat</h1>
-						<ChatSuggestions onSelect={handleSuggestionSelect} />
-					</div>
-
 					<div id="chat_bubbles" className="space-y-3">
 						{messages.map((msg, idx) => (
 							<div
@@ -163,7 +144,7 @@ export default function ChatPage() {
 							>
 								<div
 									className={`animate-fade-in relative max-w-[80%] rounded-xl px-4 py-2 text-sm transition-all duration-200 ease-in-out ${
-										msg.role === 'user' ? 'bg-blue-200 text-black' : 'bg-zinc-200 text-black'
+										msg.role === 'user' ? 'bg-cblue-200 text-black' : 'bg-sage-200 text-black'
 									}`}
 								>
 									<p className="mb-1 text-xs text-muted-foreground">
@@ -184,9 +165,7 @@ export default function ChatPage() {
 								</div>
 							</div>
 						))}
-						{isTyping && (
-							<div className="text-sm italic text-muted-foreground">AI is typing…</div>
-						)}
+						{isTyping && <div className="text-sm italic text-muted-foreground">AI is typing…</div>}
 						<div ref={bottomRef} />
 					</div>
 

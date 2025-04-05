@@ -15,21 +15,55 @@ body {
 
 @layer base {
 	:root {
+		--sage-50: hsl(120 5% 96%);
+		--sage-100: hsl(84 10% 90%);
+		--sage-200: hsl(82 8% 80%);
+		--sage-300: hsl(92 8% 67%);
+		--sage-400: hsl(93 7% 51%);
+		--sage-500: hsl(95 9% 39%);
+		--sage-600: hsl(99 11% 30%);
+		--sage-700: hsl(100 10% 24%);
+		--sage-800: hsl(100 9% 20%);
+		--sage-900: hsl(97 10% 16%);
+		--sage-950: hsl(105 9% 9%);
+
+		--hotpink-50: hsl(351 100% 97%);
+		--hotpink-100: hsl(349 100% 95%);
+		--hotpink-200: hsl(350 96% 90%);
+		--hotpink-300: hsl(350 96% 82%);
+		--hotpink-400: hsl(350 95% 71%);
+		--hotpink-500: hsl(350 89% 60%);
+		--hotpink-600: hsl(350 77% 50%);
+		--hotpink-700: hsl(350 83% 41%);
+		--hotpink-800: hsl(350 80% 35%);
+		--hotpink-900: hsl(350 75% 30%);
+		--hotpink-950: hsl(350 88% 16%);
+
+		--cblue-50: hsl(0 0% 100%);
+		--cblue-100: hsl(214 70% 96%);
+		--cblue-200: hsl(213 97% 87%);
+		--cblue-300: hsl(213 100% 87%);
+		--cblue-400: hsl(214 100% 77%);
+		--cblue-500: hsl(213 97% 69%);
+		--cblue-600: hsl(213 90% 62%);
+		--cblue-700: hsl(213 83% 57%);
+		--cblue-800: hsl(214 78% 49%);
+		--cblue-900: hsl(213 71% 42%);
+		--cblue-950: hsl(213 63% 30%);
+
 		--background: hsl(0 0% 98%);
 		--foreground: hsl(0 0% 3.9%);
 		--card: hsl(0 0% 100%);
 		--card-foreground: hsl(0 0% 3.9%);
-		--popover: hsl(0 0% 100%);
-		--popover-foreground: hsl(0 0% 3.9%);
-		--primary: hsl(0 0% 9%);
+		--primary: var(--sage-500);
 		--primary-foreground: hsl(0 0% 98%);
-		--secondary: hsl(0, 86%, 43%);
+		--secondary: var(--hotpink-500);
 		--secondary-foreground: hsl(0, 0%, 100%);
 		--muted: hsl(0 0% 96.1%);
 		--muted-foreground: hsl(0 0% 45.1%);
 		--accent: hsl(0 0% 96.1%);
 		--accent-foreground: hsl(0 0% 9%);
-		--destructive: hsl(0 84.2% 60.2%);
+		--destructive: var(--hotpink-700);
 		--destructive-foreground: hsl(0 0% 98%);
 		--border: hsl(0 0% 89.8%);
 		--input: hsl(0 0% 89.8%);
