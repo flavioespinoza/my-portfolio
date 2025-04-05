@@ -155,7 +155,7 @@ export default function ChatPage() {
 							>
 								<div
 									className={`animate-fade-in relative max-w-[80%] rounded-xl px-4 py-2 text-sm transition-all duration-200 ease-in-out ${
-										msg.role === 'user' ? 'bg-light-blue text-black' : 'bg-light-gray text-black'
+										msg.role === 'user' ? 'bg-blue-200 text-black' : 'bg-zinc-200 text-black'
 									}`}
 								>
 									<p className="mb-1 text-xs text-muted-foreground">
@@ -184,7 +184,7 @@ export default function ChatPage() {
 
 					<form
 						onSubmit={handleSubmit}
-						className="fixed bottom-4 left-1/2 w-[calc(80%+80px)] max-w-[calc(640px+80px)] -translate-x-1/2 px-4"
+						className="fixed bottom-20 left-1/2 w-[calc(80%+80px)] max-w-[calc(640px+80px)] -translate-x-1/2 px-4"
 					>
 						<div className="space-y-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-xl">
 							<Textarea
@@ -192,7 +192,7 @@ export default function ChatPage() {
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
 								onKeyDown={handleKeyDown}
-								placeholder="Say something..."
+								placeholder="Ask anything"
 								rows={2}
 								className="resize-y"
 								disabled={isTyping}
