@@ -72,10 +72,11 @@ vercel --prod
 - [x] ✅ Show success/failure message when submitting the form
 - [x] ✅ Fix light/dark th eme (needs to work with salsa-ui) and make button square
 - [x] ✅ Apply sage and hotpink to all @flavioespinoza/salsa-ui Button with variant default
+- [x] ✅ Redesign @flavioespinoza/salsa-ui input
+- [x] ✅ Redo all docs for salsa-ui
 
 - [ ] ⏳ Apply sage and hotpink to all @flavioespinoza/salsa-ui components (checkbox, buttonVariants, etc.)
-- [ ] ⏳ Redesign @flavioespinoza/salsa-ui input
-- [ ] ⏳ 
+- [ ] ⏳ Update Header and Header-Mobile and docs in salsa-ui
 - [ ] ⏳ 
 
 ### 🤖 AI Chat Assistant: Project Improvements Checklist
