@@ -83,6 +83,7 @@ export default function ContactPage() {
 				<h2 className="text-xl font-semibold">📧 Send Me an Email</h2>
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<Input
+						className="bg-cblue-200"
 						type="email"
 						name="email"
 						placeholder="Your email"
@@ -91,6 +92,7 @@ export default function ContactPage() {
 						required
 					/>
 					<Textarea
+						className="bg-cblue-200"
 						name="message"
 						placeholder="Your message"
 						value={message}
