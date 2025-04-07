@@ -117,7 +117,7 @@ export default function ChatPage() {
 							onKeyDown={handleKeyDown}
 							placeholder="Ask anything"
 							rows={2}
-							className="resize-y"
+							className="resize-y border border-solid border-zinc-300 bg-cblue-100 text-black"
 							disabled={isTyping}
 						/>
 						<div className="flex justify-end gap-2">
@@ -134,8 +134,10 @@ export default function ChatPage() {
 								className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
 							>
 								<div
-									className={`animate-fade-in relative max-w-[80%] rounded-xl px-4 py-2 text-sm transition-all duration-200 ease-in-out ${
-										msg.role === 'user' ? 'bg-cblue-200 text-black' : 'bg-sage-200 text-black'
+									className={`animate-fade-in relative max-w-[80%] rounded-xl px-4 py-2 text-sm text-black transition-all duration-200 ease-in-out ${
+										msg.role === 'user'
+											? 'border border-solid border-zinc-300 bg-cblue-200'
+											: 'bg-sage-200'
 									}`}
 								>
 									<p className="mb-1 text-xs text-muted-foreground">
@@ -172,7 +174,7 @@ export default function ChatPage() {
 								onKeyDown={handleKeyDown}
 								placeholder="Ask anything"
 								rows={2}
-								className="resize-y"
+								className="resize-y border border-solid border-zinc-300 bg-cblue-100 text-black"
 							/>
 							<div className="flex justify-between">
 								<div className="flex items-center gap-2 text-xs text-zinc-500">
