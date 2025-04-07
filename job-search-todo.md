@@ -41,4 +41,3 @@
 - [ ] Attend 2 local tech meetups
 - [ ] Comment on 3 AI/React blogs weekly
 - [ ] Schedule 3 informational interviews
-

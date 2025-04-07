@@ -77,7 +77,7 @@ vercel --prod
 
 - [ ] ⏳ Apply sage and hotpink to all @flavioespinoza/salsa-ui components (checkbox, buttonVariants, etc.)
 - [ ] ⏳ Update Header and Header-Mobile and docs in salsa-ui
-- [ ] ⏳ 
+- [ ] ⏳
 
 ### 🤖 AI Chat Assistant: Project Improvements Checklist
 

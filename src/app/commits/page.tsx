@@ -10,6 +10,26 @@ import Papa from 'papaparse'
 Chart.register(BarElement, CategoryScale, LinearScale, Tooltip)
 dayjs.extend(weekOfYear)
 
+interface CommitData {
+	project: string
+	branch: string
+	date: string
+	author: string
+	message: string
+}
+
+const isCommitData = (data: unknown): data is CommitData => {
+	return (
+		typeof data === 'object' &&
+		data !== null &&
+		'project' in data &&
+		'branch' in data &&
+		'date' in data &&
+		'author' in data &&
+		'message' in data
+	)
+}
+
 interface Commit {
 	project: string
 	branch: string
@@ -41,15 +61,6 @@ function getBarLabels(data: Commit[], unit: 'day' | 'month' | 'week' | 'year') {
 	return Object.keys(grouped)
 }
 
-function getBarCounts(data: Commit[], unit: 'day' | 'month' | 'week' | 'year') {
-	const grouped: Record<string, number> = {}
-	data.forEach((c) => {
-		const key = formatGroupKey(c.date, unit)
-		grouped[key] = (grouped[key] || 0) + 1
-	})
-	return Object.values(grouped)
-}
-
 function highlight(text: string, keyword: string) {
 	if (!keyword) return text
 	const regex = new RegExp(`(${keyword})`, 'gi')
@@ -76,7 +87,10 @@ export default function CommitsPage() {
 
 		fetch('/commits/all-commits.json')
 			.then((res) => res.json())
-			.then((data) => setCommits(data))
+			.then((data) => {
+				const commitsData = data.filter(isCommitData)
+				setCommits(commitsData)
+			})
 			.catch((err) => console.error('Failed to load commits:', err))
 	}, [])
 
@@ -104,6 +118,14 @@ export default function CommitsPage() {
 		setCsvUrl(URL.createObjectURL(blob))
 	}, [commits, search, projectFilter, groupBy])
 
+	function getBarCounts(filtered: Commit[], groupBy: string): number[] {
+		const grouped: Record<string, number> = {}
+		filtered.forEach((commit) => {
+			const key = formatGroupKey(commit.date, groupBy as 'day' | 'month' | 'week' | 'year')
+			grouped[key] = (grouped[key] || 0) + 1
+		})
+		return Object.values(grouped)
+	}
 	return (
 		<main className="mx-auto max-w-6xl space-y-6 p-6">
 			<h1 className="text-3xl font-bold">GitHub Contributions</h1>
