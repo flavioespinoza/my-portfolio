@@ -196,7 +196,7 @@ export default function CommitsPage() {
 							{
 								label: 'Commits',
 								data: getBarCounts(filtered, groupBy),
-								backgroundColor: '#4f46e5'
+								backgroundColor: 'hsl(200 38% 48%)',
 							}
 						]
 					}}
