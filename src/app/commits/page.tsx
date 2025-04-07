@@ -67,6 +67,34 @@ function highlight(text: string, keyword: string) {
 	return text.replace(regex, '<mark>$1</mark>')
 }
 
+function getStackedBarData(commits: Commit[]) {
+	const projects: Record<string, number> = {}
+	commits.forEach((commit) => {
+		const project = commit.project
+		if (!projects[project]) {
+			projects[project] = 0
+		}
+		projects[project]++
+	})
+
+	const datasets = Object.keys(projects).map((project) => {
+		return {
+			label: project,
+			data: commits
+				.filter((commit) => commit.project === project)
+				.map((commit) => ({ x: commit.date, y: 1 })),
+			backgroundColor: '#f07a5d' // or some other color
+		}
+	})
+
+	const labels = Array.from(new Set(commits.map((commit) => commit.date)))
+
+	return {
+		labels,
+		datasets
+	}
+}
+
 export default function CommitsPage() {
 	const [commits, setCommits] = useState<Commit[]>([])
 	const [filtered, setFiltered] = useState<Commit[]>([])
@@ -74,6 +102,10 @@ export default function CommitsPage() {
 	const [search, setSearch] = useState('')
 	const [groupBy, setGroupBy] = useState<'day' | 'month' | 'week' | 'year'>('day')
 	const [projectFilter, setProjectFilter] = useState('all')
+	const [chartData, setChartData] = useState<{
+		labels: string[]
+		datasets: { label: string; data: { x: string; y: number }[]; backgroundColor: string }[]
+	}>({ labels: [], datasets: [] })
 
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search)
@@ -93,6 +125,11 @@ export default function CommitsPage() {
 			})
 			.catch((err) => console.error('Failed to load commits:', err))
 	}, [])
+
+	useEffect(() => {
+		const data = getStackedBarData(filtered)
+		setChartData(data)
+	}, [filtered])
 
 	useEffect(() => {
 		const filtered = commits
@@ -187,7 +224,6 @@ export default function CommitsPage() {
 				}}
 				className="mb-4 w-full rounded border border-muted p-2 text-sm"
 			/>
-
 			<div className="my-6">
 				<Bar
 					data={{
@@ -196,7 +232,7 @@ export default function CommitsPage() {
 							{
 								label: 'Commits',
 								data: getBarCounts(filtered, groupBy),
-								backgroundColor: 'hsl(200 38% 48%)',
+								backgroundColor: 'hsl(200 38% 48%)'
 							}
 						]
 					}}
