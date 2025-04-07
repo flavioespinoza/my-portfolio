@@ -108,8 +108,8 @@ export default function ChatPage() {
 		<main className="relative mx-auto max-w-xl p-4 pb-[180px]">
 			{isEmpty ? (
 				<div className="flex h-[80vh] flex-col items-center justify-center space-y-6">
-					<div className="w-full animate-fade-in shadow-xl border border-solid rounded-md border-zinc-300 bg-white py-6 px-12">
-						<div className="text-center text-lg text-zinc-500 mb-6">How can I help you today?</div>
+					<div className="text-center text-lg text-zinc-500">How can I help you today?</div>
+					<div className="space-y-3 w-full md:w-[688px] rounded-xl border border-zinc-100 bg-white p-4 shadow-xl">
 						<form onSubmit={handleSubmit} className="flex w-full flex-col gap-2">
 							<Textarea
 								ref={inputRef}
