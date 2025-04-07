@@ -39,17 +39,17 @@ body {
 		--hotpink-900: hsl(350 75% 30%);
 		--hotpink-950: hsl(350 88% 16%);
 
-		--cblue-50: hsl(0 0% 100%);
-		--cblue-100: hsl(214 70% 96%);
-		--cblue-200: hsl(213 97% 87%);
-		--cblue-300: hsl(213 100% 87%);
-		--cblue-400: hsl(214 100% 77%);
-		--cblue-500: hsl(213 97% 69%);
-		--cblue-600: hsl(213 90% 62%);
-		--cblue-700: hsl(213 83% 57%);
-		--cblue-800: hsl(214 78% 49%);
-		--cblue-900: hsl(213 71% 42%);
-		--cblue-950: hsl(213 63% 30%);
+		--cblue-50: hsl(206 47% 97%);
+		--cblue-100: hsl(206 44% 94%);
+		--cblue-200: hsl(203 41% 86%);
+		--cblue-300: hsl(202 41% 74%);
+		--cblue-400: hsl(201 41% 60%);
+		--cblue-500: hsl(200 38% 48%);
+		--cblue-600: hsl(203 43% 37%);
+		--cblue-700: hsl(203 41% 32%);
+		--cblue-800: hsl(203 39% 27%);
+		--cblue-900: hsl(203 34% 24%);
+		--cblue-950: hsl(207 36% 16%);		
 
 		--background: hsl(0 0% 98%);
 		--foreground: hsl(0 0% 3.9%);
@@ -67,7 +67,7 @@ body {
 		--destructive-foreground: hsl(0 0% 98%);
 		--border: hsl(0 0% 89.8%);
 		--input: hsl(0 0% 89.8%);
-		--ring: hsl(0 0% 3.9%);
+		--ring: var(--hotpink-500);
 		--chart-1: hsl(12 76% 61%);
 		--chart-2: hsl(173 58% 39%);
 		--chart-3: hsl(197 37% 24%);

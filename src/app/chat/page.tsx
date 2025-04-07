@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import MarkdownWithCode from '@/components/markdown-with-code'
 import { useChatStore } from '@/store/chat-store'
-import { Button, Checkbox, Textarea, toast } from '@flavioespinoza/salsa-ui'
+import { Button, Card, Checkbox, Textarea, toast } from '@flavioespinoza/salsa-ui'
 import { ChatCopyButton } from './components/chat-copy-button'
 import { ChatFeedback } from './components/chat-feedback'
 
@@ -108,22 +108,24 @@ export default function ChatPage() {
 		<main className="relative mx-auto max-w-xl p-4 pb-[180px]">
 			{isEmpty ? (
 				<div className="flex h-[80vh] flex-col items-center justify-center space-y-6">
-					<div className="text-center text-lg text-zinc-500">How can I help you today?</div>
-					<form onSubmit={handleSubmit} className="flex w-full flex-col gap-2">
-						<Textarea
-							ref={inputRef}
-							value={input}
-							onChange={(e) => setInput(e.target.value)}
-							onKeyDown={handleKeyDown}
-							placeholder="Ask anything"
-							rows={2}
-							className="resize-y border border-solid border-zinc-300 bg-cblue-100 text-black"
-							disabled={isTyping}
-						/>
-						<div className="flex justify-end gap-2">
-							<ButtonSend />
-						</div>
-					</form>
+					<div className="w-full animate-fade-in shadow-xl border border-solid rounded-md border-zinc-300 bg-white py-6 px-12">
+						<div className="text-center text-lg text-zinc-500 mb-6">How can I help you today?</div>
+						<form onSubmit={handleSubmit} className="flex w-full flex-col gap-2">
+							<Textarea
+								ref={inputRef}
+								value={input}
+								onChange={(e) => setInput(e.target.value)}
+								onKeyDown={handleKeyDown}
+								placeholder="Ask anything"
+								rows={2}
+								className="resize-y border border-solid border-zinc-300 bg-cblue-300 text-black"
+								disabled={isTyping}
+							/>
+							<div className="flex justify-end gap-2">
+								<ButtonSend />
+							</div>
+						</form>
+					</div>
 				</div>
 			) : (
 				<>
@@ -136,7 +138,7 @@ export default function ChatPage() {
 								<div
 									className={`animate-fade-in relative max-w-[80%] rounded-xl px-4 py-2 text-sm text-black transition-all duration-200 ease-in-out ${
 										msg.role === 'user'
-											? 'border border-solid border-zinc-300 bg-cblue-200'
+											? 'border border-solid border-zinc-300 bg-cblue-300'
 											: 'bg-sage-200'
 									}`}
 								>
@@ -174,11 +176,11 @@ export default function ChatPage() {
 								onKeyDown={handleKeyDown}
 								placeholder="Ask anything"
 								rows={2}
-								className="resize-y border border-solid border-zinc-300 bg-cblue-100 text-black"
+								className="resize-y border border-solid border-zinc-300 bg-cblue-300 text-black"
 							/>
 							<div className="flex justify-between">
 								<div className="flex items-center gap-2 text-xs text-zinc-500">
-									<Button variant="outline" type="button" onClick={clearMessages}>
+									<Button variant="outline" type="button" onClick={clearMessages} className='hover:bg-cblue-500/60'>
 										New Chat
 									</Button>
 								</div>
