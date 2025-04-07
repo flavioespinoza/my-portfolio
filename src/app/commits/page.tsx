@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Bar } from 'react-chartjs-2'
 import { BarElement, CategoryScale, Chart, LinearScale, Tooltip } from 'chart.js'
 import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import Papa from 'papaparse'
+import { MorphingChart } from '@/components/ui/morphing-chart'
 
 Chart.register(BarElement, CategoryScale, LinearScale, Tooltip)
 dayjs.extend(weekOfYear)
@@ -225,23 +225,7 @@ export default function CommitsPage() {
 				className="mb-4 w-full rounded border border-muted p-2 text-sm"
 			/>
 			<div className="my-6">
-				<Bar
-					data={{
-						labels: getBarLabels(filtered, groupBy),
-						datasets: [
-							{
-								label: 'Commits',
-								data: getBarCounts(filtered, groupBy),
-								backgroundColor: 'hsl(200 38% 48%)'
-							}
-						]
-					}}
-					options={{
-						responsive: true,
-						scales: { y: { beginAtZero: true } }
-					}}
-					height={100}
-				/>
+				<MorphingChart />
 			</div>
 
 			{csvUrl && (
