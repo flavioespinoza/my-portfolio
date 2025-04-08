@@ -2,13 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { MorphingChart } from '@/components/ui/morphing-chart'
-import { BarElement, CategoryScale, Chart, LinearScale, Tooltip } from 'chart.js'
-import dayjs from 'dayjs'
-import weekOfYear from 'dayjs/plugin/weekOfYear'
 import Papa from 'papaparse'
-
-Chart.register(BarElement, CategoryScale, LinearScale, Tooltip)
-dayjs.extend(weekOfYear)
 
 interface CommitData {
 	project: string
@@ -18,47 +12,12 @@ interface CommitData {
 	message: string
 }
 
-const isCommitData = (data: unknown): data is CommitData => {
-	return (
-		typeof data === 'object' &&
-		data !== null &&
-		'project' in data &&
-		'branch' in data &&
-		'date' in data &&
-		'author' in data &&
-		'message' in data
-	)
-}
-
 interface Commit {
 	project: string
 	branch: string
 	date: string
 	author: string
 	message: string
-}
-
-function formatGroupKey(date: string, unit: 'day' | 'month' | 'week' | 'year') {
-	const d = dayjs(date)
-	switch (unit) {
-		case 'day':
-			return d.format('MMM D, YYYY')
-		case 'month':
-			return d.format('MMM YYYY')
-		case 'week':
-			return `Week ${d.week()} ${d.year()}`
-		case 'year':
-			return d.format('YYYY')
-	}
-}
-
-function getBarLabels(data: Commit[], unit: 'day' | 'month' | 'week' | 'year') {
-	const grouped: Record<string, number> = {}
-	data.forEach((c) => {
-		const key = formatGroupKey(c.date, unit)
-		grouped[key] = (grouped[key] || 0) + 1
-	})
-	return Object.keys(grouped)
 }
 
 function highlight(text: string, keyword: string) {
@@ -73,43 +32,16 @@ export default function CommitsPage() {
 	const [search, setSearch] = useState('')
 	const [groupBy, setGroupBy] = useState<'day' | 'month' | 'week' | 'year'>('day')
 	const [projectFilter, setProjectFilter] = useState('all')
-	const [rawCommits, setRawCommits] = useState<Commit[]>([]) // Add raw commits state
-
-	// Move data fetching to useEffect
-	useEffect(() => {
-		fetch('/commits/all-commits.json')
-			.then((res) => res.json())
-			.then((data) => {
-				const commitsData = data.filter(isCommitData)
-				setRawCommits(commitsData)
-			})
-			.catch((err) => console.error('Failed to load commits:', err))
-	}, [])
 
 	// Define getFiltered without filtered in dependencies
 	const getFiltered = useCallback(
-		(commits: CommitData[]): Commit[] => {
+		(filteredCommits: CommitData[]): Commit[] => {
 			console.log('getFiltered called')
-			const filteredCommits = commits
-				.filter(
-					(c) =>
-						(projectFilter === 'all' || c.project === projectFilter) &&
-						(search ? JSON.stringify(c).toLowerCase().includes(search.toLowerCase()) : true)
-				)
-				.sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
-
 			setFiltered(filteredCommits)
 			return filteredCommits
 		},
 		[search, projectFilter] // Remove 'filtered' from dependencies
 	)
-
-	// Update filtered commits when rawCommits or filters change
-	useEffect(() => {
-		if (rawCommits.length > 0) {
-			getFiltered(rawCommits)
-		}
-	}, [rawCommits, getFiltered])
 
 	// Generate CSV URL when filtered commits change
 	useEffect(() => {
