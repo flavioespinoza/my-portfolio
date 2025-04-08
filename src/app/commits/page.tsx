@@ -1,14 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Bar } from 'react-chartjs-2'
-import { BarElement, CategoryScale, Chart, LinearScale, Tooltip } from 'chart.js'
-import dayjs from 'dayjs'
-import weekOfYear from 'dayjs/plugin/weekOfYear'
+import { useCallback, useEffect, useState } from 'react'
+import { MorphingChart } from '@/components/ui/morphing-chart'
 import Papa from 'papaparse'
-
-Chart.register(BarElement, CategoryScale, LinearScale, Tooltip)
-dayjs.extend(weekOfYear)
 
 interface CommitData {
 	project: string
@@ -16,18 +10,6 @@ interface CommitData {
 	date: string
 	author: string
 	message: string
-}
-
-const isCommitData = (data: unknown): data is CommitData => {
-	return (
-		typeof data === 'object' &&
-		data !== null &&
-		'project' in data &&
-		'branch' in data &&
-		'date' in data &&
-		'author' in data &&
-		'message' in data
-	)
 }
 
 interface Commit {
@@ -38,110 +20,31 @@ interface Commit {
 	message: string
 }
 
-function formatGroupKey(date: string, unit: 'day' | 'month' | 'week' | 'year') {
-	const d = dayjs(date)
-	switch (unit) {
-		case 'day':
-			return d.format('MMM D, YYYY')
-		case 'month':
-			return d.format('MMM YYYY')
-		case 'week':
-			return `Week ${d.week()} ${d.year()}`
-		case 'year':
-			return d.format('YYYY')
-	}
-}
-
-function getBarLabels(data: Commit[], unit: 'day' | 'month' | 'week' | 'year') {
-	const grouped: Record<string, number> = {}
-	data.forEach((c) => {
-		const key = formatGroupKey(c.date, unit)
-		grouped[key] = (grouped[key] || 0) + 1
-	})
-	return Object.keys(grouped)
-}
-
 function highlight(text: string, keyword: string) {
 	if (!keyword) return text
 	const regex = new RegExp(`(${keyword})`, 'gi')
 	return text.replace(regex, '<mark>$1</mark>')
 }
 
-function getStackedBarData(commits: Commit[]) {
-	const projects: Record<string, number> = {}
-	commits.forEach((commit) => {
-		const project = commit.project
-		if (!projects[project]) {
-			projects[project] = 0
-		}
-		projects[project]++
-	})
-
-	const datasets = Object.keys(projects).map((project) => {
-		return {
-			label: project,
-			data: commits
-				.filter((commit) => commit.project === project)
-				.map((commit) => ({ x: commit.date, y: 1 })),
-			backgroundColor: '#f07a5d' // or some other color
-		}
-	})
-
-	const labels = Array.from(new Set(commits.map((commit) => commit.date)))
-
-	return {
-		labels,
-		datasets
-	}
-}
-
 export default function CommitsPage() {
-	const [commits, setCommits] = useState<Commit[]>([])
 	const [filtered, setFiltered] = useState<Commit[]>([])
 	const [csvUrl, setCsvUrl] = useState('')
 	const [search, setSearch] = useState('')
 	const [groupBy, setGroupBy] = useState<'day' | 'month' | 'week' | 'year'>('day')
 	const [projectFilter, setProjectFilter] = useState('all')
-	const [chartData, setChartData] = useState<{
-		labels: string[]
-		datasets: { label: string; data: { x: string; y: number }[]; backgroundColor: string }[]
-	}>({ labels: [], datasets: [] })
 
+	// Define getFiltered without filtered in dependencies
+	const getFiltered = useCallback(
+		(filteredCommits: CommitData[]): Commit[] => {
+			console.log('getFiltered called')
+			setFiltered(filteredCommits)
+			return filteredCommits
+		},
+		[search, projectFilter] // Remove 'filtered' from dependencies
+	)
+
+	// Generate CSV URL when filtered commits change
 	useEffect(() => {
-		const params = new URLSearchParams(window.location.search)
-		const initialSearch = params.get('search')
-		const initialProject = params.get('project')
-		const initialGroupBy = params.get('groupBy')
-
-		if (initialSearch) setSearch(initialSearch)
-		if (initialProject) setProjectFilter(initialProject)
-		if (initialGroupBy) setGroupBy(initialGroupBy as any)
-
-		fetch('/commits/all-commits.json')
-			.then((res) => res.json())
-			.then((data) => {
-				const commitsData = data.filter(isCommitData)
-				setCommits(commitsData)
-			})
-			.catch((err) => console.error('Failed to load commits:', err))
-	}, [])
-
-	useEffect(() => {
-		const data = getStackedBarData(filtered)
-		setChartData(data)
-	}, [filtered])
-
-	useEffect(() => {
-		const filtered = commits
-			.filter(
-				(c) =>
-					(projectFilter === 'all' || c.project === projectFilter) &&
-					JSON.stringify(c).toLowerCase().includes(search.toLowerCase())
-			)
-			.sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
-
-		setFiltered(filtered)
-
 		const csv = Papa.unparse(
 			filtered.map(({ project, branch, date, author, message }) => ({
 				project,
@@ -152,17 +55,15 @@ export default function CommitsPage() {
 			}))
 		)
 		const blob = new Blob([csv], { type: 'text/csv' })
-		setCsvUrl(URL.createObjectURL(blob))
-	}, [commits, search, projectFilter, groupBy])
+		const newUrl = URL.createObjectURL(blob)
+		setCsvUrl(newUrl)
 
-	function getBarCounts(filtered: Commit[], groupBy: string): number[] {
-		const grouped: Record<string, number> = {}
-		filtered.forEach((commit) => {
-			const key = formatGroupKey(commit.date, groupBy as 'day' | 'month' | 'week' | 'year')
-			grouped[key] = (grouped[key] || 0) + 1
-		})
-		return Object.values(grouped)
-	}
+		// Cleanup previous URL
+		return () => {
+			URL.revokeObjectURL(newUrl)
+		}
+	}, [filtered])
+
 	return (
 		<main className="mx-auto max-w-6xl space-y-6 p-6">
 			<h1 className="text-3xl font-bold">GitHub Contributions</h1>
@@ -182,7 +83,7 @@ export default function CommitsPage() {
 						className="rounded border p-1 text-sm"
 					>
 						<option value="all">All</option>
-						{[...new Set(commits.map((c) => c.project))].sort().map((p) => (
+						{[...new Set(filtered.map((c) => c.project))].sort().map((p) => (
 							<option key={p} value={p}>
 								{p}
 							</option>
@@ -195,8 +96,8 @@ export default function CommitsPage() {
 					<select
 						value={groupBy}
 						onChange={(e) => {
-							const val = e.target.value
-							setGroupBy(val as any)
+							const val = e.target.value as 'day' | 'month' | 'week' | 'year'
+							setGroupBy(val)
 							const url = new URL(window.location.href)
 							url.searchParams.set('groupBy', val)
 							window.history.replaceState(null, '', url.toString())
@@ -225,23 +126,7 @@ export default function CommitsPage() {
 				className="mb-4 w-full rounded border border-muted p-2 text-sm"
 			/>
 			<div className="my-6">
-				<Bar
-					data={{
-						labels: getBarLabels(filtered, groupBy),
-						datasets: [
-							{
-								label: 'Commits',
-								data: getBarCounts(filtered, groupBy),
-								backgroundColor: 'hsl(200 38% 48%)'
-							}
-						]
-					}}
-					options={{
-						responsive: true,
-						scales: { y: { beginAtZero: true } }
-					}}
-					height={100}
-				/>
+				<MorphingChart {...{ projectFilter, search, groupBy, getFiltered }} />
 			</div>
 
 			{csvUrl && (

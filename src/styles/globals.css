@@ -50,7 +50,6 @@ body {
 		--cblue-800: hsl(203 39% 27%); /* #2b4c61 */
 		--cblue-900: hsl(203 34% 24%); /* #284252 */
 		--cblue-950: hsl(207 36% 16%); /* #1a2a37 */
-		
 
 		--background: hsl(0 0% 98%); /* #fafafa */
 		--foreground: hsl(0 0% 3.9%); /* #0a0a0a */
@@ -182,4 +181,9 @@ a {
 	border-radius: 6px;
 	overflow-x: auto;
 	margin: 2px 0;
+}
+
+.bar:hover,
+.pie-chart:hover {
+	cursor: crosshair;
 }
