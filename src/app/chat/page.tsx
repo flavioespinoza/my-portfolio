@@ -109,7 +109,7 @@ export default function ChatPage() {
 			{isEmpty ? (
 				<div className="flex h-[80vh] flex-col items-center justify-center space-y-6">
 					<div className="text-center text-lg text-zinc-500">How can I help you today?</div>
-					<div className="space-y-3 w-full md:w-[688px] rounded-xl border border-zinc-100 bg-white p-4 shadow-xl">
+					<div className="w-full space-y-3 rounded-xl border border-zinc-100 bg-white p-4 shadow-xl md:w-[688px]">
 						<form onSubmit={handleSubmit} className="flex w-full flex-col gap-2">
 							<Textarea
 								ref={inputRef}
@@ -180,7 +180,12 @@ export default function ChatPage() {
 							/>
 							<div className="flex justify-between">
 								<div className="flex items-center gap-2 text-xs text-zinc-500">
-									<Button variant="outline" type="button" onClick={clearMessages} className='hover:bg-cblue-500/60'>
+									<Button
+										variant="outline"
+										type="button"
+										onClick={clearMessages}
+										className="hover:bg-cblue-500/60"
+									>
 										New Chat
 									</Button>
 								</div>
