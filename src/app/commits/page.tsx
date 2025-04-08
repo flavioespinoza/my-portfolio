@@ -142,6 +142,8 @@ export default function CommitsPage() {
 
 		setFiltered(filtered)
 
+		console.log({projectFilter, search, groupBy})
+
 		const csv = Papa.unparse(
 			filtered.map(({ project, branch, date, author, message }) => ({
 				project,

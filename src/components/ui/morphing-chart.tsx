@@ -8,7 +8,13 @@ type Commit = {
 	project: string
 }
 
-function MorphingChart() {
+interface MorphingChartProps {
+  projectFilter?: string 
+	search?: string
+	groupBy?: 'day' |'month' | 'week' | 'year'
+}
+
+function MorphingChart({ projectFilter, search, groupBy }: MorphingChartProps) {
 	const svgRef = useRef<SVGSVGElement | null>(null)
 	const wrapperRef = useRef<HTMLDivElement | null>(null)
 	const [data, setData] = useState<Commit[]>([])
