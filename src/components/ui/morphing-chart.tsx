@@ -106,6 +106,7 @@ function MorphingChart({ projectFilter = 'all', search = '', groupBy, getFiltere
 
   // Apply filtering when dependencies change
   useEffect(() => {
+		console.log('Filtering commits')
     filterCommits()
   }, [filterCommits])
 

@@ -67,50 +67,51 @@ function highlight(text: string, keyword: string) {
 	return text.replace(regex, '<mark>$1</mark>')
 }
 
-function getStackedBarData(commits: Commit[]) {
-	const projects: Record<string, number> = {}
-	commits.forEach((commit) => {
-		const project = commit.project
-		if (!projects[project]) {
-			projects[project] = 0
-		}
-		projects[project]++
-	})
-
-	const datasets = Object.keys(projects).map((project) => {
-		return {
-			label: project,
-			data: commits
-				.filter((commit) => commit.project === project)
-				.map((commit) => ({ x: commit.date, y: 1 })),
-			backgroundColor: '#f07a5d' // or some other color
-		}
-	})
-
-	const labels = Array.from(new Set(commits.map((commit) => commit.date)))
-
-	return {
-		labels,
-		datasets
-	}
-}
-
 export default function CommitsPage() {
 	const [filtered, setFiltered] = useState<Commit[]>([])
 	const [csvUrl, setCsvUrl] = useState('')
 	const [search, setSearch] = useState('')
 	const [groupBy, setGroupBy] = useState<'day' | 'month' | 'week' | 'year'>('day')
 	const [projectFilter, setProjectFilter] = useState('all')
+	const [rawCommits, setRawCommits] = useState<Commit[]>([]) // Add raw commits state
 
+	// Move data fetching to useEffect
+	useEffect(() => {
+		fetch('/commits/all-commits.json')
+			.then((res) => res.json())
+			.then((data) => {
+				const commitsData = data.filter(isCommitData)
+				setRawCommits(commitsData)
+			})
+			.catch((err) => console.error('Failed to load commits:', err))
+	}, [])
+
+	// Define getFiltered without filtered in dependencies
 	const getFiltered = useCallback(
-		(filtered: CommitData[]): Commit[] => {
-			console.log('getFiltered', filtered)
-			setFiltered(filtered)
-			return filtered
+		(commits: CommitData[]): Commit[] => {
+			console.log('getFiltered called')
+			const filteredCommits = commits
+				.filter(
+					(c) =>
+						(projectFilter === 'all' || c.project === projectFilter) &&
+						(search ? JSON.stringify(c).toLowerCase().includes(search.toLowerCase()) : true)
+				)
+				.sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
+
+			setFiltered(filteredCommits)
+			return filteredCommits
 		},
-		[filtered, search, groupBy, projectFilter]
+		[search, projectFilter] // Remove 'filtered' from dependencies
 	)
 
+	// Update filtered commits when rawCommits or filters change
+	useEffect(() => {
+		if (rawCommits.length > 0) {
+			getFiltered(rawCommits)
+		}
+	}, [rawCommits, getFiltered])
+
+	// Generate CSV URL when filtered commits change
 	useEffect(() => {
 		const csv = Papa.unparse(
 			filtered.map(({ project, branch, date, author, message }) => ({
@@ -122,7 +123,13 @@ export default function CommitsPage() {
 			}))
 		)
 		const blob = new Blob([csv], { type: 'text/csv' })
-		setCsvUrl(URL.createObjectURL(blob))
+		const newUrl = URL.createObjectURL(blob)
+		setCsvUrl(newUrl)
+
+		// Cleanup previous URL
+		return () => {
+			URL.revokeObjectURL(newUrl)
+		}
 	}, [filtered])
 
 	return (
@@ -157,8 +164,8 @@ export default function CommitsPage() {
 					<select
 						value={groupBy}
 						onChange={(e) => {
-							const val = e.target.value
-							setGroupBy(val as any)
+							const val = e.target.value as 'day' | 'month' | 'week' | 'year'
+							setGroupBy(val)
 							const url = new URL(window.location.href)
 							url.searchParams.set('groupBy', val)
 							window.history.replaceState(null, '', url.toString())
