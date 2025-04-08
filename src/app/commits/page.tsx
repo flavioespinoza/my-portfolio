@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { MorphingChart } from '@/components/ui/morphing-chart'
+import { MorphingChart } from '@flavioespinoza/salsa-ui'
 import Papa from 'papaparse'
 
 interface CommitData {
@@ -40,7 +40,7 @@ export default function CommitsPage() {
 			setFiltered(filteredCommits)
 			return filteredCommits
 		},
-		[search, projectFilter] // Remove 'filtered' from dependencies
+		[search, projectFilter]
 	)
 
 	// Generate CSV URL when filtered commits change
