@@ -12,8 +12,21 @@ function MorphingChart() {
 	const svgRef = useRef<SVGSVGElement | null>(null)
 	const wrapperRef = useRef<HTMLDivElement | null>(null)
 	const [data, setData] = useState<Commit[]>([])
-	const [dimensions, setDimensions] = useState({ width: 960, height: 500 })
+	const [dimensions, setDimensions] = useState({ width: 960, height: 300 })
 	const [showingPie, setShowingPie] = useState(false)
+
+	useEffect(() => {
+		if (!data.length) return
+
+		const resizeObserver = new ResizeObserver((entries) => {
+			for (let entry of entries) {
+				const width = entry.contentRect.width
+				setDimensions({ width, height: 300 })
+			}
+		})
+		if (wrapperRef.current) resizeObserver.observe(wrapperRef.current)
+		return () => resizeObserver.disconnect()
+	}, [data])
 
 	useEffect(() => {
 		fetch('/commits/all-commits.json')
@@ -105,7 +118,10 @@ function MorphingChart() {
 			.attr('y', (d) => y(d[1]))
 			.attr('height', (d) => y(d[0]) - y(d[1]))
 			.attr('width', x.bandwidth())
-			.on('mouseover', function (event, d: any) {
+			.attr('class', 'bar')
+			.attr('opacity', 0)
+			.style('cursor', 'crosshair')
+			.on('mouseover', function (event: MouseEvent, d: any) {
 				const date = d.data.date
 				const total = d3.sum(projects, (p) => d.data[p])
 				const content = projects
@@ -126,7 +142,7 @@ function MorphingChart() {
 					.duration(200)
 					.style('opacity', 1)
 			})
-			.on('mousemove', function (event) {
+			.on('mousemove', function (event: MouseEvent) {
 				tooltip.style('left', event.pageX + 10 + 'px').style('top', event.pageY - 28 + 'px')
 			})
 			.on('mouseout', function () {
@@ -143,6 +159,8 @@ function MorphingChart() {
 			.append('g')
 			.attr('transform', `translate(${width / 2}, ${height / 2})`)
 			.style('opacity', showingPie ? 1 : 0)
+			.attr('class', 'pie-chart')
+			.style('cursor', 'crosshair')
 
 		const pie = d3.pie<any>().value((d) => d.total)
 		const arc = d3
@@ -151,33 +169,119 @@ function MorphingChart() {
 			.outerRadius(Math.min(innerWidth, innerHeight) / 2.5)
 
 		if (showingPie) {
-			barsGroup.style('opacity', 0)
+			// Fade out bars
 
-			pieGroup
-				.selectAll('path')
-				.data(pie(totalsByProject), (d, i) => i.toString())
-				.join('path')
-				.attr(
-					'fill',
-					(d: d3.PieArcDatum<{ project: string; total: number }>) => color(d.data.project)!
-				)
+			barsGroup
 				.transition()
-				.duration(1000)
-				.attrTween('d', function (d) {
-					const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, d)
-					return (t) => arc(i(t))!
+				.duration(500)
+				.attr('opacity', 0)
+				.on('end', () => {
+					// Draw and fade in pie
+					const arcs = pieGroup
+						.selectAll('path')
+						.data(pie(totalsByProject), (d, i) => i.toString())
+						.join('path')
+						.attr(
+							'fill',
+							(d: d3.PieArcDatum<{ project: string; total: number }>) => color(d.data.project)!
+						)
+						.on(
+							'mouseover',
+							function (event: MouseEvent, d: d3.PieArcDatum<{ project: string; total: number }>) {
+								const percent = ((d.data.total / totalCommits) * 100).toFixed(1)
+								const content = `<div style="display:flex;align-items:center;gap:6px;">
+									<span style="display:inline-block;width:12px;height:12px;background:${color(
+										d.data.project
+									)};border-radius:2px;"></span>
+									<span><strong>${d.data.project}</strong>: ${d.data.total} (${percent}%)</span>
+								</div>`
+								tooltip
+									.html(content)
+									.style('left', event.pageX + 10 + 'px')
+									.style('top', event.pageY - 28 + 'px')
+									.transition()
+									.duration(200)
+									.style('opacity', 1)
+							}
+						)
+						.on('mousemove', function (event: MouseEvent) {
+							tooltip.style('left', event.pageX + 10 + 'px').style('top', event.pageY - 28 + 'px')
+						})
+						.on('mouseout', function () {
+							tooltip.transition().duration(300).style('opacity', 0)
+						})
+
+					pieGroup.transition().duration(500).style('opacity', 1)
+
+					arcs
+						.transition()
+						.duration(1000)
+						.attrTween('d', function (d) {
+							const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, d)
+							return (t) => arc(i(t))!
+						})
 				})
 		} else {
-			pieGroup.selectAll('path').remove()
+			// Fade out pie
+			pieGroup
+				.transition()
+				.duration(500)
+				.style('opacity', 0)
+				.on('end', () => {
+					// Draw and fade in bars
+					barsGroup
+						.selectAll('g')
+						.data(layers)
+						.join('g')
+						.attr('fill', (d) => color(d.key)!)
+						.selectAll('rect')
+						.data((d) => d.map((v) => ({ ...v, key: d.key })))
+						.join('rect')
+						.attr('x', (d) => x(String(d.data.date))!)
+						.attr('y', (d) => y(d[1]))
+						.attr('height', (d) => y(d[0]) - y(d[1]))
+						.attr('width', x.bandwidth())
+						.attr('class', 'bar')
+						.style('cursor', 'crosshair')
+						.on('mouseover', function (event: MouseEvent, d: any) {
+							const date = d.data.date
+							const total = d3.sum(projects, (p) => d.data[p])
+							const content = projects
+								.filter((p) => d.data[p] > 0)
+								.map((p) => {
+									const pct = ((d.data[p] / total) * 100).toFixed(1)
+									return `<div style="display:flex;align-items:center;gap:6px;">
+							<span style="display:inline-block;width:12px;height:12px;background:${color(p)};border-radius:2px;"></span>
+							<span><strong>${p}</strong>: ${d.data[p]} (${pct}%)</span>
+						</div>`
+								})
+								.join('')
+							tooltip
+								.html(`<div><strong>${date}</strong></div>${content}`)
+								.style('left', event.pageX + 10 + 'px')
+								.style('top', event.pageY - 28 + 'px')
+								.transition()
+								.duration(200)
+								.style('opacity', 1)
+						})
+						.on('mousemove', function (event: MouseEvent) {
+							tooltip.style('left', event.pageX + 10 + 'px').style('top', event.pageY - 28 + 'px')
+						})
+						.on('mouseout', function () {
+							tooltip.transition().duration(300).style('opacity', 0)
+						}).transition().duration(500).style('opacity', 1)
+				})
+
+				
 		}
 	}, [data, dimensions, showingPie])
 
 	return (
-		<div ref={wrapperRef} style={{ width: '100%', height: 'auto' }}>
+		<div ref={wrapperRef} style={{ width: '100%', height: '300px' }}>
 			<button onClick={() => setShowingPie((prev) => !prev)} style={{ marginBottom: '1rem' }}>
-				Morph
+				Toggle Chart
 			</button>
-			<svg ref={svgRef} style={{ width: '100%', height: 'auto', aspectRatio: '16 / 9' }} />
+			<svg ref={svgRef} style={{ width: '100%', height: '100%' }} />
 		</div>
 	)
 }

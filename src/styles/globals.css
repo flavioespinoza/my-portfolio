@@ -183,3 +183,7 @@ a {
 	overflow-x: auto;
 	margin: 2px 0;
 }
+
+.bar:hover, .pie-chart:hover {
+  cursor: crosshair;
+}
