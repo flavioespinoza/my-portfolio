@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { MorphingChart } from '@/components/ui/morphing-chart'
 import { BarElement, CategoryScale, Chart, LinearScale, Tooltip } from 'chart.js'
 import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import Papa from 'papaparse'
-import { MorphingChart } from '@/components/ui/morphing-chart'
 
 Chart.register(BarElement, CategoryScale, LinearScale, Tooltip)
 dayjs.extend(weekOfYear)
@@ -96,54 +96,22 @@ function getStackedBarData(commits: Commit[]) {
 }
 
 export default function CommitsPage() {
-	const [commits, setCommits] = useState<Commit[]>([])
 	const [filtered, setFiltered] = useState<Commit[]>([])
 	const [csvUrl, setCsvUrl] = useState('')
 	const [search, setSearch] = useState('')
 	const [groupBy, setGroupBy] = useState<'day' | 'month' | 'week' | 'year'>('day')
 	const [projectFilter, setProjectFilter] = useState('all')
-	const [chartData, setChartData] = useState<{
-		labels: string[]
-		datasets: { label: string; data: { x: string; y: number }[]; backgroundColor: string }[]
-	}>({ labels: [], datasets: [] })
+
+	const getFiltered = useCallback(
+		(filtered: CommitData[]): Commit[] => {
+			console.log('getFiltered', filtered)
+			setFiltered(filtered)
+			return filtered
+		},
+		[filtered, search, groupBy, projectFilter]
+	)
 
 	useEffect(() => {
-		const params = new URLSearchParams(window.location.search)
-		const initialSearch = params.get('search')
-		const initialProject = params.get('project')
-		const initialGroupBy = params.get('groupBy')
-
-		if (initialSearch) setSearch(initialSearch)
-		if (initialProject) setProjectFilter(initialProject)
-		if (initialGroupBy) setGroupBy(initialGroupBy as any)
-
-		fetch('/commits/all-commits.json')
-			.then((res) => res.json())
-			.then((data) => {
-				const commitsData = data.filter(isCommitData)
-				setCommits(commitsData)
-			})
-			.catch((err) => console.error('Failed to load commits:', err))
-	}, [])
-
-	useEffect(() => {
-		const data = getStackedBarData(filtered)
-		setChartData(data)
-	}, [filtered])
-
-	useEffect(() => {
-		const filtered = commits
-			.filter(
-				(c) =>
-					(projectFilter === 'all' || c.project === projectFilter) &&
-					JSON.stringify(c).toLowerCase().includes(search.toLowerCase())
-			)
-			.sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
-
-		setFiltered(filtered)
-
-		console.log({projectFilter, search, groupBy})
-
 		const csv = Papa.unparse(
 			filtered.map(({ project, branch, date, author, message }) => ({
 				project,
@@ -155,16 +123,8 @@ export default function CommitsPage() {
 		)
 		const blob = new Blob([csv], { type: 'text/csv' })
 		setCsvUrl(URL.createObjectURL(blob))
-	}, [commits, search, projectFilter, groupBy])
+	}, [filtered])
 
-	function getBarCounts(filtered: Commit[], groupBy: string): number[] {
-		const grouped: Record<string, number> = {}
-		filtered.forEach((commit) => {
-			const key = formatGroupKey(commit.date, groupBy as 'day' | 'month' | 'week' | 'year')
-			grouped[key] = (grouped[key] || 0) + 1
-		})
-		return Object.values(grouped)
-	}
 	return (
 		<main className="mx-auto max-w-6xl space-y-6 p-6">
 			<h1 className="text-3xl font-bold">GitHub Contributions</h1>
@@ -184,7 +144,7 @@ export default function CommitsPage() {
 						className="rounded border p-1 text-sm"
 					>
 						<option value="all">All</option>
-						{[...new Set(commits.map((c) => c.project))].sort().map((p) => (
+						{[...new Set(filtered.map((c) => c.project))].sort().map((p) => (
 							<option key={p} value={p}>
 								{p}
 							</option>
@@ -227,7 +187,7 @@ export default function CommitsPage() {
 				className="mb-4 w-full rounded border border-muted p-2 text-sm"
 			/>
 			<div className="my-6">
-				<MorphingChart />
+				<MorphingChart {...{ projectFilter, search, groupBy, getFiltered }} />
 			</div>
 
 			{csvUrl && (
