@@ -75,13 +75,13 @@ vercel --prod
 - [x] ✅ Redesign @flavioespinoza/salsa-ui input
 - [x] ✅ Redo all docs for salsa-ui
 - [x] ✅ Changed bar/pie chart to stacked-bar/pie in pure d3.js
-- [x] ✅ 
-- [x] ✅ 
+- [x] ✅
+- [x] ✅
 
 - [ ] ⏳ Apply sage and hotpink to all @flavioespinoza/salsa-ui components (checkbox, buttonVariants, etc.)
 - [ ] ⏳ Update Header and Header-Mobile and docs in salsa-ui
 - [ ] ⏳ input-and-button-from-youtube.png
-- [ ] ⏳ 
+- [ ] ⏳
 - [ ] ⏳
 - [ ] ⏳
 
