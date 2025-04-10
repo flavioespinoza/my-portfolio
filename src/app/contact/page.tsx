@@ -1,49 +1,32 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState, useTransition } from 'react'
 import { Button, Input, Textarea } from '@flavioespinoza/salsa-ui'
+import { submitContactForm } from './actions'
 
 export default function ContactPage() {
-	const [email, setEmail] = useState('')
-	const [message, setMessage] = useState('')
-	const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-	const [calendlyUrl] = useState(
-		'https://calendly.com/flavio-espinoza/chat-with-flavio?preview_source=et_card'
-	)
+	const [formStatus, setFormStatus] = useState<{
+		status: 'idle' | 'success' | 'error'
+		message: string | null
+	}>({ status: 'idle', message: null })
+	const [isPending, startTransition] = useTransition() // For loading state without blocking UI
+	const formRef = useRef<HTMLFormElement>(null) // Ref to reset the form
+	const CALENDLY_URL = 'https://calendly.com/flavioespinoza'
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
+	const handleFormSubmit = async (formData: FormData) => {
+		setFormStatus({ status: 'idle', message: null })
 
-		// Get form data including hidden honeypot field
-		const formData = new FormData(e.currentTarget)
-		const honeypotValue = formData.get('website')
+		startTransition(async () => {
+			// Wrap action call in startTransition
+			const result = await submitContactForm(formData)
 
-		// Check honeypot field
-		if (honeypotValue) {
-			console.log('Bot submission detected')
-			setStatus('error')
-			return
-		}
-
-		setStatus('loading')
-
-		try {
-			const res = await fetch('https://formspree.io/f/mldjwpen', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, message })
-			})
-
-			if (res.ok) {
-				setStatus('success')
-				setEmail('')
-				setMessage('')
+			if (result.success) {
+				setFormStatus({ status: 'success', message: result.message })
+				formRef.current?.reset() // Reset form fields on success
 			} else {
-				setStatus('error')
+				setFormStatus({ status: 'error', message: result.error })
 			}
-		} catch {
-			setStatus('error')
-		}
+		})
 	}
 
 	const testBotSubmission = () => {
@@ -53,8 +36,6 @@ export default function ContactPage() {
 			return
 		}
 
-		console.log('🛠️ Starting bot simulation...')
-
 		// Fill all inputs including honeypot
 		const inputs = form.querySelectorAll('input, textarea')
 		inputs.forEach((input) => {
@@ -63,11 +44,8 @@ export default function ContactPage() {
 		})
 
 		// Submit the form
-		console.log('🤖 Submitting form...')
 		const submitEvent = new Event('submit', { bubbles: true, cancelable: true })
 		form.dispatchEvent(submitEvent)
-
-		console.log('✅ Bot simulation complete. Form should show error state.')
 	}
 
 	// Expose to window for testing in development only
@@ -81,36 +59,35 @@ export default function ContactPage() {
 
 			<div className="space-y-2">
 				<h2 className="text-xl font-semibold">📧 Send Me an Email</h2>
-				<form onSubmit={handleSubmit} className="space-y-4">
+				{/* Use the action directly on the form */}
+				<form ref={formRef} action={handleFormSubmit} className="space-y-4">
 					<Input
-						className="bg-cblue-200"
+						className="bg-cblue-200" // Keep styling as needed
 						type="email"
-						name="email"
+						name="email" // Name attribute is crucial for FormData
 						placeholder="Your email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						// Remove value and onChange if using FormData directly
+						// value={email}
+						// onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
-					<Textarea
-						className="bg-cblue-200"
-						name="message"
-						placeholder="Your message"
-						value={message}
-						onChange={(e) => setMessage(e.target.value)}
-						required
-					/>
-					{/* Honeypot field - hidden from users but visible to bots */}
+					<Textarea className="bg-cblue-200" name="message" placeholder="Your message" required />
+					{/* Honeypot field - still useful */}
 					<div className="absolute left-[-9999px]" aria-hidden="true">
 						<Input type="text" name="website" tabIndex={-1} autoComplete="off" />
 					</div>
-					<Button type="submit" disabled={status === 'loading'}>
-						{status === 'loading' ? 'Sending...' : 'Send Message'}
+					<Button type="submit" disabled={isPending}>
+						{' '}
+						{/* Disable button based on isPending */}
+						{isPending ? 'Sending...' : 'Send Message'}
 					</Button>
-					{status === 'success' && (
-						<p className="text-green-600 text-sm">Message sent successfully!</p>
-					)}
-					{status === 'error' && (
-						<p className="text-sm text-red-600">Failed to send. Please try again.</p>
+					{/* Display status messages */}
+					{formStatus.message && (
+						<p
+							className={`text-sm ${formStatus.status === 'success' ? 'text-green-600' : 'text-red-600'}`}
+						>
+							{formStatus.message}
+						</p>
 					)}
 					{process.env.NEXT_PUBLIC_DEV_ONLY === 'true' && (
 						<div className="mt-6 rounded-lg border bg-yellow-50 p-4">
@@ -140,7 +117,7 @@ export default function ContactPage() {
 			<div className="space-y-2">
 				<h2 className="text-xl font-semibold">📅 Let’s Chat – Pick a Time</h2>
 				<iframe
-					src={calendlyUrl}
+					src={CALENDLY_URL}
 					height="900"
 					className="w-full max-w-full rounded border"
 				></iframe>
