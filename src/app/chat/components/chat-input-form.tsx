@@ -1,46 +1,31 @@
 import React, { useRef, useState } from 'react'
 import { useChatStore } from '@/store/chat-store'
-// Assuming consolidated store
 import { Button, Checkbox, Textarea } from '@flavioespinoza/salsa-ui'
-import { getAiReply } from '../actions'
 
 interface ChatInputFormProps {
 	isTyping: boolean
 	setIsTyping: React.Dispatch<React.SetStateAction<boolean>>
-	// If using fetch (less recommended):
-	// onSubmit: (text: string) => Promise<void>;
-	// Or if directly calling Server Action:
 	addMessage: (message: { role: 'user' | 'assistant'; text: string; createdAt: string }) => void // Pass addMessage down
 }
 
 export function ChatInputForm({ isTyping, setIsTyping, addMessage }: ChatInputFormProps) {
-	const { messages, clearMessages } = useChatStore() // Need clearMessages
+	const { clearMessages } = useChatStore()
 	const [input, setInput] = useState('')
 	const [sendOnEnterOnly, setSendOnEnterOnly] = useState(true)
 	const inputRef = useRef<HTMLTextAreaElement>(null)
 
-	// If using Server Action, handle submission here
 	const handleSubmitAction = async (e: React.FormEvent) => {
 		e.preventDefault()
 		const text = input.trim()
 		if (!text || isTyping) return
 
 		setIsTyping(true)
-		setInput('') // Clear input immediately
+		setInput('')
 		const userMessage = { role: 'user' as const, text, createdAt: new Date().toISOString() }
-		addMessage(userMessage) // Add user message to the store
+		addMessage(userMessage)
 
-		// Prepare messages for API
-		const messagesForApi = [
-			...messages.map((m) => ({ role: m.role, content: m.text })), // Make sure format matches action input
-			{ role: userMessage.role, content: userMessage.text }
-		]
-
-		// Call Server Action directly (assuming it's imported)
-		// const result = await getAiReply(messagesForApi);
-		// Fake delay for demonstration if action isn't imported
 		await new Promise((resolve) => setTimeout(resolve, 1000))
-		const result = { success: true, reply: `You said: ${text}` } // Placeholder
+		const result = { success: true, reply: `You said: ${text}` }
 
 		if (result.success) {
 			addMessage({
@@ -49,9 +34,7 @@ export function ChatInputForm({ isTyping, setIsTyping, addMessage }: ChatInputFo
 				createdAt: new Date().toISOString()
 			})
 		} else {
-			// Handle error (e.g., using toast)
 			console.error('Action failed:', 'Error')
-			// Maybe add user message back to input or show error indicator
 		}
 		setIsTyping(false)
 	}
@@ -70,7 +53,6 @@ export function ChatInputForm({ isTyping, setIsTyping, addMessage }: ChatInputFo
 		}
 	}
 
-	// Reusable Button Send component (internal or imported)
 	const ButtonSend = () => (
 		<>
 			<Checkbox
@@ -107,18 +89,16 @@ export function ChatInputForm({ isTyping, setIsTyping, addMessage }: ChatInputFo
 				/>
 				<div className="flex items-center justify-between">
 					{' '}
-					{/* Use items-center */}
 					<Button
 						variant="outline"
 						type="button"
-						onClick={clearMessages} // Call clearMessages from store
-						className="hover:bg-cblue-500/60" // Style from original
+						onClick={clearMessages}
+						className="hover:bg-cblue-500/60"
 					>
 						New Chat
 					</Button>
 					<div className="flex items-center gap-2">
 						{' '}
-						{/* Use items-center */}
 						<ButtonSend />
 					</div>
 				</div>
