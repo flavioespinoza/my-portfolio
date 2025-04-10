@@ -91,9 +91,8 @@ export function ChatInputForm({ isTyping, setIsTyping, addMessage }: ChatInputFo
 
 	return (
 		<form
-			onSubmit={handleSubmitAction} // Use the action handler
-			// Apply fixed positioning styles here if this form is always fixed
-			className="fixed bottom-4 left-1/2 w-[calc(100%-2rem)] max-w-[calc(640px+2rem)] -translate-x-1/2 transform px-4 sm:bottom-8" // Adjusted padding/bottom
+			onSubmit={handleSubmitAction}
+			className="w-full max-w-[calc(640px+2rem)] px-4"
 		>
 			<div className="space-y-3 rounded-xl border border-zinc-100 bg-white p-4 shadow-xl">
 				<Textarea
