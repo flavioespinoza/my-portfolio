@@ -9,20 +9,19 @@ export default function ContactPage() {
 		status: 'idle' | 'success' | 'error'
 		message: string | null
 	}>({ status: 'idle', message: null })
-	const [isPending, startTransition] = useTransition() // For loading state without blocking UI
-	const formRef = useRef<HTMLFormElement>(null) // Ref to reset the form
+	const [isPending, startTransition] = useTransition()
+	const formRef = useRef<HTMLFormElement>(null)
 	const CALENDLY_URL = 'https://calendly.com/flavioespinoza'
 
 	const handleFormSubmit = async (formData: FormData) => {
 		setFormStatus({ status: 'idle', message: null })
 
 		startTransition(async () => {
-			// Wrap action call in startTransition
 			const result = await submitContactForm(formData)
 
 			if (result.success) {
 				setFormStatus({ status: 'success', message: result.message })
-				formRef.current?.reset() // Reset form fields on success
+				formRef.current?.reset()
 			} else {
 				setFormStatus({ status: 'error', message: result.error })
 			}
@@ -36,19 +35,16 @@ export default function ContactPage() {
 			return
 		}
 
-		// Fill all inputs including honeypot
 		const inputs = form.querySelectorAll('input, textarea')
 		inputs.forEach((input) => {
 			;(input as HTMLInputElement).value = 'bot test value'
 			console.log(`✏️ Filled ${input.getAttribute('name') || 'unnamed field'} with test value`)
 		})
 
-		// Submit the form
 		const submitEvent = new Event('submit', { bubbles: true, cancelable: true })
 		form.dispatchEvent(submitEvent)
 	}
 
-	// Expose to window for testing in development only
 	if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
 		;(window as any).testBotSubmission = testBotSubmission
 	}
@@ -59,29 +55,22 @@ export default function ContactPage() {
 
 			<div className="space-y-2">
 				<h2 className="text-xl font-semibold">📧 Send Me an Email</h2>
-				{/* Use the action directly on the form */}
 				<form ref={formRef} action={handleFormSubmit} className="space-y-4">
 					<Input
-						className="bg-cblue-200" // Keep styling as needed
+						className="bg-cblue-200"
 						type="email"
-						name="email" // Name attribute is crucial for FormData
+						name="email"
 						placeholder="Your email"
-						// Remove value and onChange if using FormData directly
-						// value={email}
-						// onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
 					<Textarea className="bg-cblue-200" name="message" placeholder="Your message" required />
-					{/* Honeypot field - still useful */}
 					<div className="absolute left-[-9999px]" aria-hidden="true">
 						<Input type="text" name="website" tabIndex={-1} autoComplete="off" />
 					</div>
 					<Button type="submit" disabled={isPending}>
 						{' '}
-						{/* Disable button based on isPending */}
 						{isPending ? 'Sending...' : 'Send Message'}
 					</Button>
-					{/* Display status messages */}
 					{formStatus.message && (
 						<p
 							className={`text-sm ${formStatus.status === 'success' ? 'text-green-600' : 'text-red-600'}`}
