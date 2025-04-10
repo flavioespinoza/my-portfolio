@@ -103,15 +103,6 @@ body {
 	}
 }
 
-@layer base {
-	* {
-		@apply border-border;
-	}
-	body {
-		@apply bg-background text-foreground;
-	}
-}
-
 a {
 	text-decoration: underline;
 	text-underline-offset: 2px;
