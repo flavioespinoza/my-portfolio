@@ -1,28 +1,29 @@
-// Code Challenge:
-// You are given an input list of n activities and there are restrictions on which activities
-// must be done before another. For example with 10 activities, these are the restrictions:
-// [1,2], [3,4], [1,3]. Activity 1 must be done before activity 2, activity 3 must be done
-// before activity 4, and activity 1 must be done before activity 3. Return one possible order
-// of completing all activities.
+/**
+ * Code Challenge:
+ * You are given an input list of n activities and there are restrictions on which activities must be done before another.
+ * For example with 10 activities, these are the restrictions: [1,2], [3,4], [1,3].
+ * Activity 1 must be done before activity 2, activity 3 must be done before activity 4, and activity 1 must be done before activity 3.
+ * Return one possible order of completing all activities.
+ */
 
 /**
- * Finds one possible order of completing all activities given the dependencies.
- * @param {number} n - The total number of activities (1 to n)
- * @param {Array<Array<number>>} dependencies - Array of [a,b] pairs where activity a must be done before b
- * @returns {Array<number>} - One possible valid ordering of activities
+ * Finds a valid ordering of activities based on given prerequisites
+ * @param {number} n - Number of activities (1 to n)
+ * @param {Array<Array<number>>} prerequisites - Array of [before, after] pairs
+ * @return {Array<number>} - A valid ordering of activities
  */
-function findActivityOrder(n, dependencies) {
-	// Create adjacency list and in-degree array
+function findActivityOrder(n, prerequisites) {
+	// Build adjacency list and calculate in-degrees
 	const graph = Array(n + 1).fill().map(() => [])
 	const inDegree = Array(n + 1).fill(0)
 	
-	// Fill graph and in-degree array
-	for (const [from, to] of dependencies) {
-		graph[from].push(to)
-		inDegree[to]++
+	// Populate the graph
+	for (const [before, after] of prerequisites) {
+		graph[before].push(after)
+		inDegree[after]++
 	}
 	
-	// Initialize queue with all zero in-degree nodes
+	// Find all activities with no prerequisites
 	const queue = []
 	for (let i = 1; i <= n; i++) {
 		if (inDegree[i] === 0) {
@@ -32,40 +33,37 @@ function findActivityOrder(n, dependencies) {
 	
 	const result = []
 	
-	// Process all nodes
+	// Process activities in topological order
 	while (queue.length > 0) {
-		const node = queue.shift()
-		result.push(node)
+		const current = queue.shift()
+		result.push(current)
 		
-		// Process all adjacent nodes
-		for (const neighbor of graph[node]) {
-			inDegree[neighbor]--
+		// For each dependent activity
+		for (const next of graph[current]) {
+			inDegree[next]--
 			
-			// If in-degree becomes 0, add to queue
-			if (inDegree[neighbor] === 0) {
-				queue.push(neighbor)
+			// If all prerequisites are satisfied
+			if (inDegree[next] === 0) {
+				queue.push(next)
 			}
 		}
 	}
 	
-	// Check if we have a valid topological ordering
-	// If not all activities are included, there must be a cycle
-	if (result.length < n) {
-		// Find missing activities
-		const included = new Set(result)
-		for (let i = 1; i <= n; i++) {
-			if (!included.has(i)) {
-				result.push(i) // Add remaining activities
-			}
-		}
+	// Check if we processed all activities
+	if (result.length === n) {
+		return result
+	} else {
+		// There's a cycle, or some activities are unreachable
+		return []
 	}
-	
-	return result
 }
 
 // Required Test Case
 const n = 10
-const dependencies = [[1, 2], [3, 4], [1, 3]]
-const result = findActivityOrder(n, dependencies)
+const prerequisites = [[1, 2], [3, 4], [1, 3]]
+const result = findActivityOrder(n, prerequisites)
 console.log(result)
-// Expected output: [1, 3, 2, 4, 5, 6, 7, 8, 9, 10] (or any valid ordering)
+// Expected output: [1, 3, 2, 4, 5, 6, 7, 8, 9, 10] (or any valid topological ordering)
+
+// Time Complexity: O(n + e) where n is the number of activities and e is the number of prerequisites
+// Space Complexity: O(n + e) for storing the graph and in-degrees
