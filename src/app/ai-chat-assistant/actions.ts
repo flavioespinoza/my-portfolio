@@ -55,7 +55,7 @@ export async function getAiReply(messages: z.infer<typeof getReplySchema>): Prom
 		return { success: true, reply }
 	} catch (err: unknown) {
 		console.error('Chat action error:', err)
-		const errorMessage = err instanceof Error ? err.message : 'An unexpected server error occurred.'
+		const errorMessage = err instanceof Error ? err.message : 'Action error: An unexpected server error occurred.'
 		return { success: false, error: `Server error: ${errorMessage}` }
 	}
 }
