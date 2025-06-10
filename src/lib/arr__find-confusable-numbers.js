@@ -1,19 +1,19 @@
 /**
  * Code Challenge:
  * In an auction with 800 bidders, each bidder is assigned a unique paddle number from 1 to 800.
- * 
+ *
  * Some bidders have their paddles turned upside down. When this happens,
- * the paddle number is reversed. For example, the paddle number 123 is turned 
- * upside down to form the paddle number 321. 
- * 
+ * the paddle number is reversed. For example, the paddle number 123 is turned
+ * upside down to form the paddle number 321.
+ *
  * We call these types of numbers confusable numbers.
- * 
+ *
  * A confusable number is any  number that, when turned upside down, forms a different valid
  * number.
- * 
+ *
  * Numbers that have a trailing zeroes are invalid and excluded from the result.
  * Reversed numbers > 800 are invalid and excluded from the result.
- * 
+ *
  * Your task is to find and return an array of all confusable numbers within the range from 1 to 800.
  */
 
@@ -25,41 +25,41 @@
 function findConfusableNumbers(maxNumber) {
 	// Define digit rotations
 	const rotations = {
-		'0': '0',
-		'1': '1',
-		'6': '9',
-		'8': '8',
-		'9': '6'
+		0: '0',
+		1: '1',
+		6: '9',
+		8: '8',
+		9: '6'
 	}
-	
+
 	const confusableNumbers = []
-	
+
 	// Check numbers from 1 to maxNumber
 	for (let num = 1; num <= maxNumber; num++) {
 		const numStr = num.toString()
-		
+
 		// Skip numbers ending with 0 (trailing zeros before flipping)
 		if (numStr.endsWith('0')) continue
-		
+
 		// Check if all digits can be rotated
-		const canBeRotated = [...numStr].every(digit => digit in rotations)
-		
+		const canBeRotated = [...numStr].every((digit) => digit in rotations)
+
 		if (canBeRotated) {
 			// Rotate the number
 			const rotatedStr = [...numStr]
 				.reverse()
-				.map(digit => rotations[digit])
+				.map((digit) => rotations[digit])
 				.join('')
-			
+
 			const rotatedNum = parseInt(rotatedStr)
-			
+
 			// Check if rotated number is different and within range
 			if (rotatedNum !== num && rotatedNum <= maxNumber) {
 				confusableNumbers.push(num)
 			}
 		}
 	}
-	
+
 	return confusableNumbers
 }
 

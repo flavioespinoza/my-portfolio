@@ -7,11 +7,9 @@ import { cn } from '@/lib/utils'
 const links = [
 	{ href: '/', label: 'Home' },
 	{ href: '/ai-chat-assistant', label: 'AI Chat Assistant' },
-	{ href: '/projects', label: 'Projects' },
+	{ href: '/ai-llm-data-visualizer', label: 'AI LLM Data Visualizer' },
 	{ href: '/commits', label: 'Commits' },
-	{ href: '/about', label: 'About' },
-	{ href: '/contact', label: 'Contact' },
-	// { href: '/fluid', label: 'Fluid' }
+	{ href: '/contact', label: 'Contact' }
 ]
 
 export function Navbar() {

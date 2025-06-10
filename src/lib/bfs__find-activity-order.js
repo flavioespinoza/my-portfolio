@@ -14,15 +14,17 @@
  */
 function findActivityOrder(n, prerequisites) {
 	// Build adjacency list and calculate in-degrees
-	const graph = Array(n + 1).fill().map(() => [])
+	const graph = Array(n + 1)
+		.fill()
+		.map(() => [])
 	const inDegree = Array(n + 1).fill(0)
-	
+
 	// Populate the graph
 	for (const [before, after] of prerequisites) {
 		graph[before].push(after)
 		inDegree[after]++
 	}
-	
+
 	// Find all activities with no prerequisites
 	const queue = []
 	for (let i = 1; i <= n; i++) {
@@ -30,25 +32,25 @@ function findActivityOrder(n, prerequisites) {
 			queue.push(i)
 		}
 	}
-	
+
 	const result = []
-	
+
 	// Process activities in topological order
 	while (queue.length > 0) {
 		const current = queue.shift()
 		result.push(current)
-		
+
 		// For each dependent activity
 		for (const next of graph[current]) {
 			inDegree[next]--
-			
+
 			// If all prerequisites are satisfied
 			if (inDegree[next] === 0) {
 				queue.push(next)
 			}
 		}
 	}
-	
+
 	// Check if we processed all activities
 	if (result.length === n) {
 		return result
@@ -60,7 +62,11 @@ function findActivityOrder(n, prerequisites) {
 
 // Required Test Case
 const n = 10
-const prerequisites = [[1, 2], [3, 4], [1, 3]]
+const prerequisites = [
+	[1, 2],
+	[3, 4],
+	[1, 3]
+]
 const result = findActivityOrder(n, prerequisites)
 console.log(result)
 // Expected output: [1, 3, 2, 4, 5, 6, 7, 8, 9, 10] (or any valid topological ordering)
