@@ -49,7 +49,7 @@ export async function getAiReply(messages: z.infer<typeof getReplySchema>): Prom
 
 		if (!reply) {
 			console.error('No reply content found in OpenAI response:', json)
-			return { success: false, error: 'Sorry, something went wrong receiving the reply.' }
+			return { success: false, error: 'Action error: Sorry, something went wrong receiving the reply.' }
 		}
 
 		return { success: true, reply }
