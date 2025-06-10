@@ -5,26 +5,12 @@ export default function AboutPage() {
 
 			<section className="space-y-4 text-base leading-relaxed text-muted-foreground">
 				<p>
-					I'm Flavio Espinoza — a senior front-end engineer with over 11 years of experience
-					building fast, accessible, and elegant interfaces using React, TypeScript, and Next.js.
-				</p>
-
-				<p>
-					My work blends engineering precision with design sensibility. I have a master’s degree in
-					architecture and have received multiple design awards, including first place in a global
-					competition. I apply that same eye for structure, layout, and hierarchy in the interfaces
-					I build.
-				</p>
-
-				<p>
-					I specialize in responsive UI development, design systems, data visualization (D3.js), and
-					integrating with AI/LLM APIs like OpenAI. I'm currently focused on building performant
-					front-end apps with Tailwind CSS, Zustand, and React Server Components.
-				</p>
-
-				<p>
-					I'm open to full-time or contract opportunities — remote preferred, or on-site in the Salt
-					Lake City area. Let’s work together.
+					Creative and technically versatile developer with 11+ years of experience building
+					high-impact, production-grade applications using React.js, Node.js, and TypeScript. Proven
+					ability to ship full-stack features end-to-end—from idea to production—across Web3,
+					FinTech, and AI-first platforms. Adept at collaborating directly with founders and product
+					leaders in fast-paced startup environments. Strong background in real-time data systems,
+					D3.js visualization, and OpenAI integration for AI-augmented development.
 				</p>
 			</section>
 		</main>

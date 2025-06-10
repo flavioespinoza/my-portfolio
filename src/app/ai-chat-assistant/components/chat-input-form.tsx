@@ -30,19 +30,32 @@ export function ChatInputForm({ isTyping, setIsTyping, addMessage }: ChatInputFo
 			{ role: userMessage.role, content: userMessage.text }
 		]
 
-		await new Promise((resolve) => setTimeout(resolve, 1000))
-		const result = { success: true, reply: `You said: ${text}` }
+		try {
+			const result = await getAiReply(messagesForApi)
 
-		if (result.success) {
+			if (result.success) {
+				addMessage({
+					role: 'assistant',
+					text: result.reply,
+					createdAt: new Date().toISOString()
+				})
+			} else {
+				addMessage({
+					role: 'assistant',
+					text: `Error: ${result.error}`,
+					createdAt: new Date().toISOString()
+				})
+			}
+		} catch (error) {
+			console.error('Failed to get AI reply:', error)
 			addMessage({
 				role: 'assistant',
-				text: result.reply,
+				text: 'Sorry, there was an error processing your request.',
 				createdAt: new Date().toISOString()
 			})
-		} else {
-			console.error('Action failed:', 'Error')
+		} finally {
+			setIsTyping(false)
 		}
-		setIsTyping(false)
 	}
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -72,7 +85,7 @@ export function ChatInputForm({ isTyping, setIsTyping, addMessage }: ChatInputFo
 				Send w/ Enter
 			</label>
 			<Button type="submit" variant="default" disabled={isTyping || !input.trim()}>
-				Send
+				Send Message
 			</Button>
 		</>
 	)
