@@ -8,7 +8,7 @@ export default function HomePage() {
 			<div className="flex justify-end"></div>
 			<h1 className="text-4xl font-bold">Flavio Espinoza</h1>
 			<p className="text-lg text-muted-foreground">
-				Front-End Developer & AI Builder · React · Next.js · Tailwind · LLMs
+				Full-Stack Developer & AI Builder · React · Next.js · Tailwind · Node.js · ChatGPT · OpenAI · LLMs
 			</p>
 			<div className="space-x-4">
 				<Button variant="default">
