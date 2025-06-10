@@ -7,7 +7,7 @@ export default function ProjectsPage() {
 				loading="lazy"
 				src="https://ai-llm-data-visualizer-git-main-flavio-espinozas-projects.vercel.app"
 				width="100%"
-				height="500"
+				height="1000"
 				className="w-full rounded-md border shadow-sm"
 			/>
 		</main>
