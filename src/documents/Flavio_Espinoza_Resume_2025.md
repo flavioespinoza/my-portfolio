@@ -7,7 +7,7 @@ Salt Lake City, UT · flavio.espinoza@gmail.com · [github.com/flavioespinoza](h
 
 ## Summary
 
-Experienced frontend developer with 11+ years building performant, accessible, and visually polished user interfaces.  
+Experienced full-stack developer with 11+ years building performant, accessible, and visually polished user interfaces.  
 Recent focus on AI-integrated applications, LLM tooling, and data visualization using modern React, TypeScript, and Next.js frameworks.
 
 ---

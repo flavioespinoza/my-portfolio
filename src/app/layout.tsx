@@ -94,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 								]
 							},
 							description:
-								'Senior frontend engineer with 11+ years of experience delivering responsive, performant, and accessible UI with React, TypeScript, and modern frameworks. Recent focus on LLM-powered applications using GPT-4o and D3.js for real-time visualization.'
+								'Senior full-stack engineer with 11+ years of experience delivering responsive, performant, and accessible UI with React, TypeScript, and modern frameworks. Recent focus on LLM-powered applications using GPT-4o and D3.js for real-time visualization.'
 						})
 					}}
 				/>

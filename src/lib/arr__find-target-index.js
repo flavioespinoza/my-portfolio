@@ -13,13 +13,13 @@
 function findTargetIndex(nums, target) {
 	// Find all indices where target appears
 	const indices = []
-	
+
 	for (let i = 0; i < nums.length; i++) {
 		if (nums[i] === target) {
 			indices.push(i)
 		}
 	}
-	
+
 	// Randomly select one of the indices
 	const randomIndex = Math.floor(Math.random() * indices.length)
 	return indices[randomIndex]

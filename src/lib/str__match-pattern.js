@@ -14,7 +14,7 @@ function matchPattern(pattern, str) {
 	// Parse the pattern
 	const patternParts = []
 	let i = 0
-	
+
 	while (i < pattern.length) {
 		// If current character is a letter
 		if (isNaN(parseInt(pattern[i]))) {
@@ -30,13 +30,13 @@ function matchPattern(pattern, str) {
 			patternParts.push(parseInt(num))
 		}
 	}
-	
+
 	// Check if the pattern matches the string
 	let strIndex = 0
-	
+
 	for (let j = 0; j < patternParts.length; j++) {
 		const part = patternParts[j]
-		
+
 		if (typeof part === 'string') {
 			// Check if the character matches
 			if (str[strIndex] !== part) {
@@ -46,14 +46,14 @@ function matchPattern(pattern, str) {
 		} else {
 			// Skip the specified number of characters
 			strIndex += part
-			
+
 			// Check if we've exceeded the string length
 			if (strIndex > str.length) {
 				return false
 			}
 		}
 	}
-	
+
 	// Check if we've reached the end of the string
 	return strIndex === str.length
 }

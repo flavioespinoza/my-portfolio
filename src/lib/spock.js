@@ -22,9 +22,6 @@
 
 // main();
 
-
-
-
 // const f1 = (cb) => {
 //   setTimeout(() => {
 //     console.log('1');
@@ -45,8 +42,6 @@
 
 // const proxy = () => f2(f3);
 // f1(proxy);
-
-
 
 // // f1 simulates a network request
 // function f1() {
