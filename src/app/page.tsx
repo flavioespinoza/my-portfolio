@@ -1,7 +1,6 @@
-// File: src/app/featured-projects/page.tsx
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -26,28 +25,11 @@ interface Project {
 
 const PROJECTS: Project[] = [
 	{
-		id: 'ai-llm-data-visualizer',
-		title: 'LLM Data Visualizer',
-		tagline: 'Prompt → clean data → interactive charts',
-		category: 'AI',
-		tags: ['Next.js', 'TypeScript', 'D3.js', 'OpenAI'],
-		cover: '/projects/ai-llm-data-visualizer/image-1.png',
-		images: [
-			'/projects/ai-llm-data-visualizer/image-1.png',
-			'/projects/ai-llm-data-visualizer/image-2.png',
-			'/projects/ai-llm-data-visualizer/image-3.png'
-		],
-		links: [
-			{ label: 'Live Demo', href: '/ai-llm-data-visualizer' },
-			{ label: 'GitHub', href: 'https://github.com/flavioespinoza' }
-		]
-	},
-	{
 		id: 'ai-chat-assistant',
 		title: 'AI Chat Assistant',
 		tagline: 'Lightweight chat UI with message feedback + copy',
 		category: 'AI',
-		tags: ['Next.js', 'Zustand', 'OpenAI', 'Tailwind'],
+		tags: ['React.js','Next.js', 'Zustand', 'OpenAI', 'Tailwind', 'Node.js'],
 		cover: '/projects/ai-chat-assistant/image-1.png',
 		images: [
 			'/projects/ai-chat-assistant/image-1.png',
@@ -60,18 +42,158 @@ const PROJECTS: Project[] = [
 		]
 	},
 	{
+		id: 'ai-llm-data-visualizer',
+		title: 'LLM Data Visualizer',
+		tagline: 'Prompt → clean data → interactive charts',
+		category: 'AI',
+		tags: ['React.js','Next.js', 'TypeScript', 'D3.js', 'OpenAI', 'Node.js'],
+		cover: '/projects/ai-llm-data-visualizer/image-1.png',
+		images: [
+			'/projects/ai-llm-data-visualizer/image-1.png',
+			'/projects/ai-llm-data-visualizer/image-2.png',
+			'/projects/ai-llm-data-visualizer/image-3.png'
+		],
+		links: [
+			{ label: 'Live Demo', href: '/ai-llm-data-visualizer' },
+			{ label: 'GitHub', href: 'https://github.com/flavioespinoza' }
+		]
+	},
+	 {
+    id: 'bless-network',
+    title: 'Bless Network',
+    tagline:
+      'Decentralized compute dashboard with multimodal auth, real-time monitoring, and gamified engagement.',
+    category: 'Web3',
+    tags: ['React.js', 'Next.js', 'TypeScript', 'Tailwind CSS', 'SWR', 'WebSocket', 'Recharts', 'WCAG', 'Node.js'],
+    cover: '/projects/bless/image-1.png',
+    images: [
+      '/projects/bless/1.png',
+      '/projects/bless/2.png',
+      '/projects/bless/3.png'
+    ],
+    links: [
+      { label: 'Project Link', href: 'https://bless.network/dashboard' }
+    ]
+  },
+	{
+		id: 'akash-console',
+		title: 'Akash Console',
+		tagline: 'Web platform that lets you deploy Docker containers on the Akash Network, a decentralized cloud computing marketplace.',
+		category: 'Web3',
+		tags: ['React.js', 'TypeScript', 'Fastify', 'WebSocket', 'mTLS', 'HTTP/2', 'Node.js'],
+		cover: '/projects/akash-console/image-1.png',
+		images: [
+			'/projects/akash-console/image-1.png',
+			'/projects/akash-console/image-2.png',
+			'/projects/akash-console/image-3.png'
+		],
+		links: [
+			{ label: 'Project Link', href: 'https://console.akash.network' }
+		]
+	},
+	  {
+    id: 'exemplar',
+    title: 'Exemplar',
+    tagline:
+      'Identity verification UI with multi-step OIDC via Okta, Trust Graph visualization, and real-time document checks.',
+    category: 'UI Systems',
+    tags: ['React.js', 'Material UI', 'Redux', 'D3.js', 'OIDC', 'Okta', 'Jumio', 'WCAG', 'Go', 'Node.js'],
+    cover: '/projects/exemplar/image-1.png',
+    images: [
+      '/projects/exemplar/1.png',
+      '/projects/exemplar/2.png',
+      '/projects/exemplar/3.png'
+		],
+		links: [
+			
+		]
+  },
+	  {
+    id: 'street-fighter',
+    title: 'Street Fighter',
+    tagline:
+      'Real-time trading dashboard with sub-second order book updates, TA overlays, and interactive order controls.',
+    category: 'Web3',
+    tags: ['React.js', 'D3.js', 'Socket.IO', 'WebSocket', 'Trading', 'Node.js'],
+    cover: '/projects/street-fighter/image-1.png',
+    images: [
+      '/projects/street-fighter/1.png',
+      '/projects/street-fighter/2.png',
+      '/projects/street-fighter/3.png'
+		],
+		links: [
+			
+		]
+  },
+	{
+		id: 'swim-ai',
+		title: 'Swim AI',
+		tagline: 'Interactive mapping application with D3.js overlays for real-time IoT device tracking and analytics',
+		category: 'Data Viz',
+		tags: ['React.js', 'D3.js', 'Google Maps API', 'FLUX', 'IoT', 'Node.js'],
+		cover: '/projects/swim-ai/image-1.png',
+		images: [
+			'/projects/swim-ai/image-1.png',
+			'/projects/swim-ai/image-2.png',
+			'/projects/swim-ai/image-3.png'
+		],
+		links: []
+	},
+	{
+		id: 'solarcity',
+		title: 'SolarCity',
+		tagline: 'Real-time analytics dashboard with interactive financial data visualization and mobile-optimized responsive design',
+		category: 'Data Viz',
+		tags: ['Angular', 'D3.js', 'Responsive Design', 'RESTful API', 'Node.js'],
+		cover: '/projects/solarcity/image-1.png',
+		images: [
+			'/projects/solarcity/image-1.png',
+			'/projects/solarcity/image-2.png',
+			'/projects/solarcity/image-3.png'
+		],
+		links: []
+	},
+	{
+		id: 'vivint-solar',
+		title: 'Vivint Solar',
+		tagline: 'Modular analytics platform with lazy loading, real-time data visualization, and scalable architecture for high-volume processing',
+		category: 'Data Viz',
+		tags: ['Angular', 'D3.js', 'Modular Architecture', 'Node.js'],
+		cover: '/projects/vivint-solar/image-1.png',
+		images: [
+			'/projects/vivint-solar/image-1.png',
+			'/projects/vivint-solar/image-2.png',
+			'/projects/vivint-solar/image-3.png'
+		],
+		links: []
+	},
+	{
+		id: 'attensity',
+		title: 'Attensity',
+		tagline: 'Enterprise CRM platform with high-performance D3.js visualizations for real-time financial data serving Fortune 500 clients',
+		category: 'Data Viz',
+		tags: ['JavaScript', 'D3.js', 'Enterprise', 'CRM', 'Node.js'],
+		cover: '/projects/attensity/image-1.png',
+		images: [
+			'/projects/attensity/image-1.png',
+			'/projects/attensity/image-2.png',
+			'/projects/attensity/image-3.png'
+		],
+		links: []
+	},
+	{
 		id: 'commits-analytics',
 		title: 'Commits Analytics',
-		tagline: 'Morphing charts + CSV export of contributions',
+		tagline: 'Morphing charts + CSV export of GitHub contributions',
 		category: 'Data Viz',
-		tags: ['Salsa-UI', 'D3.js', 'CSV', 'Next.js'],
+		tags: ['React.js', 'Next.js', 'Salsa-UI', 'D3.js', 'CSV', 'Node.js'],
 		cover: '/projects/commits/image-1.png',
 		images: [
 			'/projects/commits/image-1.png',
 			'/projects/commits/image-2.png',
 			'/projects/commits/image-3.png'
 		],
-		links: [{ label: 'Open App', href: '/commits' }]
+		links: [{ label: 'Live Demo', href: '/commits' }]
 	}
 ]
 
@@ -131,7 +253,6 @@ export default function FeaturedProjectsPage() {
 				))}
 			</section>
 
-			{/* Optional empty state */}
 			{filtered.length === 0 && (
 				<div className="mt-12 rounded-md border p-6 text-center text-sm text-muted-foreground">
 					No projects match your filters.
@@ -150,6 +271,7 @@ export default function FeaturedProjectsPage() {
 
 function ProjectCard({ project }: { project: Project }) {
 	const [open, setOpen] = useState(false)
+	const close = useCallback(() => setOpen(false), [])
 
 	return (
 		<article
@@ -157,7 +279,6 @@ function ProjectCard({ project }: { project: Project }) {
 				'group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-lg'
 			)}
 		>
-			{/* Controlled dialog ensures overlay/ESC update state via onOpenChange */}
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogTrigger asChild>
 					<button
@@ -174,7 +295,6 @@ function ProjectCard({ project }: { project: Project }) {
 								className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
 								priority={false}
 							/>
-							{/* Soft gradient overlay on hover */}
 							<div
 								className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								style={{
@@ -193,9 +313,9 @@ function ProjectCard({ project }: { project: Project }) {
 							<p className="line-clamp-2 text-sm text-muted-foreground">{project.tagline}</p>
 
 							<ul className="mt-2 flex flex-wrap gap-1">
-								{project.tags.map((t) => (
+								{project.tags.map((t, i) => (
 									<li
-										key={t}
+										key={i}
 										className="rounded-md border px-2 py-0.5 text-[11px] text-muted-foreground"
 									>
 										{t}
@@ -206,21 +326,22 @@ function ProjectCard({ project }: { project: Project }) {
 					</button>
 				</DialogTrigger>
 
-				{/* Modal content */}
-				<DialogContent title={project.title} description={project.tagline} hideTitleVisually>
-					{/* Gallery */}
+				<DialogContent title={project.title} description={project.tagline}>
+					{/* Gallery: stack on tablet (md) & mobile; only split into columns on desktop */}
 					{project.images && project.images.length > 0 && (
-						<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-							{project.images.map((src, i) => (
-								<div key={src} className="relative aspect-[4/3] overflow-hidden rounded-md">
-									<Image
-										src={src}
-										alt={`${project.title} screenshot ${i + 1}`}
-										fill
-										className="object-cover"
-									/>
-								</div>
-							))}
+						<div className="mx-auto">
+							<div className="grid grid-cols-1 gap-3 lg:grid-cols-2 xl:grid-cols-3">
+								{project.images.map((src, i) => (
+									<div key={src} className="relative aspect-[4/3] overflow-hidden rounded-md">
+										<Image
+											src={src}
+											alt={`${project.title} screenshot ${i + 1}`}
+											fill
+											className="object-cover"
+										/>
+									</div>
+								))}
+							</div>
 						</div>
 					)}
 
