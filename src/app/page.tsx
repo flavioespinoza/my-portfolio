@@ -1,6 +1,7 @@
+// File: src/app/featured-projects/page.tsx
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import Image from 'next/image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog'
@@ -9,16 +10,27 @@ import { cn } from '@/lib/utils'
 // ---------------------------------------------
 // Featured Projects — Responsive Grid w/ Filters
 // ---------------------------------------------
-// Design goals
-// - Sleek, modern grid (2–3 columns) showing distinct projects
-// - Crisp cover image + concise tagline + tech tags
-// - Optional category filter via Tabs (AI, Web3, Data Viz, UI, etc.)
-// - Accessible modal detail with additional images and links
-// - Subtle, tasteful hover animations (no carousel / no infinite scroll)
+// - Responsive card grid (no carousel / no infinite scroll)
+// - Category tabs + text search
+// - Accessible modal with functional close (setOpen(false))
 // ---------------------------------------------
 
-// 1) Define your projects here. Images should live in /public/projects/<slug>/...
-//    You can add as many as you like; the grid remains snappy.
+const CATEGORIES = ['All', 'AI', 'Web3', 'Data Viz', 'UI Systems'] as const
+
+interface ProjectLink {
+  label: string
+  href: string
+}
+interface Project {
+  id: string
+  title: string
+  tagline: string
+  category: (typeof CATEGORIES)[number] | 'AI' | 'Web3' | 'Data Viz' | 'UI Systems'
+  tags: string[]
+  cover: string
+  images?: string[]
+  links?: ProjectLink[]
+}
 
 const PROJECTS: Project[] = [
   {
@@ -27,13 +39,11 @@ const PROJECTS: Project[] = [
     tagline: 'Prompt → clean data → interactive charts',
     category: 'AI',
     tags: ['Next.js', 'TypeScript', 'D3.js', 'OpenAI'],
-    cover: '/projects/ai-llm-data-visualizer/cover.png',
+    cover: '/projects/ai-llm-data-visualizer/image-1.png',
     images: [
       '/projects/ai-llm-data-visualizer/image-1.png',
-			'/projects/ai-llm-data-visualizer/image-2.png',
-      '/projects/ai-llm-data-visualizer/image-3.png',
-      '/projects/ai-llm-data-visualizer/image-4.png',
-      '/projects/ai-llm-data-visualizer/image-5.png',
+      '/projects/ai-llm-data-visualizer/image-2.png',
+      '/projects/ai-llm-data-visualizer/image-3.png'
     ],
     links: [
       { label: 'Live Demo', href: '/ai-llm-data-visualizer' },
@@ -46,11 +56,11 @@ const PROJECTS: Project[] = [
     tagline: 'Lightweight chat UI with message feedback + copy',
     category: 'AI',
     tags: ['Next.js', 'Zustand', 'OpenAI', 'Tailwind'],
-    cover: '/projects/ai-chat-assistant/cover.png',
+    cover: '/projects/ai-chat-assistant/image-1.png',
     images: [
       '/projects/ai-chat-assistant/image-1.png',
       '/projects/ai-chat-assistant/image-2.png',
-      '/projects/ai-chat-assistant/image-3.png'
+			'/projects/ai-chat-assistant/image-3.png'
     ],
     links: [
       { label: 'Open App', href: '/ai-chat-assistant' },
@@ -63,31 +73,15 @@ const PROJECTS: Project[] = [
     tagline: 'Morphing charts + CSV export of contributions',
     category: 'Data Viz',
     tags: ['Salsa-UI', 'D3.js', 'CSV', 'Next.js'],
-    cover: '/projects/commits/cover.png',
+    cover: '/projects/commits/image-1.png',
     images: [
-      '/projects/commits/1.png',
-      '/projects/commits/2.png'
+      '/projects/commits/image-1.png',
+      '/projects/commits/image-2.png',
+			'/projects/commits/image-3.png'
     ],
-    links: [
-      { label: 'Open App', href: '/commits' }
-    ]
+    links: [{ label: 'Open App', href: '/commits' }]
   }
 ]
-
-const CATEGORIES = ['All', 'AI', 'Web3', 'Data Viz', 'UI Systems'] as const
-
-// Types
-interface ProjectLink { label: string; href: string }
-interface Project {
-  id: string
-  title: string
-  tagline: string
-  category: typeof CATEGORIES[number] | 'AI' | 'Web3' | 'Data Viz' | 'UI Systems'
-  tags: string[]
-  cover: string
-  images?: string[]
-  links?: ProjectLink[]
-}
 
 export default function FeaturedProjectsPage() {
   const [query, setQuery] = useState('')
@@ -135,10 +129,7 @@ export default function FeaturedProjectsPage() {
       </header>
 
       {/* Grid */}
-      <section
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        aria-label="Project grid"
-      >
+      <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-label="Project grid">
         {filtered.map((p) => (
           <ProjectCard key={p.id} project={p} />
         ))}
@@ -163,13 +154,16 @@ export default function FeaturedProjectsPage() {
 
 function ProjectCard({ project }: { project: Project }) {
   const [open, setOpen] = useState(false)
+  const close = useCallback(() => setOpen(false), [])
+
   return (
     <article
       className={cn(
-        'group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-lg',
+        'group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-lg'
       )}
     >
-      <Dialog open={open}>
+      {/* Controlled dialog ensures overlay/ESC update state via onOpenChange */}
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <button
             onClick={() => setOpen(true)}
@@ -186,9 +180,12 @@ function ProjectCard({ project }: { project: Project }) {
                 priority={false}
               />
               {/* Soft gradient overlay on hover */}
-              <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{
-                background: 'linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 100%)'
-              }} />
+              <div
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 100%)'
+                }}
+              />
             </figure>
 
             <div className="space-y-2 p-4">
@@ -214,40 +211,52 @@ function ProjectCard({ project }: { project: Project }) {
           </button>
         </DialogTrigger>
 
-        {/* Modal content */}
-        <DialogContent title={project.title} description={project.tagline}>
-          <div className="space-y-4">
-            {project.images && project.images.length > 0 && (
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {project.images.map((src, i) => (
-                  <div key={src} className="relative aspect-[4/3] overflow-hidden rounded-md">
-                    <Image
-                      src={src}
-                      alt={`${project.title} screenshot ${i + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {project.links && project.links.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {project.links.map((l) => (
-                  <a
-                    key={l.href}
-                    href={l.href}
-                    className="rounded-md border px-3 py-1 text-sm hover:bg-muted"
-                    target={l.href.startsWith('http') ? '_blank' : undefined}
-                    rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  >
-                    {l.label}
-                  </a>
-                ))}
-              </div>
-            )}
+        {/* Modal content with functional close button */}
+        <DialogContent title={project.title} description={project.tagline} hideTitleVisually>
+          {/* Top action row with a functional close — avoids any event composition issues */}
+          <div className="mb-3 flex items-center justify-end">
+            <button
+              type="button"
+              onClick={close}
+              className="rounded px-2 py-1 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              aria-label="Close dialog"
+            >
+              ✕
+            </button>
           </div>
+
+          {/* Gallery */}
+          {project.images && project.images.length > 0 && (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {project.images.map((src, i) => (
+                <div key={src} className="relative aspect-[4/3] overflow-hidden rounded-md">
+                  <Image
+                    src={src}
+                    alt={`${project.title} screenshot ${i + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Links */}
+          {project.links && project.links.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {project.links.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  className="rounded-md border px-3 py-1 text-sm hover:bg-muted"
+                  target={l.href.startsWith('http') ? '_blank' : undefined}
+                  rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </article>
