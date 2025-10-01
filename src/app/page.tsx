@@ -1,264 +1,247 @@
 // File: src/app/featured-projects/page.tsx
 'use client'
 
-import { useMemo, useState, useCallback } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
-
-// ---------------------------------------------
-// Featured Projects — Responsive Grid w/ Filters
-// ---------------------------------------------
-// - Responsive card grid (no carousel / no infinite scroll)
-// - Category tabs + text search
-// - Accessible modal with functional close (setOpen(false))
-// ---------------------------------------------
 
 const CATEGORIES = ['All', 'AI', 'Web3', 'Data Viz', 'UI Systems'] as const
 
 interface ProjectLink {
-  label: string
-  href: string
+	label: string
+	href: string
 }
 interface Project {
-  id: string
-  title: string
-  tagline: string
-  category: (typeof CATEGORIES)[number] | 'AI' | 'Web3' | 'Data Viz' | 'UI Systems'
-  tags: string[]
-  cover: string
-  images?: string[]
-  links?: ProjectLink[]
+	id: string
+	title: string
+	tagline: string
+	category: (typeof CATEGORIES)[number] | 'AI' | 'Web3' | 'Data Viz' | 'UI Systems'
+	tags: string[]
+	cover: string
+	images?: string[]
+	links?: ProjectLink[]
 }
 
 const PROJECTS: Project[] = [
-  {
-    id: 'ai-llm-data-visualizer',
-    title: 'LLM Data Visualizer',
-    tagline: 'Prompt → clean data → interactive charts',
-    category: 'AI',
-    tags: ['Next.js', 'TypeScript', 'D3.js', 'OpenAI'],
-    cover: '/projects/ai-llm-data-visualizer/image-1.png',
-    images: [
-      '/projects/ai-llm-data-visualizer/image-1.png',
-      '/projects/ai-llm-data-visualizer/image-2.png',
-      '/projects/ai-llm-data-visualizer/image-3.png'
-    ],
-    links: [
-      { label: 'Live Demo', href: '/ai-llm-data-visualizer' },
-      { label: 'GitHub', href: 'https://github.com/flavioespinoza' }
-    ]
-  },
-  {
-    id: 'ai-chat-assistant',
-    title: 'AI Chat Assistant',
-    tagline: 'Lightweight chat UI with message feedback + copy',
-    category: 'AI',
-    tags: ['Next.js', 'Zustand', 'OpenAI', 'Tailwind'],
-    cover: '/projects/ai-chat-assistant/image-1.png',
-    images: [
-      '/projects/ai-chat-assistant/image-1.png',
-      '/projects/ai-chat-assistant/image-2.png',
+	{
+		id: 'ai-llm-data-visualizer',
+		title: 'LLM Data Visualizer',
+		tagline: 'Prompt → clean data → interactive charts',
+		category: 'AI',
+		tags: ['Next.js', 'TypeScript', 'D3.js', 'OpenAI'],
+		cover: '/projects/ai-llm-data-visualizer/image-1.png',
+		images: [
+			'/projects/ai-llm-data-visualizer/image-1.png',
+			'/projects/ai-llm-data-visualizer/image-2.png',
+			'/projects/ai-llm-data-visualizer/image-3.png'
+		],
+		links: [
+			{ label: 'Live Demo', href: '/ai-llm-data-visualizer' },
+			{ label: 'GitHub', href: 'https://github.com/flavioespinoza' }
+		]
+	},
+	{
+		id: 'ai-chat-assistant',
+		title: 'AI Chat Assistant',
+		tagline: 'Lightweight chat UI with message feedback + copy',
+		category: 'AI',
+		tags: ['Next.js', 'Zustand', 'OpenAI', 'Tailwind'],
+		cover: '/projects/ai-chat-assistant/image-1.png',
+		images: [
+			'/projects/ai-chat-assistant/image-1.png',
+			'/projects/ai-chat-assistant/image-2.png',
 			'/projects/ai-chat-assistant/image-3.png'
-    ],
-    links: [
-      { label: 'Open App', href: '/ai-chat-assistant' },
-      { label: 'GitHub', href: 'https://github.com/flavioespinoza' }
-    ]
-  },
-  {
-    id: 'commits-analytics',
-    title: 'Commits Analytics',
-    tagline: 'Morphing charts + CSV export of contributions',
-    category: 'Data Viz',
-    tags: ['Salsa-UI', 'D3.js', 'CSV', 'Next.js'],
-    cover: '/projects/commits/image-1.png',
-    images: [
-      '/projects/commits/image-1.png',
-      '/projects/commits/image-2.png',
+		],
+		links: [
+			{ label: 'Open App', href: '/ai-chat-assistant' },
+			{ label: 'GitHub', href: 'https://github.com/flavioespinoza' }
+		]
+	},
+	{
+		id: 'commits-analytics',
+		title: 'Commits Analytics',
+		tagline: 'Morphing charts + CSV export of contributions',
+		category: 'Data Viz',
+		tags: ['Salsa-UI', 'D3.js', 'CSV', 'Next.js'],
+		cover: '/projects/commits/image-1.png',
+		images: [
+			'/projects/commits/image-1.png',
+			'/projects/commits/image-2.png',
 			'/projects/commits/image-3.png'
-    ],
-    links: [{ label: 'Open App', href: '/commits' }]
-  }
+		],
+		links: [{ label: 'Open App', href: '/commits' }]
+	}
 ]
 
 export default function FeaturedProjectsPage() {
-  const [query, setQuery] = useState('')
-  const [activeCategory, setActiveCategory] = useState<(typeof CATEGORIES)[number]>('All')
+	const [query, setQuery] = useState('')
+	const [activeCategory, setActiveCategory] = useState<(typeof CATEGORIES)[number]>('All')
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return PROJECTS.filter((p) => {
-      const matchesCategory = activeCategory === 'All' || p.category === activeCategory
-      const matchesQuery = !q
-        ? true
-        : [p.title, p.tagline, p.tags.join(' ')].join(' ').toLowerCase().includes(q)
-      return matchesCategory && matchesQuery
-    })
-  }, [query, activeCategory])
+	const filtered = useMemo(() => {
+		const q = query.trim().toLowerCase()
+		return PROJECTS.filter((p) => {
+			const matchesCategory = activeCategory === 'All' || p.category === activeCategory
+			const matchesQuery = !q
+				? true
+				: [p.title, p.tagline, p.tags.join(' ')].join(' ').toLowerCase().includes(q)
+			return matchesCategory && matchesQuery
+		})
+	}, [query, activeCategory])
 
-  return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
-      <header className="mb-8 space-y-3">
-        <h1 className="text-3xl font-bold tracking-tight">Featured Projects</h1>
-        <p className="text-sm text-muted-foreground">
-          Clean, scannable project grid with filters. Hover or open a project for more visuals + links.
-        </p>
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v as any)}>
-            <TabsList>
-              {CATEGORIES.map((c) => (
-                <TabsTrigger key={c} value={c}>
-                  {c}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+	return (
+		<main className="mx-auto max-w-6xl px-6 py-10">
+			<header className="mb-8 space-y-3">
+				<h1 className="text-3xl font-bold tracking-tight">Featured Projects</h1>
+				<p className="text-sm text-muted-foreground">
+					Clean, scannable project grid with filters. Hover or open a project for more visuals +
+					links.
+				</p>
+				<div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+					<Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v as any)}>
+						<TabsList>
+							{CATEGORIES.map((c) => (
+								<TabsTrigger key={c} value={c}>
+									{c}
+								</TabsTrigger>
+							))}
+						</TabsList>
+					</Tabs>
 
-          <div className="relative w-full sm:w-72">
-            <input
-              type="text"
-              placeholder="Search by title, tag, or tech…"
-              className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none ring-offset-background focus:ring-2 focus:ring-ring"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </div>
-        </div>
-      </header>
+					<div className="relative w-full sm:w-72">
+						<input
+							type="text"
+							placeholder="Search by title, tag, or tech…"
+							className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none ring-offset-background focus:ring-2 focus:ring-ring"
+							value={query}
+							onChange={(e) => setQuery(e.target.value)}
+						/>
+					</div>
+				</div>
+			</header>
 
-      {/* Grid */}
-      <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-label="Project grid">
-        {filtered.map((p) => (
-          <ProjectCard key={p.id} project={p} />
-        ))}
-      </section>
+			{/* Grid */}
+			<section
+				className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+				aria-label="Project grid"
+			>
+				{filtered.map((p) => (
+					<ProjectCard key={p.id} project={p} />
+				))}
+			</section>
 
-      {/* Optional empty state */}
-      {filtered.length === 0 && (
-        <div className="mt-12 rounded-md border p-6 text-center text-sm text-muted-foreground">
-          No projects match your filters.
-        </div>
-      )}
+			{/* Optional empty state */}
+			{filtered.length === 0 && (
+				<div className="mt-12 rounded-md border p-6 text-center text-sm text-muted-foreground">
+					No projects match your filters.
+				</div>
+			)}
 
-      {/* SEO helpers */}
-      <Tabs className="sr-only" value={activeCategory}>
-        {CATEGORIES.map((c) => (
-          <TabsContent key={c} value={c} />
-        ))}
-      </Tabs>
-    </main>
-  )
+			{/* SEO helpers */}
+			<Tabs className="sr-only" value={activeCategory}>
+				{CATEGORIES.map((c) => (
+					<TabsContent key={c} value={c} />
+				))}
+			</Tabs>
+		</main>
+	)
 }
 
 function ProjectCard({ project }: { project: Project }) {
-  const [open, setOpen] = useState(false)
-  const close = useCallback(() => setOpen(false), [])
+	const [open, setOpen] = useState(false)
 
-  return (
-    <article
-      className={cn(
-        'group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-lg'
-      )}
-    >
-      {/* Controlled dialog ensures overlay/ESC update state via onOpenChange */}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <button
-            onClick={() => setOpen(true)}
-            className="block w-full text-left focus:outline-none"
-            aria-label={`Open details for ${project.title}`}
-          >
-            <figure className="relative aspect-video overflow-hidden">
-              <Image
-                src={project.cover}
-                alt={`${project.title} cover`}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
-                priority={false}
-              />
-              {/* Soft gradient overlay on hover */}
-              <div
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                style={{
-                  background: 'linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 100%)'
-                }}
-              />
-            </figure>
+	return (
+		<article
+			className={cn(
+				'group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-lg'
+			)}
+		>
+			{/* Controlled dialog ensures overlay/ESC update state via onOpenChange */}
+			<Dialog open={open} onOpenChange={setOpen}>
+				<DialogTrigger asChild>
+					<button
+						onClick={() => setOpen(true)}
+						className="block w-full text-left focus:outline-none"
+						aria-label={`Open details for ${project.title}`}
+					>
+						<figure className="relative aspect-video overflow-hidden">
+							<Image
+								src={project.cover}
+								alt={`${project.title} cover`}
+								fill
+								sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+								className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+								priority={false}
+							/>
+							{/* Soft gradient overlay on hover */}
+							<div
+								className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+								style={{
+									background: 'linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 100%)'
+								}}
+							/>
+						</figure>
 
-            <div className="space-y-2 p-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-base font-semibold leading-snug">{project.title}</h2>
-                <span className="rounded-full border px-2 py-0.5 text-xs text-muted-foreground">
-                  {project.category}
-                </span>
-              </div>
-              <p className="line-clamp-2 text-sm text-muted-foreground">{project.tagline}</p>
+						<div className="space-y-2 p-4">
+							<div className="flex items-center justify-between">
+								<h2 className="text-base font-semibold leading-snug">{project.title}</h2>
+								<span className="rounded-full border px-2 py-0.5 text-xs text-muted-foreground">
+									{project.category}
+								</span>
+							</div>
+							<p className="line-clamp-2 text-sm text-muted-foreground">{project.tagline}</p>
 
-              <ul className="mt-2 flex flex-wrap gap-1">
-                {project.tags.map((t) => (
-                  <li
-                    key={t}
-                    className="rounded-md border px-2 py-0.5 text-[11px] text-muted-foreground"
-                  >
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </button>
-        </DialogTrigger>
+							<ul className="mt-2 flex flex-wrap gap-1">
+								{project.tags.map((t) => (
+									<li
+										key={t}
+										className="rounded-md border px-2 py-0.5 text-[11px] text-muted-foreground"
+									>
+										{t}
+									</li>
+								))}
+							</ul>
+						</div>
+					</button>
+				</DialogTrigger>
 
-        {/* Modal content with functional close button */}
-        <DialogContent title={project.title} description={project.tagline} hideTitleVisually>
-          {/* Top action row with a functional close — avoids any event composition issues */}
-          <div className="mb-3 flex items-center justify-end">
-            <button
-              type="button"
-              onClick={close}
-              className="rounded px-2 py-1 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-              aria-label="Close dialog"
-            >
-              ✕
-            </button>
-          </div>
+				{/* Modal content */}
+				<DialogContent title={project.title} description={project.tagline} hideTitleVisually>
+					{/* Gallery */}
+					{project.images && project.images.length > 0 && (
+						<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+							{project.images.map((src, i) => (
+								<div key={src} className="relative aspect-[4/3] overflow-hidden rounded-md">
+									<Image
+										src={src}
+										alt={`${project.title} screenshot ${i + 1}`}
+										fill
+										className="object-cover"
+									/>
+								</div>
+							))}
+						</div>
+					)}
 
-          {/* Gallery */}
-          {project.images && project.images.length > 0 && (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {project.images.map((src, i) => (
-                <div key={src} className="relative aspect-[4/3] overflow-hidden rounded-md">
-                  <Image
-                    src={src}
-                    alt={`${project.title} screenshot ${i + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Links */}
-          {project.links && project.links.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {project.links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  className="rounded-md border px-3 py-1 text-sm hover:bg-muted"
-                  target={l.href.startsWith('http') ? '_blank' : undefined}
-                  rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                >
-                  {l.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-    </article>
-  )
+					{/* Links */}
+					{project.links && project.links.length > 0 && (
+						<div className="mt-4 flex flex-wrap gap-2">
+							{project.links.map((l) => (
+								<a
+									key={l.href}
+									href={l.href}
+									className="rounded-md border px-3 py-1 text-sm hover:bg-muted"
+									target={l.href.startsWith('http') ? '_blank' : undefined}
+									rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+								>
+									{l.label}
+								</a>
+							))}
+						</div>
+					)}
+				</DialogContent>
+			</Dialog>
+		</article>
+	)
 }
