@@ -29,7 +29,7 @@ const PROJECTS: Project[] = [
 		title: 'AI Chat Assistant',
 		tagline: 'Lightweight chat UI with message feedback + copy',
 		category: 'AI',
-		tags: ['React.js','Next.js', 'Zustand', 'OpenAI', 'Tailwind', 'Node.js'],
+		tags: ['React.js', 'Next.js', 'Zustand', 'OpenAI', 'Tailwind', 'Node.js'],
 		cover: '/projects/ai-chat-assistant/image-1.png',
 		images: [
 			'/projects/ai-chat-assistant/image-1.png',
@@ -46,7 +46,7 @@ const PROJECTS: Project[] = [
 		title: 'LLM Data Visualizer',
 		tagline: 'Prompt → clean data → interactive charts',
 		category: 'AI',
-		tags: ['React.js','Next.js', 'TypeScript', 'D3.js', 'OpenAI', 'Node.js'],
+		tags: ['React.js', 'Next.js', 'TypeScript', 'D3.js', 'OpenAI', 'Node.js'],
 		cover: '/projects/ai-llm-data-visualizer/image-1.png',
 		images: [
 			'/projects/ai-llm-data-visualizer/image-1.png',
@@ -58,27 +58,35 @@ const PROJECTS: Project[] = [
 			{ label: 'GitHub', href: 'https://github.com/flavioespinoza' }
 		]
 	},
-	 {
-    id: 'bless-network',
-    title: 'Bless Network',
-    tagline:
-      'Decentralized compute dashboard with multimodal auth, real-time monitoring, and gamified engagement.',
-    category: 'Web3',
-    tags: ['React.js', 'Next.js', 'TypeScript', 'Tailwind CSS', 'SWR', 'WebSocket', 'Recharts', 'WCAG', 'Node.js'],
-    cover: '/projects/bless/image-1.png',
-    images: [
-      '/projects/bless/1.png',
-      '/projects/bless/2.png',
-      '/projects/bless/3.png'
-    ],
-    links: [
-      { label: 'Project Link', href: 'https://bless.network/dashboard' }
-    ]
-  },
+	{
+		id: 'bless-network',
+		title: 'Bless Network',
+		tagline:
+			'Decentralized compute dashboard with multimodal auth, real-time monitoring, and gamified engagement.',
+		category: 'Web3',
+		tags: [
+			'React.js',
+			'Next.js',
+			'TypeScript',
+			'Tailwind CSS',
+			'SWR',
+			'WebSocket',
+			'Recharts',
+			'WCAG',
+			'Node.js'
+		],
+		cover: '/projects/bless/image-1.png',
+		images: [
+			'/projects/bless/image-1.png', 
+			'/projects/bless/image-2.png', 
+			'/projects/bless/image-3.png'],
+		links: [{ label: 'Project Link', href: 'https://bless.network/dashboard' }]
+	},
 	{
 		id: 'akash-console',
 		title: 'Akash Console',
-		tagline: 'Web platform that lets you deploy Docker containers on the Akash Network, a decentralized cloud computing marketplace.',
+		tagline:
+			'Web platform that lets you deploy Docker containers on the Akash Network, a decentralized cloud computing marketplace.',
 		category: 'Web3',
 		tags: ['React.js', 'TypeScript', 'Fastify', 'WebSocket', 'mTLS', 'HTTP/2', 'Node.js'],
 		cover: '/projects/akash-console/image-1.png',
@@ -87,48 +95,53 @@ const PROJECTS: Project[] = [
 			'/projects/akash-console/image-2.png',
 			'/projects/akash-console/image-3.png'
 		],
-		links: [
-			{ label: 'Project Link', href: 'https://console.akash.network' }
-		]
+		links: [{ label: 'Project Link', href: 'https://console.akash.network' }]
 	},
-	  {
-    id: 'exemplar',
-    title: 'Exemplar',
-    tagline:
-      'Identity verification UI with multi-step OIDC via Okta, Trust Graph visualization, and real-time document checks.',
-    category: 'UI Systems',
-    tags: ['React.js', 'Material UI', 'Redux', 'D3.js', 'OIDC', 'Okta', 'Jumio', 'WCAG', 'Go', 'Node.js'],
-    cover: '/projects/exemplar/image-1.png',
-    images: [
-      '/projects/exemplar/1.png',
-      '/projects/exemplar/2.png',
-      '/projects/exemplar/3.png'
+	{
+		id: 'exemplar',
+		title: 'Exemplar',
+		tagline:
+			'Identity verification UI with multi-step OIDC via Okta, Trust Graph visualization, and real-time document checks.',
+		category: 'UI Systems',
+		tags: [
+			'React.js',
+			'Material UI',
+			'Redux',
+			'D3.js',
+			'OIDC',
+			'Okta',
+			'Jumio',
+			'WCAG',
+			'Go',
+			'Node.js'
 		],
-		links: [
-			
-		]
-  },
-	  {
-    id: 'street-fighter',
-    title: 'Street Fighter',
-    tagline:
-      'Real-time trading dashboard with sub-second order book updates, TA overlays, and interactive order controls.',
-    category: 'Web3',
-    tags: ['React.js', 'D3.js', 'Socket.IO', 'WebSocket', 'Trading', 'Node.js'],
-    cover: '/projects/street-fighter/image-1.png',
-    images: [
-      '/projects/street-fighter/1.png',
-      '/projects/street-fighter/2.png',
-      '/projects/street-fighter/3.png'
+		cover: '/projects/exemplar/image-1.png',
+		images: [
+			'/projects/exemplar/image-1.png', 
+			'/projects/exemplar/image-2.png', 
+			'/projects/exemplar/image-3.png'],
+		links: []
+	},
+	{
+		id: 'street-fighter',
+		title: 'Street Fighter',
+		tagline:
+			'Real-time trading dashboard with sub-second order book updates, TA overlays, and interactive order controls.',
+		category: 'Web3',
+		tags: ['React.js', 'D3.js', 'Socket.IO', 'WebSocket', 'Trading', 'Node.js'],
+		cover: '/projects/street-fighter/image-1.png',
+		images: [
+			'/projects/street-fighter/image-1.png',
+			'/projects/street-fighter/image-2.png',
+			'/projects/street-fighter/image-3.png'
 		],
-		links: [
-			
-		]
-  },
+		links: []
+	},
 	{
 		id: 'swim-ai',
 		title: 'Swim AI',
-		tagline: 'Interactive mapping application with D3.js overlays for real-time IoT device tracking and analytics',
+		tagline:
+			'Interactive mapping application with D3.js overlays for real-time IoT device tracking and analytics',
 		category: 'Data Viz',
 		tags: ['React.js', 'D3.js', 'Google Maps API', 'FLUX', 'IoT', 'Node.js'],
 		cover: '/projects/swim-ai/image-1.png',
@@ -140,23 +153,10 @@ const PROJECTS: Project[] = [
 		links: []
 	},
 	{
-		id: 'solarcity',
-		title: 'SolarCity',
-		tagline: 'Real-time analytics dashboard with interactive financial data visualization and mobile-optimized responsive design',
-		category: 'Data Viz',
-		tags: ['Angular', 'D3.js', 'Responsive Design', 'RESTful API', 'Node.js'],
-		cover: '/projects/solarcity/image-1.png',
-		images: [
-			'/projects/solarcity/image-1.png',
-			'/projects/solarcity/image-2.png',
-			'/projects/solarcity/image-3.png'
-		],
-		links: []
-	},
-	{
 		id: 'vivint-solar',
 		title: 'Vivint Solar',
-		tagline: 'Modular analytics platform with lazy loading, real-time data visualization, and scalable architecture for high-volume processing',
+		tagline:
+			'Modular analytics platform with lazy loading, real-time data visualization, and scalable architecture for high-volume processing',
 		category: 'Data Viz',
 		tags: ['Angular', 'D3.js', 'Modular Architecture', 'Node.js'],
 		cover: '/projects/vivint-solar/image-1.png',
@@ -165,19 +165,22 @@ const PROJECTS: Project[] = [
 			'/projects/vivint-solar/image-2.png',
 			'/projects/vivint-solar/image-3.png'
 		],
-		links: []
+		links: [
+			{ label: 'Video Demo', href: 'https://www.loom.com/share/251e47d0a3304ec5afc45178fa7d0cb2' }
+		]
 	},
 	{
 		id: 'attensity',
 		title: 'Attensity',
-		tagline: 'Enterprise CRM platform with high-performance D3.js visualizations for real-time financial data serving Fortune 500 clients',
+		tagline:
+			'Enterprise CRM platform with high-performance D3.js visualizations for real-time financial data serving Fortune 500 clients',
 		category: 'Data Viz',
 		tags: ['JavaScript', 'D3.js', 'Enterprise', 'CRM', 'Node.js'],
-		cover: '/projects/attensity/image-1.png',
+		cover: '/projects/attensity/image-2.png',
 		images: [
-			'/projects/attensity/image-1.png',
 			'/projects/attensity/image-2.png',
-			'/projects/attensity/image-3.png'
+			'/projects/attensity/image-3.png',
+			'/projects/attensity/image-4.png'
 		],
 		links: []
 	},
