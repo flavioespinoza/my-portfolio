@@ -6,10 +6,9 @@ import { cn } from '@/lib/utils'
 
 const links = [
 	{ href: '/', label: 'Home' },
-	{ href: '/about', label: 'About' },
-	{ href: '/ai-chat-assistant', label: 'AI Chat' },
 	{ href: '/ai-multi-agent', label: 'AI Multi-Agent' },
-	{ href: '/ai-llm-data-visualizer', label: 'Data Viz' },
+	{ href: '/ai-chat-assistant', label: 'AI Chat' },
+	{ href: '/ai-llm-data-visualizer', label: 'AI LLM Data Visualizer' },
 	{ href: '/contact', label: 'Contact' }
 ]
 
@@ -29,10 +28,10 @@ export function Navbar() {
 				isScrolled && 'border-b border-black/10 shadow-sm'
 			)}
 		>
-			<div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+			<div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3 text-white">
 				<div className="flex gap-4 text-sm font-medium">
 					{links.map(({ href, label }) => (
-						<Link key={href} href={href} className="transition-colors hover:text-primary">
+						<Link key={href} href={href} className="transition-colors hover:text-hotpink-300">
 							{label}
 						</Link>
 					))}

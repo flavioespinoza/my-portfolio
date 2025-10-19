@@ -1,49 +1,56 @@
-import { Search, FileText, CheckCircle } from 'lucide-react';
-import { Card } from '@flavioespinoza/salsa-ui';
+import MarkdownWithCode from '@/components/markdown-with-code'
+import { Card } from '@flavioespinoza/salsa-ui'
+import { CheckCircle, FileText, Search } from 'lucide-react'
 
 interface ResultsDisplayProps {
-  results: {
-    research: string;
-    content: string;
-    review: string;
-  };
+	results: {
+		research: string
+		content: string
+		review: string
+	}
 }
 
 export default function ResultsDisplay({ results }: ResultsDisplayProps) {
-  return (
-    <div className='space-y-4'>
-      {/* Research Results */}
-      <Card className="p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="bg-blue-500 w-10 h-10 rounded-lg flex items-center justify-center">
-            <Search className="w-5 h-5 text-white" />
-          </div>
-          <h2 className="text-2xl font-semibold">Research Findings</h2>
-        </div>
-        <div className="text-black whitespace-pre-wrap">{results.research}</div>
-      </Card>
+	return (
+		<div className="space-y-4">
+			{/* Research Results */}
+			<Card className="p-6">
+				<div className="mb-4 flex items-center gap-3">
+					<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500">
+						<Search className="h-5 w-5 text-white" />
+					</div>
+					<h2 className="text-2xl font-semibold">Research Findings</h2>
+				</div>
+				<div className="whitespace-pre-wrap [&>*]:mb-1 [&>*]:mt-1">
+					<MarkdownWithCode markdown={results.research} />
+				</div>
+			</Card>
 
-      {/* Content Results */}
-      <Card className='p-6'>
-        <div className="flex items-center gap-3 mb-4">
-          <div className="bg-hotpink-500 w-10 h-10 rounded-lg flex items-center justify-center">
-            <FileText className="w-5 h-5 text-white" />
-          </div>
-          <h2 className="text-2xl font-semibold">Generated Content</h2>
-        </div>
-        <div className="text-black whitespace-pre-wrap">{results.content}</div>
-      </Card>
+			{/* Content Results */}
+			<Card className="p-6">
+				<div className="mb-4 flex items-center gap-3">
+					<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-hotpink-500">
+						<FileText className="h-5 w-5 text-white" />
+					</div>
+					<h2 className="text-2xl font-semibold">Generated Content</h2>
+				</div>
+				<div className="whitespace-pre-wrap [&>*]:mb-1 [&>*]:mt-1">
+					<MarkdownWithCode markdown={results.content} />
+				</div>
+			</Card>
 
-      {/* Review Results */}
-      <Card className='p-6'>
-        <div className="flex items-center gap-3 mb-4">
-          <div className="bg-purple-500 w-10 h-10 rounded-lg flex items-center justify-center">
-            <CheckCircle className="w-5 h-5 text-white" />
-          </div>
-          <h2 className="text-2xl font-semibold">Review & Feedback</h2>
-        </div>
-        <div className="text-black whitespace-pre-wrap">{results.review}</div>
-      </Card>
-    </div>
-  );
+			{/* Review Results */}
+			<Card className="p-6">
+				<div className="mb-4 flex items-center gap-3">
+					<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500">
+						<CheckCircle className="h-5 w-5 text-white" />
+					</div>
+					<h2 className="text-2xl font-semibold">Review & Feedback</h2>
+				</div>
+				<div className="whitespace-pre-wrap [&>*]:mb-1 [&>*]:mt-1">
+					<MarkdownWithCode markdown={results.review} />
+				</div>
+			</Card>
+		</div>
+	)
 }

@@ -18,7 +18,7 @@ export default function ChatPage() {
 			}`}
 		>
 			{isEmpty ? (
-				<div className="mb-6 text-center text-lg text-zinc-500">How can I help you today?</div>
+				<div className="mb-6 text-center text-lg text-white">How can I help you today?</div>
 			) : (
 				<MessageList isTyping={isTyping} />
 			)}
