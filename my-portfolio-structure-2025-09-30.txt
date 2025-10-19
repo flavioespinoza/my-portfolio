@@ -1,0 +1,71 @@
+src
+├── app
+│   ├── about
+│   │   └── page.tsx
+│   ├── ai-chat-assistant
+│   │   ├── actions.ts
+│   │   ├── components
+│   │   │   ├── chat-copy-button.tsx
+│   │   │   ├── chat-feedback.tsx
+│   │   │   ├── chat-input-form.tsx
+│   │   │   └── message-list.tsx
+│   │   └── page.tsx
+│   ├── ai-llm-data-visualizer
+│   │   └── page.tsx
+│   ├── api
+│   │   ├── chat
+│   │   │   └── route.ts
+│   │   └── gemini
+│   │       ├── gemini.md
+│   │       └── route.ts
+│   ├── commits
+│   │   ├── components
+│   │   └── page.tsx
+│   ├── contact
+│   │   ├── actions.ts
+│   │   └── page.tsx
+│   ├── fluid
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   ├── markdown
+│   └── page.tsx
+├── components
+│   ├── layout
+│   │   ├── container.tsx
+│   │   ├── footer.tsx
+│   │   ├── navbar.tsx
+│   │   └── section.tsx
+│   ├── markdown-with-code.tsx
+│   ├── providers
+│   │   └── theme-provider.tsx
+│   └── ui
+│       ├── alert.tsx
+│       ├── dialog.tsx
+│       ├── select.tsx
+│       └── tabs.tsx
+├── documents
+│   ├── Flavio_Espinoza_Resume_2025-03-26.docx
+│   ├── Flavio_Espinoza_Resume_2025.docx
+│   ├── Flavio_Espinoza_Resume_2025.md
+│   ├── Flavio_Espinoza_Resume_2025.pdf
+│   └── flavio_espinoza_resume_schema.json
+├── hooks
+│   └── use-copy-to-clipboard.ts
+├── lib
+│   ├── arr__find-confusable-numbers.js
+│   ├── arr__find-target-index.js
+│   ├── bfs__find-activity-order.js
+│   ├── dfs__longest-path.js
+│   ├── gsa__binary-lock.js
+│   ├── magic-async.js
+│   ├── spock.js
+│   ├── str__can-change.js
+│   ├── str__match-pattern.js
+│   ├── unique-shapes.js
+│   └── utils.ts
+├── store
+│   └── chat-store.ts
+└── styles
+    └── globals.css
+
+23 directories, 46 files

@@ -6,9 +6,10 @@ import { cn } from '@/lib/utils'
 
 const links = [
 	{ href: '/', label: 'Home' },
-	{ href: '/ai-chat-assistant', label: 'AI Chat Assistant' },
-	{ href: '/ai-llm-data-visualizer', label: 'AI LLM Data Visualizer' },
-	{ href: '/commits', label: 'Commits' },
+	{ href: '/about', label: 'About' },
+	{ href: '/ai-chat-assistant', label: 'AI Chat' },
+	{ href: '/ai-multi-agent', label: 'AI Multi-Agent' },
+	{ href: '/ai-llm-data-visualizer', label: 'Data Viz' },
 	{ href: '/contact', label: 'Contact' }
 ]
 

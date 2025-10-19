@@ -1,0 +1,41 @@
+import { Search, FileText, CheckCircle, Loader2 } from 'lucide-react';
+
+interface AgentCardProps {
+  name: string;
+  role: string;
+  color: string;
+  icon: 'search' | 'file-text' | 'check-circle';
+  isActive: boolean;
+}
+
+const iconMap = {
+  'search': Search,
+  'file-text': FileText,
+  'check-circle': CheckCircle,
+};
+
+export default function AgentCard({ name, role, color, icon, isActive }: AgentCardProps) {
+  const Icon = iconMap[icon];
+
+  return (
+    <div
+      className={`bg-white rounded-xl p-6 border-2 transition-all ${
+        isActive
+          ? 'border-purple-400 shadow-lg shadow-purple-500/50 scale-105'
+          : 'border-gray-200'
+      }`}
+    >
+      <div className={`${color} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
+        <Icon className={`w-6 h-6 text-white`} />
+      </div>
+      <h3 className="text-xl font-semibold mb-2 text-black">{name}</h3>
+      <p className="text-black text-sm">{role}</p>
+      {isActive && (
+        <div className="mt-4 flex items-center gap-2 text-black">
+          <Loader2 className="w-4 h-4 animate-spin" />
+          <span className="text-sm">Working...</span>
+        </div>
+      )}
+    </div>
+  );
+}
