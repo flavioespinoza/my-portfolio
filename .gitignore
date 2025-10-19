@@ -49,8 +49,59 @@ temp-*
 notes.md
 todo.md
 *.log
-*.txt
+
 zoom.js
 z-notes.md
 z-todo.md
 z-temp/
+
+# Python Backend
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+backend/.Python
+backend/pip-log.txt
+backend/pip-delete-this-directory.txt
+
+# Environment Variables (CRITICAL - Don't commit API keys!)
+backend/.env
+.env.local
+.env
+
+# Python Distribution / Packaging
+backend/*.egg-info/
+backend/dist/
+backend/build/
+backend/.eggs/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+backend/*.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter Notebooks (if you add any)
+.ipynb_checkpoints/backend/venv/
+backend/__pycache__/
+
+# Python Backend
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
