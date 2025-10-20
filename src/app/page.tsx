@@ -25,6 +25,22 @@ interface Project {
 
 const PROJECTS: Project[] = [
 	{
+		id: 'ai-multi-agent',
+		title: 'AI Multi-Agent',
+		tagline: 'Collaborative agents powered by OpenAI and CrewAI',
+		category: 'AI',
+		tags: ['React.js', 'Next.js', 'Zustand', 'OpenAI', 'CrewAI', 'Tailwind', 'Python', 'FastAPI'],
+		cover: '/projects/ai-multi-agent/image-1.png',
+		images: [
+			'/projects/ai-multi-agent/image-1.png',
+			'/projects/ai-multi-agent/image-2.png',
+			'/projects/ai-multi-agent/image-3.png'
+		],
+		links: [
+			{ label: 'Open App', href: '/ai-multi-agent' },
+		]
+	},
+	{
 		id: 'ai-chat-assistant',
 		title: 'AI Chat Assistant',
 		tagline: 'Lightweight chat UI with message feedback + copy',
@@ -77,9 +93,10 @@ const PROJECTS: Project[] = [
 		],
 		cover: '/projects/bless/image-1.png',
 		images: [
-			'/projects/bless/image-1.png', 
-			'/projects/bless/image-2.png', 
-			'/projects/bless/image-3.png'],
+			'/projects/bless/image-1.png',
+			'/projects/bless/image-2.png',
+			'/projects/bless/image-3.png'
+		],
 		links: [{ label: 'Project Link', href: 'https://bless.network/dashboard' }]
 	},
 	{
@@ -117,9 +134,10 @@ const PROJECTS: Project[] = [
 		],
 		cover: '/projects/exemplar/image-1.png',
 		images: [
-			'/projects/exemplar/image-1.png', 
-			'/projects/exemplar/image-2.png', 
-			'/projects/exemplar/image-3.png'],
+			'/projects/exemplar/image-1.png',
+			'/projects/exemplar/image-2.png',
+			'/projects/exemplar/image-3.png'
+		],
 		links: []
 	},
 	{
@@ -216,14 +234,29 @@ export default function FeaturedProjectsPage() {
 	}, [query, activeCategory])
 
 	return (
-		<main className="mx-auto max-w-6xl px-6 py-10">
+		<main className="mx-auto max-w-6xl px-6 py-10 text-white">
 			<header className="mb-8 space-y-3">
-				<h1 className="text-3xl font-bold tracking-tight">Featured Projects</h1>
-				<p className="text-sm text-muted-foreground">
-					Clean, scannable project grid with filters. Hover or open a project for more visuals +
-					links.
-				</p>
-				<div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+				<div className="mb-6">
+					<h1 className="text-3xl font-bold tracking-tight text-white">
+						Flavio Espinoza | Development Portfolio
+					</h1>
+					<p className="text-sm pt-2">
+						Creative and technically versatile developer with 11+ years of experience building
+						high-impact, production-grade applications using React.js, Node.js, and TypeScript.
+						Proven ability to ship full-stack features end-to-end—from idea to production—across
+						Web3, FinTech, and AI-first platforms. Adept at collaborating directly with founders and
+						product leaders in fast-paced startup environments. Strong background in real-time data
+						systems, D3.js visualization, and OpenAI integration for AI-augmented development.
+					</p>
+				</div>
+				<div className="mb-6">
+					<h1 className="text-2xl font-bold tracking-tight text-white">Featured Projects</h1>
+					<p className="text-sm pt-2">
+						Clean, scannable project grid with filters. Hover or open a project for more visuals +
+						links.
+					</p>
+				</div>
+				<div className="pt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v as any)}>
 						<TabsList>
 							{CATEGORIES.map((c) => (
@@ -308,7 +341,7 @@ function ProjectCard({ project }: { project: Project }) {
 
 						<div className="space-y-2 p-4">
 							<div className="flex items-center justify-between">
-								<h2 className="text-base font-semibold leading-snug">{project.title}</h2>
+								<h2 className="text-base font-semibold leading-snug text-black">{project.title}</h2>
 								<span className="rounded-full border px-2 py-0.5 text-xs text-muted-foreground">
 									{project.category}
 								</span>

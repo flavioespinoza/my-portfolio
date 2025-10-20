@@ -27,7 +27,7 @@ export function MessageList({ isTyping }: MessageListProps) {
 								: 'bg-sage-200'
 						}`}
 					>
-						<p className="mb-1 text-xs text-muted-foreground">
+						<p className="mb-1 text-xs text-white">
 							{msg.role === 'user' ? 'You' : 'AI'} · {new Date(msg.createdAt).toLocaleTimeString()}
 						</p>
 
@@ -44,7 +44,7 @@ export function MessageList({ isTyping }: MessageListProps) {
 					</div>
 				</div>
 			))}
-			{isTyping && <div className="text-sm italic text-muted-foreground">AI is typing…</div>}
+			{isTyping && <div className="text-sm italic text-white">AI is typing…</div>}
 			<div ref={bottomRef} />
 		</div>
 	)

@@ -21,7 +21,7 @@ export async function getAiReply(messages: z.infer<typeof getReplySchema>): Prom
 	const apiKey = process.env.OPENAI_API_KEY
 	if (!apiKey) {
 		console.error('OpenAI API key is not configured.')
-		return { success: false, error: 'Server configuration error.' }
+		return { success: false, error: 'Server configuration error!' }
 	}
 
 	try {

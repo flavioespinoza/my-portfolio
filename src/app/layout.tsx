@@ -99,7 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					}}
 				/>
 			</head>
-			<body className={`${inter.variable} flex min-h-screen flex-col bg-[#ced1c9] antialiased`}>
+			<body className={`${inter.variable} flex min-h-screen flex-col bg-[#808a78] antialiased`}>
 				<Navbar />
 				<main className="flex-1">{children}</main>
 				<Footer />
