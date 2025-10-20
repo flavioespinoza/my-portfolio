@@ -19,7 +19,7 @@ export default function ResearchForm({ onSubmit, loading, error }: ResearchFormP
   };
 
   return (
-    <div className="bg-white backdrop-blur-sm rounded-xl p-6 border-2 mb-8">
+    <div className="bg-white backdrop-blur-sm rounded-xl p-6 mb-8 text-black">
       <label className="block text-sm font-medium mb-2">Research Topic</label>
       <form onSubmit={handleSubmit} className="flex gap-4">
         <Input

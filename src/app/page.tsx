@@ -341,7 +341,7 @@ function ProjectCard({ project }: { project: Project }) {
 
 						<div className="space-y-2 p-4">
 							<div className="flex items-center justify-between">
-								<h2 className="text-base font-semibold leading-snug">{project.title}</h2>
+								<h2 className="text-base font-semibold leading-snug text-black">{project.title}</h2>
 								<span className="rounded-full border px-2 py-0.5 text-xs text-muted-foreground">
 									{project.category}
 								</span>

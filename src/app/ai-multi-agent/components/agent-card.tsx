@@ -20,13 +20,12 @@ export default function AgentCard({ name, role, color, icon, isActive }: AgentCa
 
   return (
     <Card
-      className='p-6'
+      title={name}
+      description={role}
     >
-      <div className={`${color} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
+      <div className={`${color} w-12 h-12 rounded-lg flex items-center justify-center mb-4 -mt-4`}>
         <Icon className={`w-6 h-6 text-white`} />
       </div>
-      <h3 className="text-xl font-semibold mb-2 text-black">{name}</h3>
-      <p className="text-black text-sm">{role}</p>
       {isActive && (
         <div className="mt-4 flex items-center gap-2 text-black">
           <Loader2 className="w-4 h-4 animate-spin" />
