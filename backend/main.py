@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 print(f"DEBUG: OpenAI Key Set: {bool(os.getenv('OPENAI_API_KEY'))}")
 print(f"DEBUG: Serper Key Set: {bool(os.getenv('SERPER_API_KEY'))}")
+print(f"API KEYS SET")
 
 app = FastAPI(title="Multi-Agent Research API")
 

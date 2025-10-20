@@ -39,5 +39,5 @@
 ### 5. Networking
 
 - [ ] Attend 2 local tech meetups
-- [ ] Comment on 3 AI/React blogs weekly
+- [x] Comment on 3 AI/React blogs weekly
 - [x] Schedule 3 informational interviews
