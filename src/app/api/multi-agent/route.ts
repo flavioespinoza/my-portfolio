@@ -1,4 +1,4 @@
-export const maxDuration = 60; // Set max timeout to 60 seconds (requires Vercel Pro)
+export const maxDuration = 60; // Use full 60 seconds on Vercel Pro
 
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     
     if (error.name === 'AbortError') {
       return NextResponse.json(
-        { error: 'Request timeout - the research is taking too long. Please try a simpler topic.' },
+        { error: 'Request timeout - please try a simpler topic.' },
         { status: 504 }
       );
     }
@@ -65,4 +65,14 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+export async function GET() {
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.PYTHON_BACKEND_URL || 'http://localhost:8000';
+  
+  return NextResponse.json({
+    message: 'Multi-Agent Research API Proxy',
+    backend: backendUrl,
+    status: 'ready'
+  });
 }

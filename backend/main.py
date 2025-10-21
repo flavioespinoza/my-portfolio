@@ -32,18 +32,18 @@ class ResearchResponse(BaseModel):
     review: str
 
 llm = ChatOpenAI(
-    model="gpt-3.5-turbo",
-    temperature=0.3,
+    model="gpt-4o-mini",  # Back to better model
+    temperature=0.5,
     api_key=os.getenv("OPENAI_API_KEY"),
-    max_tokens=200,
-    timeout=8
+    max_tokens=800,  # Increased for better quality
+    timeout=15
 )
 
 def create_crew(topic: str):
     researcher = Agent(
         role='Research Analyst',
-        goal=f'Find 2-3 key facts about {topic}',
-        backstory="""Quick research specialist.""",
+        goal=f'Find key insights about {topic}',
+        backstory="""Expert research analyst skilled at finding relevant information.""",
         verbose=False,
         allow_delegation=False,
         tools=[],
@@ -51,29 +51,47 @@ def create_crew(topic: str):
     )
 
     writer = Agent(
-        role='Writer',
-        goal=f'Write brief summary of {topic}',
-        backstory="""Concise content writer.""",
+        role='Content Writer',
+        goal=f'Write engaging content about {topic}',
+        backstory="""Skilled writer who creates clear, informative content.""",
+        verbose=False,
+        allow_delegation=False,
+        llm=llm
+    )
+
+    reviewer = Agent(
+        role='Quality Reviewer',
+        goal='Review content for quality',
+        backstory="""Editor ensuring high standards of accuracy and clarity.""",
         verbose=False,
         allow_delegation=False,
         llm=llm
     )
 
     research_task = Task(
-        description=f"""Provide 2-3 quick facts about {topic}. Max 50 words.""",
-        expected_output='2-3 facts (50 words max)',
+        description=f"""Research {topic}. Provide 4-5 key insights in bullet points. 
+        Keep it under 200 words.""",
+        expected_output='4-5 bullet points with key insights (200 words max)',
         agent=researcher
     )
 
     writing_task = Task(
-        description=f"""Write 1-2 sentences about {topic}.""",
-        expected_output='1-2 sentences',
+        description=f"""Write a 3-4 paragraph summary about {topic} based on the research. 
+        Make it informative and well-structured. Around 250 words.""",
+        expected_output='3-4 paragraph summary (250 words)',
         agent=writer
     )
 
+    review_task = Task(
+        description="""Review the content for accuracy and clarity. 
+        Provide 2-3 brief suggestions for improvement.""",
+        expected_output='Brief review with 2-3 suggestions',
+        agent=reviewer
+    )
+
     crew = Crew(
-        agents=[researcher, writer],
-        tasks=[research_task, writing_task],
+        agents=[researcher, writer, reviewer],
+        tasks=[research_task, writing_task, review_task],
         process=Process.sequential,
         verbose=False
     )
@@ -94,8 +112,8 @@ async def research(request: ResearchRequest):
         
         return ResearchResponse(
             research=str(tasks_output[0]) if len(tasks_output) > 0 else str(result),
-            content=str(tasks_output[1]) if len(tasks_output) > 1 else "Demo content generated - full content is available on pro vercel account",
-            review="Demo review generated - full review is available on pro vercel account"
+            content=str(tasks_output[1]) if len(tasks_output) > 1 else "Content generated",
+            review=str(tasks_output[2]) if len(tasks_output) > 2 else "Review completed"
         )
     
     except Exception as e:
