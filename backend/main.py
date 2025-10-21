@@ -94,8 +94,8 @@ async def research(request: ResearchRequest):
         
         return ResearchResponse(
             research=str(tasks_output[0]) if len(tasks_output) > 0 else str(result),
-            content=str(tasks_output[1]) if len(tasks_output) > 1 else "Content generated",
-            review="Quick demo - full review available in production"
+            content=str(tasks_output[1]) if len(tasks_output) > 1 else "Demo content generated - full content is available on pro vercel account",
+            review="Demo review generated - full review is available on pro vercel account"
         )
     
     except Exception as e:
