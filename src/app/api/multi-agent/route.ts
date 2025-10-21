@@ -1,9 +1,21 @@
 import { serve } from "@upstash/qstash/nextjs";
+import { NextRequest } from "next/server";
 
 export const POST = serve(async (context) => {
-  const request = context.requestPayload as Request;
-  const body = await request.json();
-  const { topic } = body as { topic: string };
+  // Get the initial request from context
+  const initialPayload = context.requestPayload;
+  
+  // Parse the body based on what Upstash provides
+  let topic: string;
+  
+  if (typeof initialPayload === 'string') {
+    const parsed = JSON.parse(initialPayload);
+    topic = parsed.topic;
+  } else if (initialPayload && typeof initialPayload === 'object') {
+    topic = (initialPayload as any).topic;
+  } else {
+    throw new Error('Invalid request payload');
+  }
 
   if (!topic) {
     throw new Error('Topic is required');
