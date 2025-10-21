@@ -1,47 +1,40 @@
-import { serve } from "@upstash/qstash/nextjs";
-import { NextRequest } from "next/server";
+import { NextResponse } from 'next/server';
+import { Client } from '@upstash/qstash';
 
-export const POST = serve(async (context) => {
-  // Get the initial request from context
-  const initialPayload = context.requestPayload;
-  
-  // Parse the body based on what Upstash provides
-  let topic: string;
-  
-  if (typeof initialPayload === 'string') {
-    const parsed = JSON.parse(initialPayload);
-    topic = parsed.topic;
-  } else if (initialPayload && typeof initialPayload === 'object') {
-    topic = (initialPayload as any).topic;
-  } else {
-    throw new Error('Invalid request payload');
-  }
-
-  if (!topic) {
-    throw new Error('Topic is required');
-  }
-
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-  
-  const researchData = await context.call(
-    "research-agent",
-    `${backendUrl}/research`,
-    "POST",
-    JSON.stringify({ topic }),
-    {
-      "Content-Type": "application/json",
-    }
-  );
-
-  await context.run("process-results", async () => {
-    console.log("Research completed for:", topic);
-    console.log("Data:", researchData);
-  });
+const qstash = new Client({
+  token: process.env.QSTASH_TOKEN!,
 });
 
-export const GET = async () => {
-  return Response.json({
-    message: 'Multi-Agent Research API with Upstash Workflow',
-    status: 'ready'
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+
+    // Publish async job to backend via QStash
+    const response = await qstash.publishJSON({
+      url: backendUrl, // Replace with your FastAPI or Node backend
+      body,
+      // Optional retry/delay settings:
+      // delay: 10, // seconds
+      // retries: 3,
+    });
+
+    return NextResponse.json(
+      { message: '✅ Job enqueued successfully', qstashResponse: response },
+      { status: 200 },
+    );
+  } catch (err: any) {
+    console.error('❌ QStash enqueue error:', err);
+    return NextResponse.json(
+      { error: err.message || 'Failed to enqueue QStash job' },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET() {
+  return NextResponse.json({
+    message: 'POST to this endpoint to enqueue AI Agent Multi tasks via QStash',
   });
-};
+}
