@@ -20,7 +20,9 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://localhost:3001",
-        "https://your-portfolio-domain.com"  # Update with your domain
+        "https://my-portfolio-lemon-nine-16.vercel.app",
+        "https://flavioespinoza.com",
+        "https://*.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
