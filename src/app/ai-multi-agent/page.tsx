@@ -52,7 +52,7 @@ export default function MultiAgentPage() {
 						</div>
 						<h1 className="text-4xl font-bold">Multi-Agent Research System</h1>
 					</div>
-					<p className="mx-auto w-3/4 md:w-1/2 text-left text-white">
+					<p className="mx-auto w-3/4 text-left text-white md:w-1/2">
 						An autonomous multi-agent AI system where three specialized agents (Researcher, Writer,
 						Reviewer) collaborate sequentially to research topics, generate content, and perform
 						quality reviews—powered by CrewAI, OpenAI GPT-4o-mini, and Next.js.
