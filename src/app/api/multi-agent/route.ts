@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Client } from '@upstash/qstash';
+
+const qstash = new Client({
+  token: process.env.QSTASH_TOKEN!,
+});
 
 export async function POST(request: NextRequest) {
   try {
     const { topic } = await request.json();
-    
+
     if (!topic) {
       return NextResponse.json(
         { error: 'Topic is required' },
@@ -11,38 +16,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.PYTHON_BACKEND_URL || 'http://localhost:8000';
-    
-    console.log('Calling backend:', backendUrl);
-    
-    const response = await fetch(`${backendUrl}/research`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ topic }),
-      signal: AbortSignal.timeout(60000),
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+    const targetUrl = `${backendUrl}/research`;
+
+    console.log('📬 Enqueuing backend call via QStash:', targetUrl);
+
+    const response = await qstash.publishJSON({
+      url: targetUrl,
+      body: { topic },
+      // Optional parameters:
+      // delay: 10, // seconds
+      // retries: 3,
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Backend error:', errorText);
-      throw new Error(`Research API failed: ${response.status}`);
-    }
+    console.log('✅ QStash publish response:', response);
 
-    const data = await response.json();
-    
     return NextResponse.json({
       success: true,
-      data: data
+      message: 'Task enqueued successfully',
+      qstashResponse: response,
     });
-
   } catch (error: any) {
-    console.error('Research error:', error);
+    console.error('❌ QStash enqueue error:', error);
     return NextResponse.json(
-      { 
-        error: error.message || 'Failed to complete research',
-        details: error.toString()
+      {
+        error: error.message || 'Failed to enqueue research task',
+        details: error.toString(),
       },
       { status: 500 }
     );
@@ -50,11 +49,14 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.PYTHON_BACKEND_URL || 'http://localhost:8000';
-  
+  const backendUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    process.env.PYTHON_BACKEND_URL ||
+    'http://localhost:8000';
+
   return NextResponse.json({
-    message: 'Multi-Agent Research API Proxy',
+    message: 'Multi-Agent Research API via QStash',
     backend: backendUrl,
-    status: 'ready'
+    status: 'ready',
   });
 }
