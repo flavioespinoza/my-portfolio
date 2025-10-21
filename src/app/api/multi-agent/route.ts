@@ -1,40 +1,62 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Client } from '@upstash/qstash';
 
 const qstash = new Client({
   token: process.env.QSTASH_TOKEN!,
 });
 
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-
-export async function POST(req: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json();
+    const { topic } = await request.json();
 
-    // Publish async job to backend via QStash
+    if (!topic) {
+      return NextResponse.json(
+        { error: 'Topic is required' },
+        { status: 400 }
+      );
+    }
+
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+    const targetUrl = `${backendUrl}/research`;
+
+    console.log('📬 Enqueuing backend call via QStash:', targetUrl);
+
     const response = await qstash.publishJSON({
-      url: backendUrl, // Replace with your FastAPI or Node backend
-      body,
-      // Optional retry/delay settings:
+      url: targetUrl,
+      body: { topic },
+      // Optional parameters:
       // delay: 10, // seconds
       // retries: 3,
     });
 
+    console.log('✅ QStash publish response:', response);
+
+    return NextResponse.json({
+      success: true,
+      message: 'Task enqueued successfully',
+      qstashResponse: response,
+    });
+  } catch (error: any) {
+    console.error('❌ QStash enqueue error:', error);
     return NextResponse.json(
-      { message: '✅ Job enqueued successfully', qstashResponse: response },
-      { status: 200 },
-    );
-  } catch (err: any) {
-    console.error('❌ QStash enqueue error:', err);
-    return NextResponse.json(
-      { error: err.message || 'Failed to enqueue QStash job' },
-      { status: 500 },
+      {
+        error: error.message || 'Failed to enqueue research task',
+        details: error.toString(),
+      },
+      { status: 500 }
     );
   }
 }
 
 export async function GET() {
+  const backendUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    process.env.PYTHON_BACKEND_URL ||
+    'http://localhost:8000';
+
   return NextResponse.json({
-    message: 'POST to this endpoint to enqueue AI Agent Multi tasks via QStash',
+    message: 'Multi-Agent Research API via QStash',
+    backend: backendUrl,
+    status: 'ready',
   });
 }
