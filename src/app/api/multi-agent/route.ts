@@ -1,4 +1,4 @@
-export const maxDuration = 60; // Use full 60 seconds on Vercel Pro
+export const maxDuration = 300; // 5 minutes on Vercel Pro
 
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     console.log('Calling backend:', backendUrl);
     
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 55000); // 55 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 280000); // 280 second timeout (留20秒缓冲)
 
     try {
       const response = await fetch(`${backendUrl}/research`, {
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     
     if (error.name === 'AbortError') {
       return NextResponse.json(
-        { error: 'Request timeout - please try a simpler topic.' },
+        { error: 'Request timeout - the research took too long.' },
         { status: 504 }
       );
     }
