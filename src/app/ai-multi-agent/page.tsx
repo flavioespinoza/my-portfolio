@@ -26,15 +26,17 @@ export default function MultiAgentPage() {
 				body: JSON.stringify({ topic: researchTopic })
 			})
 
+			const data = await response.json()
+
 			if (!response.ok) {
-				throw new Error('Research failed')
+				console.error('API Error:', data)
+				throw new Error(data.error || 'Research failed')
 			}
 
-			const data = await response.json()
 			setResults(data.data)
-		} catch (err) {
-			setError('Failed to complete research. Please try again.')
-			console.error(err)
+		} catch (err: any) {
+			console.error('Research error:', err)
+			setError(err.message || 'Failed to complete research. Please try again.')
 		} finally {
 			setLoading(false)
 			setActiveAgent(null)
