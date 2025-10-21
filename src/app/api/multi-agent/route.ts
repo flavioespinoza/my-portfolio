@@ -1,14 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { Client } from '@upstash/qstash';
+export const maxDuration = 300; // 5 minutes on Vercel Pro
 
-const qstash = new Client({
-  token: process.env.QSTASH_TOKEN!,
-});
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const { topic } = await request.json();
-
+    
     if (!topic) {
       return NextResponse.json(
         { error: 'Topic is required' },
@@ -16,32 +13,54 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-    const targetUrl = `${backendUrl}/research`;
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.PYTHON_BACKEND_URL || 'http://localhost:8000';
+    
+    console.log('Calling backend:', backendUrl);
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 280000); // 280 second timeout (留20秒缓冲)
 
-    console.log('📬 Enqueuing backend call via QStash:', targetUrl);
+    try {
+      const response = await fetch(`${backendUrl}/research`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ topic }),
+        signal: controller.signal,
+      });
 
-    const response = await qstash.publishJSON({
-      url: targetUrl,
-      body: { topic },
-      // Optional parameters:
-      // delay: 10, // seconds
-      // retries: 3,
-    });
+      clearTimeout(timeoutId);
 
-    console.log('✅ QStash publish response:', response);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Backend error:', errorText);
+        throw new Error(`Backend returned ${response.status}`);
+      }
 
-    return NextResponse.json({
-      success: true,
-      message: 'Task enqueued successfully',
-      qstashResponse: response,
-    });
+      const data = await response.json();
+      
+      return NextResponse.json({
+        success: true,
+        data: data
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
+
   } catch (error: any) {
-    console.error('❌ QStash enqueue error:', error);
+    console.error('Research error:', error);
+    
+    if (error.name === 'AbortError') {
+      return NextResponse.json(
+        { error: 'Request timeout - the research took too long.' },
+        { status: 504 }
+      );
+    }
+    
     return NextResponse.json(
-      {
-        error: error.message || 'Failed to enqueue research task',
-        details: error.toString(),
+      { 
+        error: error.message || 'Failed to complete research',
       },
       { status: 500 }
     );
@@ -49,14 +68,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  const backendUrl =
-    process.env.NEXT_PUBLIC_BACKEND_URL ||
-    process.env.PYTHON_BACKEND_URL ||
-    'http://localhost:8000';
-
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.PYTHON_BACKEND_URL || 'http://localhost:8000';
+  
   return NextResponse.json({
-    message: 'Multi-Agent Research API via QStash',
+    message: 'Multi-Agent Research API Proxy',
     backend: backendUrl,
-    status: 'ready',
+    status: 'ready'
   });
 }
