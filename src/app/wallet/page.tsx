@@ -17,7 +17,7 @@ const CHAIN_NAMES: Record<number, string> = {
 	137: 'Polygon'
 }
 
-export default function WagmiWallet() {
+export default function WagmiWalletPage() {
 	const [mounted, setMounted] = useState(false)
 	const { address, isConnected } = useAccount()
 	const { connect, connectors, isPending, error } = useConnect()
@@ -76,7 +76,7 @@ export default function WagmiWallet() {
 							>
 								<span>{connector.name}</span>
 								{isPending && (
-									<div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+									<div className="ml-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
 								)}
 							</Button>
 						))}
