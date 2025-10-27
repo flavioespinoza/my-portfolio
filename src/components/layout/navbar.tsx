@@ -10,6 +10,7 @@ const links = [
 	{ href: '/ai-chat-assistant', label: 'AI Chat' },
 	{ href: '/ai-llm-data-visualizer', label: 'AI LLM Data Visualizer' },
 	{ href: '/wallet', label: 'Wallet' },
+	{ href: '/otp-verification', label: 'OTP Verification' },
 	{ href: '/contact', label: 'Contact' }
 ]
 

@@ -8,19 +8,16 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-print(f"DEBUG: OpenAI Key Set: {bool(os.getenv('OPENAI_API_KEY'))}")
-print(f"DEBUG: Serper Key Set: {bool(os.getenv('SERPER_API_KEY'))}")
-print(f"API KEYS SET")
 
 app = FastAPI(title="Multi-Agent Research API")
 
-# Configure CORS for your portfolio domain
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
         "http://localhost:3001",
-        "https://your-portfolio-domain.com"  # Update with your domain
+        "https://flavioespinoza.com",
+        "https://*.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -35,67 +32,92 @@ class ResearchResponse(BaseModel):
     content: str
     review: str
 
-# Initialize tools and LLM
+# Enable web search tool
 search_tool = SerperDevTool()
+
 llm = ChatOpenAI(
-    model="gpt-4o-mini",  # Changed from "gpt-4"
+    model="gpt-4o-mini",
     temperature=0.7,
     api_key=os.getenv("OPENAI_API_KEY"),
-    max_tokens=1000  # Added token limit
+    max_tokens=1500,  # Higher quality output
+    timeout=30
 )
 
 def create_crew(topic: str):
-    """Create and configure the agent crew"""
-    
     researcher = Agent(
         role='Senior Research Analyst',
-        goal=f'Uncover cutting-edge developments on {topic}',
-        backstory="""Expert research analyst skilled at finding and 
-        synthesizing information from multiple sources.""",
+        goal=f'Conduct comprehensive research on {topic}',
+        backstory="""You are an expert research analyst with deep knowledge 
+        across multiple domains. You excel at finding credible information 
+        and identifying key trends and insights.""",
         verbose=True,
         allow_delegation=False,
-        tools=[search_tool],
+        tools=[search_tool],  # Enable web search
         llm=llm
     )
 
     writer = Agent(
         role='Content Writer',
-        goal=f'Create engaging content about {topic}',
-        backstory="""Skilled writer who makes complex topics 
-        accessible and engaging.""",
+        goal=f'Create detailed, engaging content about {topic}',
+        backstory="""You are a skilled content writer who transforms research 
+        into clear, informative, and engaging articles. You structure content 
+        logically and make complex topics accessible.""",
         verbose=True,
         allow_delegation=False,
         llm=llm
     )
 
     reviewer = Agent(
-        role='Quality Reviewer',
-        goal='Review content for accuracy and quality',
-        backstory="""Meticulous editor ensuring high standards 
-        of accuracy and readability.""",
+        role='Quality Assurance Reviewer',
+        goal='Ensure content meets high standards',
+        backstory="""You are a meticulous editor who ensures accuracy, clarity, 
+        and quality. You provide constructive feedback and catch errors.""",
         verbose=True,
         allow_delegation=False,
         llm=llm
     )
 
     research_task = Task(
-        description=f"""Research {topic} thoroughly. Identify trends, 
-        key players, and recent developments.""",
-        expected_output='Detailed research report',
+        description=f"""Conduct thorough research on {topic}. 
+        
+        Include:
+        - Key facts and statistics
+        - Recent developments and trends
+        - Important context and background
+        - Notable experts or organizations
+        
+        Provide 5-7 well-researched bullet points (300-400 words total).""",
+        expected_output='Comprehensive research findings with 5-7 bullet points',
         agent=researcher
     )
 
     writing_task = Task(
-        description=f"""Write an engaging 500-800 word article about {topic} 
-        based on the research.""",
-        expected_output='Well-structured article',
+        description=f"""Write a detailed, well-structured article about {topic} 
+        based on the research provided.
+        
+        Structure:
+        - Introduction (set context)
+        - Main body (3-4 paragraphs covering key points)
+        - Conclusion (summarize importance)
+        
+        Target length: 400-500 words
+        Make it informative, engaging, and accessible.""",
+        expected_output='Well-structured 400-500 word article',
         agent=writer
     )
 
     review_task = Task(
-        description="""Review the article for accuracy, clarity, and quality. 
-        Provide constructive feedback.""",
-        expected_output='Review with feedback',
+        description="""Review the article thoroughly for:
+        - Factual accuracy
+        - Clarity and readability
+        - Structure and flow
+        - Grammar and style
+        
+        Provide:
+        - Overall assessment
+        - 3-4 specific strengths
+        - 2-3 suggestions for improvement""",
+        expected_output='Detailed review with assessment and feedback',
         agent=reviewer
     )
 
@@ -114,12 +136,14 @@ async def root():
 
 @app.post("/research", response_model=ResearchResponse)
 async def research(request: ResearchRequest):
-    """Execute multi-agent research on given topic"""
     try:
+        print(f"Starting research on: {request.topic}")
         crew = create_crew(request.topic)
         result = crew.kickoff(inputs={'topic': request.topic})
         
         tasks_output = result.tasks_output if hasattr(result, 'tasks_output') else []
+        
+        print(f"Research completed for: {request.topic}")
         
         return ResearchResponse(
             research=str(tasks_output[0]) if len(tasks_output) > 0 else str(result),
@@ -128,13 +152,17 @@ async def research(request: ResearchRequest):
         )
     
     except Exception as e:
+        print(f"ERROR: {str(e)}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/health")
 async def health_check():
     return {
         "status": "healthy", 
-        "api_key_set": bool(os.getenv("OPENAI_API_KEY"))
+        "api_key_set": bool(os.getenv("OPENAI_API_KEY")),
+        "serper_key_set": bool(os.getenv("SERPER_API_KEY"))
     }
 
 if __name__ == "__main__":
