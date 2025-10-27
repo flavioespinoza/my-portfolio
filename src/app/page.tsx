@@ -36,9 +36,7 @@ const PROJECTS: Project[] = [
 			'/projects/ai-multi-agent/image-2.png',
 			'/projects/ai-multi-agent/image-3.png'
 		],
-		links: [
-			{ label: 'Open App', href: '/ai-multi-agent' },
-		]
+		links: [{ label: 'Open App', href: '/ai-multi-agent' }]
 	},
 	{
 		id: 'ai-chat-assistant',
@@ -240,7 +238,7 @@ export default function FeaturedProjectsPage() {
 					<h1 className="text-3xl font-bold tracking-tight text-white">
 						Flavio Espinoza | Development Portfolio
 					</h1>
-					<p className="text-sm pt-2">
+					<p className="pt-2 text-sm">
 						Creative and technically versatile developer with 11+ years of experience building
 						high-impact, production-grade applications using React.js, Node.js, and TypeScript.
 						Proven ability to ship full-stack features end-to-end—from idea to production—across
@@ -251,12 +249,12 @@ export default function FeaturedProjectsPage() {
 				</div>
 				<div className="mb-6">
 					<h1 className="text-2xl font-bold tracking-tight text-white">Featured Projects</h1>
-					<p className="text-sm pt-2">
+					<p className="pt-2 text-sm">
 						Clean, scannable project grid with filters. Hover or open a project for more visuals +
 						links.
 					</p>
 				</div>
-				<div className="pt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+				<div className="flex flex-col gap-3 pt-6 sm:flex-row sm:items-center sm:justify-between">
 					<Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v as any)}>
 						<TabsList>
 							{CATEGORIES.map((c) => (

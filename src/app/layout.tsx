@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Footer } from '@/components/layout/footer'
 import { Navbar } from '@/components/layout/navbar'
+import StoreProvider from '@/components/providers/store-provider'
 import '@/styles/globals.css'
 import '@flavioespinoza/salsa-ui/dist/index.css'
 
@@ -100,9 +101,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				/>
 			</head>
 			<body className={`${inter.variable} flex min-h-screen flex-col bg-[#808a78] antialiased`}>
-				<Navbar />
-				<main className="flex-1">{children}</main>
-				<Footer />
+				<StoreProvider>
+					<Navbar />
+					<main className="flex-1">{children}</main>
+					<Footer />
+				</StoreProvider>
 			</body>
 		</html>
 	)

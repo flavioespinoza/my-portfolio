@@ -49,13 +49,17 @@ export async function getAiReply(messages: z.infer<typeof getReplySchema>): Prom
 
 		if (!reply) {
 			console.error('No reply content found in OpenAI response:', json)
-			return { success: false, error: 'Action error: Sorry, something went wrong receiving the reply.' }
+			return {
+				success: false,
+				error: 'Action error: Sorry, something went wrong receiving the reply.'
+			}
 		}
 
 		return { success: true, reply }
 	} catch (err: unknown) {
 		console.error('Chat action error:', err)
-		const errorMessage = err instanceof Error ? err.message : 'Action error: An unexpected server error occurred.'
+		const errorMessage =
+			err instanceof Error ? err.message : 'Action error: An unexpected server error occurred.'
 		return { success: false, error: `Server error: ${errorMessage}` }
 	}
 }

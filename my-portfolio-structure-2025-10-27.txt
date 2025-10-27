@@ -27,7 +27,6 @@ src
 │   │   └── multi-agent
 │   │       └── route.ts
 │   ├── commits
-│   │   ├── components
 │   │   └── page.tsx
 │   ├── contact
 │   │   ├── actions.ts
@@ -35,8 +34,9 @@ src
 │   ├── fluid
 │   │   └── page.tsx
 │   ├── layout.tsx
-│   ├── markdown
-│   └── page.tsx
+│   ├── page.tsx
+│   └── wallet
+│       └── page.tsx
 ├── components
 │   ├── layout
 │   │   ├── container.tsx
@@ -45,12 +45,15 @@ src
 │   │   └── section.tsx
 │   ├── markdown-with-code.tsx
 │   ├── providers
+│   │   ├── store-provider.tsx
 │   │   └── theme-provider.tsx
-│   └── ui
-│       ├── alert.tsx
-│       ├── dialog.tsx
-│       ├── select.tsx
-│       └── tabs.tsx
+│   ├── ui
+│   │   ├── alert.tsx
+│   │   ├── button.tsx
+│   │   ├── dialog.tsx
+│   │   ├── select.tsx
+│   │   └── tabs.tsx
+│   └── wallet-connection.tsx
 ├── documents
 │   ├── Flavio_Espinoza_Resume_2025-03-26.docx
 │   ├── Flavio_Espinoza_Resume_2025.docx
@@ -58,7 +61,8 @@ src
 │   ├── Flavio_Espinoza_Resume_2025.pdf
 │   └── flavio_espinoza_resume_schema.json
 ├── hooks
-│   └── use-copy-to-clipboard.ts
+│   ├── use-copy-to-clipboard.ts
+│   └── use-fetch.ts
 ├── lib
 │   ├── arr__find-confusable-numbers.js
 │   ├── arr__find-target-index.js
@@ -71,10 +75,14 @@ src
 │   ├── str__match-pattern.js
 │   ├── unique-shapes.js
 │   └── utils.ts
+├── redux
+│   ├── hooks.ts
+│   ├── store.ts
+│   └── wallet-slice.ts
 ├── store
 │   ├── chat-store.ts
 │   └── multi-agent-store.ts
 └── styles
     └── globals.css
 
-26 directories, 52 files
+25 directories, 60 files

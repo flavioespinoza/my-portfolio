@@ -362,43 +362,41 @@ export default function FluidPage() {
 	)
 }
 ===== src/app/ai-multi-agent/components/agent-card.tsx =====
-import { Search, FileText, CheckCircle, Loader2 } from 'lucide-react';
-import { Card } from '@flavioespinoza/salsa-ui';
+import { Card } from '@flavioespinoza/salsa-ui'
+import { CheckCircle, FileText, Loader2, Search } from 'lucide-react'
 
 interface AgentCardProps {
-  name: string;
-  role: string;
-  color: string;
-  icon: 'search' | 'file-text' | 'check-circle';
-  isActive: boolean;
+	name: string
+	role: string
+	color: string
+	icon: 'search' | 'file-text' | 'check-circle'
+	isActive: boolean
 }
 
 const iconMap = {
-  'search': Search,
-  'file-text': FileText,
-  'check-circle': CheckCircle,
-};
+	search: Search,
+	'file-text': FileText,
+	'check-circle': CheckCircle
+}
 
 export default function AgentCard({ name, role, color, icon, isActive }: AgentCardProps) {
-  const Icon = iconMap[icon];
+	const Icon = iconMap[icon]
 
-  return (
-    <Card
-      title={name}
-      description={role}
-    >
-      <div className={`${color} w-12 h-12 rounded-lg flex items-center justify-center mb-4 -mt-4`}>
-        <Icon className={`w-6 h-6 text-white`} />
-      </div>
-      {isActive && (
-        <div className="mt-4 flex items-center gap-2 text-black">
-          <Loader2 className="w-4 h-4 animate-spin" />
-          <span className="text-sm">Working...</span>
-        </div>
-      )}
-    </Card>
-  );
-}===== src/app/ai-multi-agent/components/results-display.tsx =====
+	return (
+		<Card title={name} description={role}>
+			<div className={`${color} -mt-4 mb-4 flex h-12 w-12 items-center justify-center rounded-lg`}>
+				<Icon className={`h-6 w-6 text-white`} />
+			</div>
+			{isActive && (
+				<div className="mt-4 flex items-center gap-2 text-black">
+					<Loader2 className="h-4 w-4 animate-spin" />
+					<span className="text-sm">Working...</span>
+				</div>
+			)}
+		</Card>
+	)
+}
+===== src/app/ai-multi-agent/components/results-display.tsx =====
 import MarkdownWithCode from '@/components/markdown-with-code'
 import { Card } from '@flavioespinoza/salsa-ui'
 import { CheckCircle, FileText, Search } from 'lucide-react'
@@ -456,58 +454,54 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
 	)
 }
 ===== src/app/ai-multi-agent/components/research-form.tsx =====
-import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
-import { Button, Input } from '@flavioespinoza/salsa-ui';
+import { useState } from 'react'
+import { Button, Input } from '@flavioespinoza/salsa-ui'
+import { Loader2 } from 'lucide-react'
 
 interface ResearchFormProps {
-  onSubmit: (topic: string) => void;
-  loading: boolean;
-  error: string | null;
+	onSubmit: (topic: string) => void
+	loading: boolean
+	error: string | null
 }
 
 export default function ResearchForm({ onSubmit, loading, error }: ResearchFormProps) {
-  const [topic, setTopic] = useState('');
+	const [topic, setTopic] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (topic.trim()) {
-      onSubmit(topic);
-    }
-  };
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault()
+		if (topic.trim()) {
+			onSubmit(topic)
+		}
+	}
 
-  return (
-    <div className="bg-white backdrop-blur-sm rounded-xl p-6 mb-8 text-black">
-      <label className="block text-sm font-medium mb-2">Research Topic</label>
-      <form onSubmit={handleSubmit} className="flex gap-4">
-        <Input
-          type="text"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          placeholder="Enter a topic to research (e.g., 'Artificial Intelligence in Healthcare')"
-          className="border border-solid border-zinc-300 bg-cblue-200 text-black"
-          disabled={loading}
-        />
-        <Button
-          variant="default"
-          type="submit"
-          disabled={loading || !topic.trim()}
-          
-        >
-          {loading ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" />
-              Processing
-            </>
-          ) : (
-            'Start Research'
-          )}
-        </Button>
-      </form>
-      {error && <p className="mt-2 text-red-400 text-sm">{error}</p>}
-    </div>
-  );
-}===== src/app/ai-multi-agent/page.tsx =====
+	return (
+		<div className="mb-8 rounded-xl bg-white p-6 text-black backdrop-blur-sm">
+			<label className="mb-2 block text-sm font-medium">Research Topic</label>
+			<form onSubmit={handleSubmit} className="flex gap-4">
+				<Input
+					type="text"
+					value={topic}
+					onChange={(e) => setTopic(e.target.value)}
+					placeholder="Enter a topic to research (e.g., 'Artificial Intelligence in Healthcare')"
+					className="border border-solid border-zinc-300 bg-cblue-200 text-black"
+					disabled={loading}
+				/>
+				<Button variant="default" type="submit" disabled={loading || !topic.trim()}>
+					{loading ? (
+						<>
+							<Loader2 className="h-5 w-5 animate-spin" />
+							Processing
+						</>
+					) : (
+						'Start Research'
+					)}
+				</Button>
+			</form>
+			{error && <p className="mt-2 text-sm text-red-400">{error}</p>}
+		</div>
+	)
+}
+===== src/app/ai-multi-agent/page.tsx =====
 'use client'
 
 import { useState } from 'react'
@@ -562,7 +556,7 @@ export default function MultiAgentPage() {
 						</div>
 						<h1 className="text-4xl font-bold">Multi-Agent Research System</h1>
 					</div>
-					<p className="mx-auto w-3/4 md:w-1/2 text-left text-white">
+					<p className="mx-auto w-3/4 text-left text-white md:w-1/2">
 						An autonomous multi-agent AI system where three specialized agents (Researcher, Writer,
 						Reviewer) collaborate sequentially to research topics, generate content, and perform
 						quality reviews—powered by CrewAI, OpenAI GPT-4o-mini, and Next.js.
@@ -608,6 +602,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Footer } from '@/components/layout/footer'
 import { Navbar } from '@/components/layout/navbar'
+import StoreProvider from '@/components/providers/store-provider'
+import store from '@/redux/store'
 import '@/styles/globals.css'
 import '@flavioespinoza/salsa-ui/dist/index.css'
 
@@ -706,11 +702,51 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				/>
 			</head>
 			<body className={`${inter.variable} flex min-h-screen flex-col bg-[#808a78] antialiased`}>
-				<Navbar />
-				<main className="flex-1">{children}</main>
-				<Footer />
+				<StoreProvider>
+					<Navbar />
+					<main className="flex-1">{children}</main>
+					<Footer />
+				</StoreProvider>
 			</body>
 		</html>
+	)
+}
+===== src/app/wallet/page.tsx =====
+import WalletConnection from '@/components/wallet-connection'
+
+export default function WalletPage() {
+	return (
+		<main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-12">
+			<div className="mx-auto max-w-2xl">
+				<div className="mb-8 text-center">
+					<h1 className="text-gray-900 mb-2 text-4xl font-bold">Wallet Connection</h1>
+					<p className="text-gray-600">
+						Connect your MetaMask wallet to interact with the blockchain
+					</p>
+				</div>
+
+				<WalletConnection />
+
+				{/* Info Cards */}
+				<div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+					<div className="border-gray-200 rounded-lg border bg-white p-4 shadow-sm">
+						<div className="mb-2 text-2xl">🔐</div>
+						<h3 className="text-gray-900 mb-1 font-semibold">Secure</h3>
+						<p className="text-gray-600 text-sm">Your keys never leave your wallet</p>
+					</div>
+					<div className="border-gray-200 rounded-lg border bg-white p-4 shadow-sm">
+						<div className="mb-2 text-2xl">⚡</div>
+						<h3 className="text-gray-900 mb-1 font-semibold">Fast</h3>
+						<p className="text-gray-600 text-sm">Connect in seconds with one click</p>
+					</div>
+					<div className="border-gray-200 rounded-lg border bg-white p-4 shadow-sm">
+						<div className="mb-2 text-2xl">🌐</div>
+						<h3 className="text-gray-900 mb-1 font-semibold">Multi-chain</h3>
+						<p className="text-gray-600 text-sm">Switch between networks easily</p>
+					</div>
+				</div>
+			</div>
+		</main>
 	)
 }
 ===== src/app/api/gemini/route.ts =====
@@ -763,55 +799,67 @@ export async function POST(req: NextRequest) {
 	}
 }
 ===== src/app/api/multi-agent/route.ts =====
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  try {
-    const { topic } = await request.json();
-    
-    if (!topic) {
-      return NextResponse.json(
-        { error: 'Topic is required' },
-        { status: 400 }
-      );
-    }
+	try {
+		const { topic } = await request.json()
 
-    // Call Python backend
-    const backendUrl = process.env.PYTHON_BACKEND_URL || 'http://localhost:8000';
-    const response = await fetch(`${backendUrl}/research`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ topic }),
-    });
+		if (!topic) {
+			return NextResponse.json({ error: 'Topic is required' }, { status: 400 })
+		}
 
-    if (!response.ok) {
-      throw new Error('Research API failed');
-    }
+		const backendUrl =
+			process.env.NEXT_PUBLIC_BACKEND_URL ||
+			process.env.PYTHON_BACKEND_URL ||
+			'http://localhost:8000'
 
-    const data = await response.json();
-    
-    return NextResponse.json({
-      success: true,
-      data: data
-    });
+		console.log('Calling backend:', backendUrl)
 
-  } catch (error) {
-    console.error('Research error:', error);
-    return NextResponse.json(
-      { error: 'Failed to complete research' },
-      { status: 500 }
-    );
-  }
+		const response = await fetch(`${backendUrl}/research`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ topic }),
+			signal: AbortSignal.timeout(60000)
+		})
+
+		if (!response.ok) {
+			const errorText = await response.text()
+			console.error('Backend error:', errorText)
+			throw new Error(`Research API failed: ${response.status}`)
+		}
+
+		const data = await response.json()
+
+		return NextResponse.json({
+			success: true,
+			data: data
+		})
+	} catch (error: any) {
+		console.error('Research error:', error)
+		return NextResponse.json(
+			{
+				error: error.message || 'Failed to complete research',
+				details: error.toString()
+			},
+			{ status: 500 }
+		)
+	}
 }
 
 export async function GET() {
-  return NextResponse.json({
-    message: 'Multi-Agent Research API',
-    status: 'ready'
-  });
-}===== src/app/page.tsx =====
+	const backendUrl =
+		process.env.NEXT_PUBLIC_BACKEND_URL || process.env.PYTHON_BACKEND_URL || 'http://localhost:8000'
+
+	return NextResponse.json({
+		message: 'Multi-Agent Research API Proxy',
+		backend: backendUrl,
+		status: 'ready'
+	})
+}
+===== src/app/page.tsx =====
 'use client'
 
 import { useCallback, useMemo, useState } from 'react'
@@ -850,9 +898,7 @@ const PROJECTS: Project[] = [
 			'/projects/ai-multi-agent/image-2.png',
 			'/projects/ai-multi-agent/image-3.png'
 		],
-		links: [
-			{ label: 'Open App', href: '/ai-multi-agent' },
-		]
+		links: [{ label: 'Open App', href: '/ai-multi-agent' }]
 	},
 	{
 		id: 'ai-chat-assistant',
@@ -1054,7 +1100,7 @@ export default function FeaturedProjectsPage() {
 					<h1 className="text-3xl font-bold tracking-tight text-white">
 						Flavio Espinoza | Development Portfolio
 					</h1>
-					<p className="text-sm pt-2">
+					<p className="pt-2 text-sm">
 						Creative and technically versatile developer with 11+ years of experience building
 						high-impact, production-grade applications using React.js, Node.js, and TypeScript.
 						Proven ability to ship full-stack features end-to-end—from idea to production—across
@@ -1065,12 +1111,12 @@ export default function FeaturedProjectsPage() {
 				</div>
 				<div className="mb-6">
 					<h1 className="text-2xl font-bold tracking-tight text-white">Featured Projects</h1>
-					<p className="text-sm pt-2">
+					<p className="pt-2 text-sm">
 						Clean, scannable project grid with filters. Hover or open a project for more visuals +
 						links.
 					</p>
 				</div>
-				<div className="pt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+				<div className="flex flex-col gap-3 pt-6 sm:flex-row sm:items-center sm:justify-between">
 					<Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v as any)}>
 						<TabsList>
 							{CATEGORIES.map((c) => (
@@ -1524,13 +1570,17 @@ export async function getAiReply(messages: z.infer<typeof getReplySchema>): Prom
 
 		if (!reply) {
 			console.error('No reply content found in OpenAI response:', json)
-			return { success: false, error: 'Action error: Sorry, something went wrong receiving the reply.' }
+			return {
+				success: false,
+				error: 'Action error: Sorry, something went wrong receiving the reply.'
+			}
 		}
 
 		return { success: true, reply }
 	} catch (err: unknown) {
 		console.error('Chat action error:', err)
-		const errorMessage = err instanceof Error ? err.message : 'Action error: An unexpected server error occurred.'
+		const errorMessage =
+			err instanceof Error ? err.message : 'Action error: An unexpected server error occurred.'
 		return { success: false, error: `Server error: ${errorMessage}` }
 	}
 }
@@ -1572,7 +1622,366 @@ export default function ChatPage() {
 		</main>
 	)
 }
-===== src/components/ui/tabs.tsx =====
+===== src/components/wallet-connection.tsx =====
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { connectWallet, disconnect, switchChain } from '@/redux/wallet-slice';
+
+const CHAIN_NAMES: Record<number, string> = {
+  1: 'Ethereum Mainnet',
+  11155111: 'Sepolia Testnet',
+  137: 'Polygon',
+  56: 'BSC',
+  42161: 'Arbitrum',
+  8453: 'Base',
+  10: 'Optimism',
+};
+
+export default function WalletConnection() {
+  const dispatch = useAppDispatch();
+  const { address, chainId, isConnecting, isConnected, error } = useAppSelector(
+    (state) => state.wallet
+  );
+  const [hasMetaMask, setHasMetaMask] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkMetaMask = () => {
+      if (typeof window !== 'undefined') {
+        setHasMetaMask(typeof window.ethereum !== 'undefined');
+      }
+    };
+
+    checkMetaMask();
+    window.addEventListener('ethereum#initialized', checkMetaMask);
+    const timeout = setTimeout(checkMetaMask, 1000);
+
+    return () => {
+      window.removeEventListener('ethereum#initialized', checkMetaMask);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window.ethereum !== 'undefined') {
+      const handleAccountsChanged = (accounts: string[]) => {
+        if (accounts.length === 0) {
+          dispatch(disconnect());
+        } else if (accounts[0] !== address) {
+          dispatch(connectWallet());
+        }
+      };
+
+      const handleChainChanged = (chainId: string) => {
+        dispatch(switchChain(parseInt(chainId, 16)));
+      };
+
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+      window.ethereum.on('chainChanged', handleChainChanged);
+
+      return () => {
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        window.ethereum.removeListener('chainChanged', handleChainChanged);
+      };
+    }
+  }, [address, dispatch]);
+
+  const handleConnect = async () => {
+    if (!hasMetaMask) {
+      alert('Please install MetaMask to connect your wallet.');
+      window.open('https://metamask.io/download/', '_blank');
+      return;
+    }
+
+    const result = await dispatch(connectWallet());
+    if (connectWallet.fulfilled.match(result)) {
+      console.log('✅ Wallet connected:', result.payload);
+    } else if (connectWallet.rejected.match(result)) {
+      console.error('❌ Connection failed:', result.payload);
+    }
+  };
+
+  const handleDisconnect = () => {
+    dispatch(disconnect());
+  };
+
+  const copyAddress = () => {
+    if (address) {
+      navigator.clipboard.writeText(address);
+      alert('Address copied to clipboard!');
+    }
+  };
+
+  const handleSwitchNetwork = async (targetChainId: number) => {
+    if (!window.ethereum) return;
+
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: `0x${targetChainId.toString(16)}` }],
+      });
+      dispatch(switchChain(targetChainId));
+    } catch (error: any) {
+      console.error('Failed to switch network:', error);
+      if (error.code === 4902) {
+        alert('This network is not available in your MetaMask. Please add it manually.');
+      }
+    }
+  };
+
+  if (hasMetaMask === false) {
+    return (
+      <div className="p-6 border border-orange-200 rounded-lg bg-orange-50 shadow-sm">
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center">
+            <span className="text-4xl">🦊</span>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+              MetaMask Not Detected
+            </h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Please install MetaMask browser extension to connect your wallet
+            </p>
+          </div>
+          <a
+            href="https://metamask.io/download/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
+          >
+            Install MetaMask
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  if (hasMetaMask === null) {
+    return (
+      <div className="p-6 border border-gray-200 rounded-lg bg-gray-50 shadow-sm">
+        <div className="flex items-center justify-center gap-3">
+          <div className="animate-spin h-5 w-5 border-2 border-gray-400 border-t-transparent rounded-full" />
+          <span className="text-gray-600 font-medium">Checking for MetaMask...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (isConnecting) {
+    return (
+      <div className="p-6 border border-blue-200 rounded-lg bg-blue-50 shadow-sm">
+        <div className="flex flex-col items-center gap-3">
+          <div className="animate-spin h-8 w-8 border-3 border-blue-600 border-t-transparent rounded-full" />
+          <div className="text-center">
+            <p className="text-blue-800 font-semibold mb-1">Connecting...</p>
+            <p className="text-sm text-blue-600">
+              Please check MetaMask popup and approve the connection
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isConnected && address) {
+    return (
+      <div className="p-6 border border-green-200 rounded-lg bg-white shadow-lg">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+            <div className="flex items-center gap-2 text-green-600">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="font-semibold">Wallet Connected</span>
+            </div>
+            <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
+          </div>
+
+          <div>
+            <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
+              Wallet Address
+            </p>
+            <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+              <code className="text-sm font-mono font-semibold text-gray-900 flex-1">
+                {address.slice(0, 8)}...{address.slice(-6)}
+              </code>
+              <button
+                onClick={copyAddress}
+                className="p-2 hover:bg-gray-200 rounded transition-colors"
+                title="Copy address"
+              >
+                <svg
+                  className="w-4 h-4 text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {chainId && (
+            <div>
+              <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
+                Network
+              </p>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                  <span className="text-sm font-medium text-gray-900">
+                    {CHAIN_NAMES[chainId] || `Chain ${chainId}`}
+                  </span>
+                </div>
+                <span className="text-xs px-2 py-1 bg-white border border-gray-200 rounded-full text-gray-600">
+                  ID: {chainId}
+                </span>
+              </div>
+            </div>
+          )}
+
+          <div>
+            <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
+              Switch Network
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => handleSwitchNetwork(1)}
+                disabled={chainId === 1}
+                className={`px-3 py-2 text-sm rounded-lg border transition-colors ${
+                  chainId === 1
+                    ? 'bg-blue-50 border-blue-200 text-blue-700 cursor-not-allowed'
+                    : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Ethereum
+              </button>
+              <button
+                onClick={() => handleSwitchNetwork(137)}
+                disabled={chainId === 137}
+                className={`px-3 py-2 text-sm rounded-lg border transition-colors ${
+                  chainId === 137
+                    ? 'bg-purple-50 border-purple-200 text-purple-700 cursor-not-allowed'
+                    : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Polygon
+              </button>
+            </div>
+          </div>
+
+          <div className="flex gap-2 pt-3 border-t border-gray-100">
+            <button
+              onClick={handleConnect}
+              className="flex-1 px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Reconnect
+            </button>
+            <button
+              onClick={handleDisconnect}
+              className="flex-1 px-4 py-2.5 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors"
+            >
+              Disconnect
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-8 border border-gray-200 rounded-lg bg-white shadow-lg">
+      <div className="text-center space-y-6">
+        <div className="w-20 h-20 mx-auto bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
+          <span className="text-5xl">🦊</span>
+        </div>
+        
+        <div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">
+            Connect Your Wallet
+          </h3>
+          <p className="text-sm text-gray-600 max-w-sm mx-auto">
+            Connect with MetaMask to interact with blockchain applications. 
+            Your wallet will open in a popup.
+          </p>
+        </div>
+
+        <button
+          onClick={handleConnect}
+          className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all font-semibold text-lg shadow-md hover:shadow-lg flex items-center justify-center gap-3"
+        >
+          <span>Connect MetaMask</span>
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 7l5 5m0 0l-5 5m5-5H6"
+            />
+          </svg>
+        </button>
+
+        {error && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-start gap-3">
+              <svg
+                className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-red-800">{error}</p>
+                <button
+                  onClick={handleConnect}
+                  className="text-xs text-red-700 hover:text-red-800 underline mt-1"
+                >
+                  Try again
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="pt-4 border-t border-gray-100">
+          <p className="text-xs text-gray-500">
+            New to Ethereum?{' '}
+            <a
+              href="https://metamask.io/download/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-700 underline font-medium"
+            >
+              Get MetaMask
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}===== src/components/ui/tabs.tsx =====
 'use client'
 
 import React from 'react'
@@ -1681,12 +2090,7 @@ type ContentProps = {
 	className?: string
 }
 
-export function DialogContent({
-	title,
-	description,
-	children,
-	className
-}: ContentProps) {
+export function DialogContent({ title, description, children, className }: ContentProps) {
 	const closeRowClass = description ? 'row-start-2' : 'row-start-1'
 
 	return (
@@ -1740,6 +2144,56 @@ export function DialogContent({
 		</DialogPortal>
 	)
 }
+===== src/components/ui/button.tsx =====
+// Create a Button component with strict typing
+// Requirements:
+// - variant: 'primary' | 'secondary' | 'danger'
+// - size: 'sm' | 'md' | 'lg'
+// - Optional icon prop
+// - Children can be string or ReactNode
+// - All standard button props should be supported
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+	variant: 'primary' | 'secondary' | 'danger'
+	size: 'sm' | 'md' | 'lg'
+	icon?: React.ReactNode
+	children: React.ReactNode
+}
+
+const Button: React.FC<ButtonProps> = (props) => {
+	const { variant, size, icon, children, className, ...rest } = props
+
+	// Base styles for all buttons
+	const baseStyles =
+		'rounded font-semibold transition-colors inline-flex items-center justify-center'
+
+	// Variant-specific styles
+	const variantStyles = {
+		primary: 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800',
+		secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300 active:bg-gray-400',
+		danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800'
+	}
+
+	// Size-specific styles
+	const sizeStyles = {
+		sm: 'px-3 py-1.5 text-sm',
+		md: 'px-4 py-2 text-base',
+		lg: 'px-6 py-3 text-lg'
+	}
+
+	// Combine all styles
+	const combinedClassName =
+		`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className || ''}`.trim()
+
+	return (
+		<button className={combinedClassName} {...rest}>
+			{icon && <span className="mr-2">{icon}</span>}
+			{children}
+		</button>
+	)
+}
+
+export default Button
 ===== src/components/ui/select.tsx =====
 'use client'
 
@@ -1794,6 +2248,7 @@ const links = [
 	{ href: '/ai-multi-agent', label: 'AI Multi-Agent' },
 	{ href: '/ai-chat-assistant', label: 'AI Chat' },
 	{ href: '/ai-llm-data-visualizer', label: 'AI LLM Data Visualizer' },
+	{ href: '/wallet', label: 'Wallet' },
 	{ href: '/contact', label: 'Contact' }
 ]
 
@@ -1856,6 +2311,22 @@ export function AppThemeProvider({ children }: { children: React.ReactNode }) {
 			{children}
 		</ThemeProvider>
 	)
+}
+===== src/components/providers/store-provider.tsx =====
+'use client'
+
+import { useRef } from 'react'
+import { Provider } from 'react-redux'
+import { AppStore, makeStore } from '@/redux/store'
+
+export default function StoreProvider({ children }: { children: React.ReactNode }) {
+	const storeRef = useRef<AppStore>()
+
+	if (!storeRef.current) {
+		storeRef.current = makeStore()
+	}
+
+	return <Provider store={storeRef.current}>{children}</Provider>
 }
 ===== src/components/markdown-with-code.tsx =====
 'use client'
@@ -1971,6 +2442,65 @@ function useCopyToClipboard(): [CopiedValue, CopyFn] {
 }
 
 export default useCopyToClipboard
+===== src/hooks/use-fetch.ts =====
+// Create a reusable hook for fetching data with loading/error states
+// Your implementation should handle:
+// - Loading state
+// - Error state
+// - Data state
+// - Automatic cleanup
+import { useEffect, useState } from 'react'
+
+type User = {
+	id: number
+	name: string
+	email: string
+	// Add more properties as needed
+}
+
+function useFetch<T>(url: string) {
+	const [data, setData] = useState<T | null>(null)
+	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState<Error | null | unknown>(null)
+
+	useEffect(() => {
+		let isCancelled = false
+
+		const fetchData = async () => {
+			try {
+				setLoading(true)
+				const response = await fetch(url)
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`)
+				}
+				const data = await response.json()
+				if (!isCancelled) {
+					setData(data)
+				}
+			} catch (error) {
+				if (!isCancelled) {
+					setError(error)
+				}
+			} finally {
+				if (!isCancelled) {
+					setLoading(false)
+				}
+			}
+		}
+
+		fetchData()
+
+		return () => {
+			// Cleanup function to prevent memory leaks
+			isCancelled = true
+		}
+	}, [url])
+
+	return { data, loading, error }
+}
+
+// Usage example:
+const { data, loading, error } = useFetch<User[]>('/api/users')
 ===== src/lib/utils.ts =====
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
@@ -2083,6 +2613,121 @@ Recent focus on AI-integrated applications, LLM tooling, and data visualization 
 	},
 	"description": "Senior full-stack engineer with 11+ years of experience delivering responsive, performant, and accessible UI with React, TypeScript, and modern frameworks. Recent focus on LLM-powered applications using GPT-4o and D3.js for real-time visualization."
 }
+===== src/redux/wallet-slice.ts =====
+// Create a Redux slice for managing wallet connection state
+// Requirements:
+// - State: address, chainId, isConnecting, error
+// - Actions: connect, disconnect, switchChain
+// - Async thunk for connecting wallet
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { BrowserProvider } from 'ethers'
+
+// For Ethereum interaction
+declare global {
+	interface Window {
+		ethereum?: any
+	}
+}
+
+interface WalletState {
+	address: string | null
+	chainId: number | null
+	isConnecting: boolean
+	isConnected: boolean
+	error: string | null
+}
+
+const initialState: WalletState = {
+	address: null,
+	chainId: null,
+	isConnecting: false,
+	isConnected: false,
+	error: null
+}
+
+// Create async thunk for connecting
+export const connectWallet = createAsyncThunk('wallet/connect', async (_, { rejectWithValue }) => {
+	try {
+		if (!window.ethereum) {
+			throw new Error('Web3 provider not found')
+		}
+
+		const provider = new BrowserProvider(window.ethereum) 
+		const accounts = await provider.send('eth_requestAccounts', [])
+		if (!accounts) {
+			throw new Error('Unable to connect to Ethereum')
+		}
+
+		const network = await provider.getNetwork()
+
+		return {
+			address: accounts[0],
+			chainId: Number(network.chainId)
+		}
+	} catch (error: any) {
+		return rejectWithValue(error.message || 'Failed to connect to Ethereum')
+	}
+})
+
+const walletSlice = createSlice({
+	name: 'wallet',
+	initialState,
+	reducers: {
+		disconnect: (state) => {
+			state.address = null
+			state.chainId = null
+			state.isConnected = false
+			state.error = null
+		},
+		switchChain: (state, action: PayloadAction<number>) => {
+			state.chainId = action.payload
+		}
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(connectWallet.pending, (state) => {
+				state.isConnecting = true
+				state.error = null
+			})
+			.addCase(connectWallet.fulfilled, (state, action) => {
+				state.address = action.payload.address
+				state.chainId = action.payload.chainId
+				state.isConnecting = false
+				state.isConnected = true
+			})
+			.addCase(connectWallet.rejected, (state, action) => {
+				state.error = action.payload as string
+				state.isConnecting = false
+			})
+	}
+})
+
+export const { disconnect, switchChain } = walletSlice.actions
+export default walletSlice.reducer
+===== src/redux/hooks.ts =====
+import { useDispatch, useSelector, useStore } from 'react-redux'
+import type { AppDispatch, AppStore, RootState } from './store'
+
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
+export const useAppSelector = useSelector.withTypes<RootState>()
+export const useAppStore = useStore.withTypes<AppStore>()
+===== src/redux/store.ts =====
+import walletReducer from '@/redux/wallet-slice'
+import { configureStore } from '@reduxjs/toolkit'
+
+export const makeStore = () => {
+	return configureStore({
+		reducer: {
+			wallet: walletReducer
+		}
+	})
+}
+
+// Infer types
+export type AppStore = ReturnType<typeof makeStore>
+export type RootState = ReturnType<AppStore['getState']>
+export type AppDispatch = AppStore['dispatch']
 ===== src/store/chat-store.ts =====
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -2129,42 +2774,43 @@ export const useChatStore = create<ChatState>()(
 	)
 )
 ===== src/store/multi-agent-store.ts =====
-import { create } from 'zustand';
+import { create } from 'zustand'
 
 interface AgentState {
-  topic: string;
-  loading: boolean;
-  results: {
-    research: string;
-    content: string;
-    review: string;
-  } | null;
-  activeAgent: string | null;
-  error: string | null;
-  setTopic: (topic: string) => void;
-  setLoading: (loading: boolean) => void;
-  setResults: (results: any) => void;
-  setActiveAgent: (agent: string | null) => void;
-  setError: (error: string | null) => void;
-  reset: () => void;
+	topic: string
+	loading: boolean
+	results: {
+		research: string
+		content: string
+		review: string
+	} | null
+	activeAgent: string | null
+	error: string | null
+	setTopic: (topic: string) => void
+	setLoading: (loading: boolean) => void
+	setResults: (results: any) => void
+	setActiveAgent: (agent: string | null) => void
+	setError: (error: string | null) => void
+	reset: () => void
 }
 
 export const useMultiAgentStore = create<AgentState>((set) => ({
-  topic: '',
-  loading: false,
-  results: null,
-  activeAgent: null,
-  error: null,
-  setTopic: (topic) => set({ topic }),
-  setLoading: (loading) => set({ loading }),
-  setResults: (results) => set({ results }),
-  setActiveAgent: (activeAgent) => set({ activeAgent }),
-  setError: (error) => set({ error }),
-  reset: () => set({
-    topic: '',
-    loading: false,
-    results: null,
-    activeAgent: null,
-    error: null,
-  }),
-}));
+	topic: '',
+	loading: false,
+	results: null,
+	activeAgent: null,
+	error: null,
+	setTopic: (topic) => set({ topic }),
+	setLoading: (loading) => set({ loading }),
+	setResults: (results) => set({ results }),
+	setActiveAgent: (activeAgent) => set({ activeAgent }),
+	setError: (error) => set({ error }),
+	reset: () =>
+		set({
+			topic: '',
+			loading: false,
+			results: null,
+			activeAgent: null,
+			error: null
+		})
+}))

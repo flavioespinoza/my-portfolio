@@ -20,12 +20,7 @@ type ContentProps = {
 	className?: string
 }
 
-export function DialogContent({
-	title,
-	description,
-	children,
-	className
-}: ContentProps) {
+export function DialogContent({ title, description, children, className }: ContentProps) {
 	const closeRowClass = description ? 'row-start-2' : 'row-start-1'
 
 	return (
