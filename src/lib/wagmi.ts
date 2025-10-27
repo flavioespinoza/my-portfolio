@@ -7,7 +7,8 @@ export const config = createConfig({
 	connectors: [
 		injected(),
 		walletConnect({
-			projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '',
+			// projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || ''
+			projectId: '22967924c193fdef5e3c4a2c7ce907c2'
 		}),
 		coinbaseWallet({ appName: 'My App' })
 	],
