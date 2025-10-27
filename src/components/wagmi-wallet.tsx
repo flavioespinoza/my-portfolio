@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Button, Card } from '@flavioespinoza/salsa-ui'
+import { Button, Card, Input } from '@flavioespinoza/salsa-ui'
 import {
 	useAccount,
 	useBalance,
@@ -18,17 +17,13 @@ const CHAIN_NAMES: Record<number, string> = {
 }
 
 export default function WagmiWallet() {
-	const [mounted, setMounted] = useState(false)
 	const { address, isConnected } = useAccount()
 	const { connect, connectors, isPending, error } = useConnect()
 	const { disconnect } = useDisconnect()
 	const chainId = useChainId()
 	const { chains, switchChain } = useSwitchChain()
-	const { data: balance } = useBalance({ address })
 
-	useEffect(() => {
-		setMounted(true)
-	}, [])
+	const { data: balance } = useBalance({ address })
 
 	const formatAddress = (addr: string) => {
 		return `${addr.slice(0, 6)}...${addr.slice(-4)}`
@@ -41,22 +36,11 @@ export default function WagmiWallet() {
 		}
 	}
 
-	if (!mounted) {
-		return (
-			<Card className="mx-auto max-w-4xl p-8">
-				<div className="flex items-center justify-center gap-3">
-					<div className="border-gray-400 h-5 w-5 animate-spin rounded-full border-2 border-t-transparent" />
-					<span className="text-gray-600">Loading wallet...</span>
-				</div>
-			</Card>
-		)
-	}
-
 	if (!isConnected) {
 		return (
-			<Card className="mx-auto max-w-4xl px-8 mt-8">
-				<div className="space-y-2">
-					<div className="text-center pb-8">
+			<Card className="p-6">
+				<div className="space-y-4">
+					<div className="text-center">
 						<div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-orange-600">
 							<span className="text-5xl">🦊</span>
 						</div>
@@ -64,15 +48,15 @@ export default function WagmiWallet() {
 						<p className="text-gray-600 text-sm">Choose your preferred wallet to continue</p>
 					</div>
 
-					<div className="grid grid-cols-4 gap-3">
+					<div className="space-y-2">
 						{connectors.map((connector) => (
 							<Button
 								key={connector.id}
 								onClick={() => connect({ connector })}
 								disabled={isPending}
-								variant="default"
+								variant="primary"
 								size="lg"
-								className="w-full"
+								className="w-full justify-between"
 							>
 								<span>{connector.name}</span>
 								{isPending && (
@@ -83,9 +67,9 @@ export default function WagmiWallet() {
 					</div>
 
 					{error && (
-						<div className="rounded-lg border border-red-200 bg-red-50 p-3">
+						<Card className="border-red-200 bg-red-50 p-3">
 							<p className="text-sm text-red-700">{error.message}</p>
-						</div>
+						</Card>
 					)}
 				</div>
 			</Card>
@@ -93,7 +77,7 @@ export default function WagmiWallet() {
 	}
 
 	return (
-		<Card className="mx-auto max-w-2xl px-8 pb-12">
+		<Card className="p-6">
 			<div className="space-y-4">
 				<div className="flex items-center justify-between border-b pb-3">
 					<div className="text-green-600 flex items-center gap-2">
@@ -112,12 +96,8 @@ export default function WagmiWallet() {
 				<div>
 					<p className="text-gray-500 mb-2 text-xs uppercase tracking-wide">Wallet Address</p>
 					<div className="flex items-center gap-2">
-						<input
-							value={formatAddress(address!)}
-							readOnly
-							className="border-gray-300 bg-gray-50 flex-1 rounded-lg border px-3 py-2 font-mono text-sm"
-						/>
-						<Button onClick={copyAddress} variant="default" size="lg">
+						<Input value={formatAddress(address!)} readOnly className="flex-1 font-mono text-sm" />
+						<Button onClick={copyAddress} variant="secondary" size="md">
 							Copy
 						</Button>
 					</div>
@@ -126,24 +106,22 @@ export default function WagmiWallet() {
 				{balance && (
 					<div>
 						<p className="text-gray-500 mb-2 text-xs uppercase tracking-wide">Balance</p>
-						<div className="bg-gray-50 border-gray-200 rounded-lg border p-3">
+						<Card className="bg-gray-50 p-3">
 							<p className="text-lg font-semibold">
 								{parseFloat(balance.formatted).toFixed(4)} {balance.symbol}
 							</p>
-						</div>
+						</Card>
 					</div>
 				)}
 
 				<div>
 					<p className="text-gray-500 mb-2 text-xs uppercase tracking-wide">Network</p>
-					<div className="bg-gray-50 border-gray-200 mb-2 rounded-lg border p-3">
+					<Card className="bg-gray-50 mb-2 p-3">
 						<div className="flex items-center justify-between">
 							<span className="font-medium">{CHAIN_NAMES[chainId] || `Chain ${chainId}`}</span>
-							<span className="border-gray-200 rounded-full border bg-white px-2 py-1 text-xs">
-								ID: {chainId}
-							</span>
+							<span className="rounded-full border bg-white px-2 py-1 text-xs">ID: {chainId}</span>
 						</div>
-					</div>
+					</Card>
 
 					<div className="grid grid-cols-2 gap-2">
 						{chains.map((chain) => (
@@ -151,12 +129,8 @@ export default function WagmiWallet() {
 								key={chain.id}
 								onClick={() => switchChain({ chainId: chain.id })}
 								disabled={chainId === chain.id}
-								variant="secondary"
-								className={`rounded-lg border px-3 py-2 font-medium transition-colors ${
-									chainId === chain.id
-										? 'border-blue-600 bg-blue-600 text-white'
-										: 'text-gray-700 border-gray-200 hover:bg-gray-50 bg-white'
-								}`}
+								variant={chainId === chain.id ? 'primary' : 'secondary'}
+								size="md"
 							>
 								{chain.name}
 							</Button>
@@ -165,7 +139,7 @@ export default function WagmiWallet() {
 				</div>
 
 				<div className="flex gap-2 border-t pt-3">
-					<Button onClick={() => disconnect()} variant="default" size="lg" className="flex-1">
+					<Button onClick={() => disconnect()} variant="danger" size="lg" className="flex-1">
 						Disconnect
 					</Button>
 				</div>
