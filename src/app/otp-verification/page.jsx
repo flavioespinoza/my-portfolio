@@ -1,7 +1,7 @@
 'use client'
 
-import { Card } from '@flavioespinoza/salsa-ui'
 import React, { useEffect, useRef, useState } from 'react'
+import { Card } from '@flavioespinoza/salsa-ui'
 
 const OTPPaymentVerification = () => {
 	const [otp, setOtp] = useState(['', '', '', '', '', ''])

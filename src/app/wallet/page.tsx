@@ -54,9 +54,9 @@ export default function WagmiWalletPage() {
 
 	if (!isConnected) {
 		return (
-			<Card className="mx-auto max-w-4xl px-8 mt-8">
+			<Card className="mx-auto mt-8 max-w-4xl px-8">
 				<div className="space-y-2">
-					<div className="text-center pb-8">
+					<div className="pb-8 text-center">
 						<div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-orange-600">
 							<span className="text-5xl">🦊</span>
 						</div>
