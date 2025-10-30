@@ -1,0 +1,16 @@
+.
+├── components
+│   ├── Modal.tsx
+│   ├── Panel.tsx
+│   └── Parent.tsx
+├── page.tsx
+└── sources
+
+Source A - Directory Structure and Files.pdf
+Source B - Forwarding Refs – React.pdf
+Source C - Hooks API Reference – React.pdf
+Source D - Rules of React – React.pdf
+Source E - TypeScript - Rules.pdf
+Source F - Number 1 Pain Point for React Developers.pdf
+
+3 directories, 15 files
