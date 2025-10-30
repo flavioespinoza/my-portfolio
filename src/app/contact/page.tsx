@@ -11,7 +11,7 @@ export default function ContactPage() {
 	}>({ status: 'idle', message: null })
 	const [isPending, startTransition] = useTransition()
 	const formRef = useRef<HTMLFormElement>(null)
-	const CALENDLY_URL = 'https://calendly.com/flavio-espinoza/chat-with-flavio'
+	const CALENDLY_URL = 'https://calendly.com/flavio-espinoza/45-with-flavio'
 
 	const handleFormSubmit = async (formData: FormData) => {
 		setFormStatus({ status: 'idle', message: null })
